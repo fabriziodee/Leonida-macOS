@@ -1,4 +1,12 @@
-# Contributing
+# Contributing to Leonida-macOS
+
+Open a macOS issue to coordinate before starting a substantial change. Include the commit, Apple Silicon chip, macOS version, graphics backend, Wine version when relevant, and the command you used. Submit focused pull requests with a synthetic test or documented verification steps. Identify any AI assistance when reporting testing or submitting changes. Share sanitized output only.
+
+Per contribuire, apri una issue macOS e indica commit, chip, versione macOS, backend grafico e versione Wine se pertinente. Proponi modifiche circoscritte con un test sintetico o passaggi verificabili. Condividi solo output ripulito da dati personali, credenziali e contenuti del gioco.
+
+## Upstream contribution guide
+
+The original guidance below applies when contributing to ProjectLeonida. Use this repository’s issue tracker for macOS-specific work.
 
 Thanks for helping. A few rules keep the project safe to host:
 

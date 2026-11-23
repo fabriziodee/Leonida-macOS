@@ -37,3 +37,35 @@ __pycache__/
 *.exp
 *.log
 .vs/
+
+# macOS and local IDE state
+.DS_Store
+.AppleDouble
+DerivedData/
+*.xcuserstate
+xcuserdata/
+*.dSYM/
+*.dmp
+*.core
+*.dylib
+*.app/
+*.xcodeproj/
+
+# Local credentials, diagnostics and backup copies
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.mobileprovision
+.venv/
+diagnostics/
+runtime-ci/
+test-work/
+*.backup
+*.backup-*
+
+# Local Windows SDK cache
+.xwin-cache/

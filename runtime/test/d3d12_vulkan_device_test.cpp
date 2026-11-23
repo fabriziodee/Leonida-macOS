@@ -6769,7 +6769,21 @@ int main() {
             EXPECT(double(t1 - t0) / double(frequency) < 10.0);  // the copy took less than ten seconds
             EXPECT(u64(ts_at + 16) == 0);                        // never written
             for (UINT i = 0; i < 4; ++i) EXPECT(u64(occlusion_at + 8 * i) == 0);
-            for (UINT i = 0; statistics.p && i < 22; ++i) EXPECT(u64(statistics_at + 8 * i) == 0);
+
+                if (statistics.p) {
+                    std::printf("===== PIPELINE STATISTICS DUMP =====\n");
+                    for (UINT i = 0; i < 22; ++i) {
+                        const UINT64 value = u64(statistics_at + 8 * i);
+                        std::printf(
+                            "STAT query=%u counter=%u hex=0x%016llx\n",
+                            i / 11, i % 11,
+                            static_cast<unsigned long long>(value));
+                    }
+                }
+
+                for (UINT i = 0; statistics.p && i < 22; ++i)
+                    EXPECT(u64(statistics_at + 8 * i) == 0);
+
             EXPECT(u64(statistics.p ? statistics_at + 176 : statistics_at) == 0xcdcdcdcdcdcdcdcdull);  // not past it
             for (UINT i = 0; i < 6; ++i) EXPECT(u64(so_at + 8 * i) == 0);  // written and needed, three queries
             EXPECT(u64(so_at + 48) == 0xcdcdcdcdcdcdcdcdull);              // not past them

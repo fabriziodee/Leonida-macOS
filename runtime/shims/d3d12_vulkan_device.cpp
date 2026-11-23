@@ -7459,6 +7459,15 @@ private:
                 return kInvalidAllocation;
             return {align_up(desc.Width, align_64k), align_64k};
         }
+        // Validate attachment and storage flags before querying Vulkan.
+        if ((desc.Flags & D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET) &&
+            !render_target_family(desc.Format))
+            return kInvalidAllocation;
+
+        if (desc.Format == DXGI_FORMAT_BC1_UNORM &&
+            (desc.Flags & D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS))
+            return kInvalidAllocation;
+
         const bool volume = desc.Dimension == D3D12_RESOURCE_DIMENSION_TEXTURE3D;
         const bool one_d = desc.Dimension == D3D12_RESOURCE_DIMENSION_TEXTURE1D;
         if (!volume && !one_d && desc.Dimension != D3D12_RESOURCE_DIMENSION_TEXTURE2D) {

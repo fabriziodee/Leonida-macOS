@@ -3101,6 +3101,13 @@ public:
                             continue;
                         }
                     }
+                    if (statistics) {
+                        std::fprintf(stderr,
+                            "LEONIDA QUERY TRACE: index=%u ended=%u pool=%u sum=%u count=%u offset=%llu\n",
+                            index, unsigned(value.ended), unsigned(run.pool != VK_NULL_HANDLE),
+                            unsigned(run.sum), run.count,
+                            static_cast<unsigned long long>(run.offset));
+                    }
                     query.resolves.push_back(run);
                 }
             }
