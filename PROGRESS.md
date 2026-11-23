@@ -1,0 +1,13 @@
+# macOS progress — 23 November 2026
+
+- **CrossOver 26.3 / MoltenVK 1.2.10.** The D3D12/Vulkan device test exercised the version-specific fallback. The runtime refused a pipeline statistics query heap with `E_NOTIMPL` because this driver reports support but fails to return usable counters. Other driver versions still use their advertised capability.
+- **Native macOS / Mesa llvmpipe.** Five targeted tests passed for queue synchronization, occlusion, and replay queries. The Windows device test did not obtain a matching llvmpipe Vulkan device through Wine. Working pipeline statistics on a second backend remain to be verified.
+- **Translator.** The semantic test run on the initial macOS code reported OK across 6,150 tests, with 4 skips and 1 expected failure.
+- **Next.** Run the wider Wine runtime suite, verify pipeline statistics with a driver that returns usable counters, and document a reproducible Apple Silicon setup. GTA VI boot and gameplay remain unverified.
+
+## Italiano
+
+- **CrossOver 26.3 / MoltenVK 1.2.10.** Il test del dispositivo D3D12/Vulkan ha verificato la gestione specifica per questa versione. Il runtime ha rifiutato la creazione delle query di statistiche della pipeline con `E_NOTIMPL`, perché il driver dichiara il supporto ma non restituisce contatori utilizzabili. Le altre versioni del driver continuano a usare la funzionalità dichiarata.
+- **macOS nativo / Mesa llvmpipe.** Superati cinque test mirati su sincronizzazione delle code, occlusione e query di replay. Il test Windows tramite Wine non ha trovato un dispositivo Vulkan llvmpipe compatibile. Rimane da verificare il funzionamento delle statistiche della pipeline su un secondo backend.
+- **Traduttore.** La suite semantica eseguita sul codice macOS iniziale si è conclusa con esito OK su 6.150 test, con 4 saltati e 1 fallimento atteso.
+- **Prossimi passi.** Eseguire la suite più ampia del runtime tramite Wine, verificare le statistiche su un driver che restituisce contatori utilizzabili e documentare la configurazione riproducibile su Apple Silicon. L’avvio e il gameplay di GTA VI restano da verificare.

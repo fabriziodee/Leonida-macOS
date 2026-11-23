@@ -25,6 +25,13 @@
 
 namespace leonida {
 
+// CrossOver 26.3's MoltenVK 1.2.10 advertises pipelineStatisticsQuery, but copies leave the
+// destination untouched and host retrieval fails even after the queue is idle. MoltenVK encodes
+// this release's driverVersion as 10210. Other releases keep their advertised capability.
+inline bool broken_pipeline_statistics(VkDriverId driver, std::uint32_t version) {
+    return driver == VK_DRIVER_ID_MOLTENVK && version == 10210;
+}
+
 class Vulkan13Features {
 public:
     Vulkan13Features() = default;

@@ -5068,7 +5068,8 @@ int main() {
         info.conditional_rendering = d.conditional_rendering;  // SetPredication (the D24 tests check copies under it)
         info.texture_compression_bc = d.bc;
         info.occlusion_query_precise = d.occlusion_query_precise;
-        info.pipeline_statistics_query = d.pipeline_statistics_query;
+        // Pass the raw enabled bit so the runtime must recognize a driver that advertises unusable counters.
+        info.pipeline_statistics_query = d.enabled.pipelineStatisticsQuery == VK_TRUE;
         info.conditional_rendering = d.conditional_rendering;
         ID3D12Device* inner = nullptr;
         EXPECT(SUCCEEDED(rt::d3d12::create_vulkan_device(info, IID_PPV_ARGS(&inner))));
@@ -6714,10 +6715,13 @@ int main() {
             query_desc = {D3D12_QUERY_HEAP_TYPE_SO_STATISTICS, 3, 0};
             EXPECT(SUCCEEDED(device->CreateQueryHeap(&query_desc, IID_PPV_ARGS(&so.p))));
             query_desc = {D3D12_QUERY_HEAP_TYPE_PIPELINE_STATISTICS, 2, 0};
-            if (d.pipeline_statistics_query)
-                EXPECT(SUCCEEDED(device->CreateQueryHeap(&query_desc, IID_PPV_ARGS(&statistics.p))));
-            else
-                std::printf("pipeline statistics: no pipelineStatisticsQuery, skipped\n");
+            const HRESULT stats_hr = device->CreateQueryHeap(&query_desc, IID_PPV_ARGS(&statistics.p));
+            if (d.pipeline_statistics_query) {
+                EXPECT(stats_hr == S_OK && statistics.p);
+            } else {
+                EXPECT(stats_hr == E_NOTIMPL && !statistics.p);
+                std::printf("pipeline statistics: unsupported heap refused (E_NOTIMPL)\n");
+            }
 
             // Readback layout: timestamps at 0, occlusion at 64, statistics at 256, stream output at 512, the second
             // run's at 1024.

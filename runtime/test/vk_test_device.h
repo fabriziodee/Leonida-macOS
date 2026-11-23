@@ -111,7 +111,7 @@ public:
     bool swapchain_maintenance1 = false;
     bool shader_fma = false;       // VK_KHR_shader_fma and shaderFmaFloat32 enabled (OpFmaKHR, rdna2spirv.py --fma khr)
     bool occlusion_query_precise = false;    // occlusionQueryPrecise enabled
-    bool pipeline_statistics_query = false;  // pipelineStatisticsQuery enabled
+    bool pipeline_statistics_query = false;  // pipelineStatisticsQuery enabled and usable
     bool request_debug_utils = false;  // set before create(): enable VK_EXT_debug_utils when the loader has it
     bool request_buffer_device_address = false;  // set before create(): enable bufferDeviceAddress where supported
     bool buffer_device_address = false;  // enabled: buffer() memory and buffers can be addressed (device_address())
@@ -515,6 +515,13 @@ public:
         enable.pipelineStatisticsQuery = features.features.pipelineStatisticsQuery;
         occlusion_query_precise = features.features.occlusionQueryPrecise == VK_TRUE;
         pipeline_statistics_query = features.features.pipelineStatisticsQuery == VK_TRUE;
+        if (pipeline_statistics_query) {
+            VkPhysicalDeviceDriverProperties driver{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES};
+            VkPhysicalDeviceProperties2 props{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2, &driver};
+            instance_fn<PFN_vkGetPhysicalDeviceProperties2>("vkGetPhysicalDeviceProperties2")(physical, &props);
+            pipeline_statistics_query =
+                !leonida::broken_pipeline_statistics(driver.driverID, props.properties.driverVersion);
+        }
 
         // VK_EXT_custom_border_color where the device has it.
         VkPhysicalDeviceCustomBorderColorFeaturesEXT custom_border{

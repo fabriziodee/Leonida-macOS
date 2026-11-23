@@ -4382,7 +4382,7 @@ public:
             return register_pool(desc);
         case h::pipeline_statistics:
             if (!device_.info.pipeline_statistics_query) {
-                log_once("pipeline-statistics query heap: pipelineStatisticsQuery not enabled; type", desc.Type);
+                log_once("pipeline-statistics query heap unavailable; type", desc.Type);
                 return E_NOTIMPL;
             }
             info.queryType = VK_QUERY_TYPE_PIPELINE_STATISTICS;
@@ -4619,11 +4619,13 @@ public:
             const auto get_props2 = reinterpret_cast<PFN_vkGetPhysicalDeviceProperties2>(
                 info.get_instance_proc ? info.get_instance_proc(info.instance, "vkGetPhysicalDeviceProperties2")
                                        : nullptr);
-            if (family.timestampValidBits && get_props2) {
+            if (get_props2 && (family.timestampValidBits || info.pipeline_statistics_query)) {
                 VkPhysicalDeviceDriverProperties driver{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES};
                 VkPhysicalDeviceProperties2 props{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2, &driver};
                 get_props2(info.physical, &props);
-                if (driver.driverID == VK_DRIVER_ID_MOLTENVK) {
+                if (leonida::broken_pipeline_statistics(driver.driverID, props.properties.driverVersion))
+                    state_.info.pipeline_statistics_query = false;
+                if (family.timestampValidBits && driver.driverID == VK_DRIVER_ID_MOLTENVK) {
                     state_.context->set_order_timestamp_copies(true);
                     log_once("timestamp resolves wait for the timestamps before them (MoltenVK); driver",
                              int(driver.driverID));
