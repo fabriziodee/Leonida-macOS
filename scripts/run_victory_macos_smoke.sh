@@ -68,9 +68,28 @@ if [[ -n "$shader_tests" ]]; then
         VICTORY_WARP=0 "$wine" --bottle "$bottle" --no-update --cx-app "$guest\\shader-tests.exe" \
             --exact "$test_name" --nocapture --test-threads=1 2>&1 | tee "shader-$width.log"
         grep -Fq '1 passed; 0 failed; 0 ignored' "shader-$width.log"
-        if grep -Eiq 'no SM 6\.6 (hardware|warp) device|(^|[[:space:];])skipped([[:space:][:punct:]]|$)' "shader-$width.log"; then
-            echo "The shader fixture was skipped or could not use the hardware adapter; not a verified PASS" >&2
+        if grep -Fiq 'no SM 6.6 hardware device' "shader-$width.log"; then
+            echo "Hardware shader fixture skipped; not a verified PASS" >&2
             exit 1
         fi
+        # WARP is optional under CrossOver. Require positive evidence for every
+        # hardware run_cases call in the pinned f32/f16 fixtures instead.
+        case "$width" in
+            f32) expected_calls=4; expected_cases=25 ;;
+            f16) expected_calls=3; expected_cases=16 ;;
+        esac
+        awk -v calls="$expected_calls" -v cases="$expected_cases" '
+            /VIctory shader fixture: [1-9][0-9]* case\(s\) ran on the hardware adapter, LUID [[:xdigit:]]+:[[:xdigit:]]+/ {
+                match($0, /VIctory shader fixture: [1-9][0-9]*/)
+                prefix = length("VIctory shader fixture: ")
+                count = substr($0, RSTART + prefix, RLENGTH - prefix) + 0
+                total += count
+                n++
+            }
+            END { exit !(n == calls && total == cases) }
+        ' "shader-$width.log" || {
+            echo "Missing or incomplete positive hardware shader evidence for $width" >&2
+            exit 1
+        }
     done
 fi

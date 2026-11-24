@@ -21,11 +21,11 @@ The [M4 Max contributor report](https://github.com/fabriziodee/Leonida-macOS/iss
 | RGBA8 clear/readback | 16/16 pixels | 16/16 pixels |
 | Synthetic entry / expected exit | 42 | 42 |
 | Patched texture upload/readback | 64/64 bytes | 64/64 bytes |
-| f32/f16 shader hardware execution | Reported PASS | Unverified: device skips in log |
+| f32/f16 shader hardware execution | Reported PASS | Reported PASS: 25 f32 + 16 f16 cases; WARP unavailable |
 
-The M4 Max report used macOS 27.2.1, CrossOver 26.3 and D3DMetal 3.0. The M1 Max baseline used macOS 27.3 and CrossOver 26.3. These are reported hardware tests, not hosted CI or game boot results. The [updated smoke-test guide](docs/victory-macos.md#independent-m4-max-reproduction--24-november-2026) fixes the Bash/Zsh example and rejects skipped shader results when the extended test is requested. Hardware rerun pending. Thanks to [edmondja](https://github.com/edmondja) for the reproduction and feedback. The 5/8 checklist and graphics totals remain unchanged.
+The M4 Max report used macOS 27.2.1, CrossOver 26.3 and D3DMetal 3.0. The M1 Max baseline used macOS 27.3 and CrossOver 26.3. These are reported hardware tests, not hosted CI or game boot results. The [updated smoke-test guide](docs/victory-macos.md#independent-m4-max-reproduction--24-november-2026) fixes the Bash/Zsh example. The [instrumented follow-up](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7144872577) confirms hardware execution; the revised smoke script requires positive markers and permits optional WARP skips. Combined-script rerun pending. Thanks to [edmondja](https://github.com/edmondja) for the reproduction and feedback. The 5/8 checklist and graphics totals remain unchanged.
 
-**Upstream and CI:** the original upstream leadership departure was reported on 24 November; community continuations exist, but no independently verified playable build is established here. Reforge is already referenced in local regression work; no automatic upstream switch or merge. Main CI at `60a2344b` failed; PR #14 remains open with fresh checks pending after the CI corrections, and the integrated synthetic cube in PR #13 is pending local execution. [External project and evidence review](docs/external-project-status-2026-11-24.md).
+**Upstream and CI:** the original upstream leadership departure was reported on 24 November; community continuations exist, but no independently verified playable build is established here. Reforge is already referenced in local regression work; no automatic upstream switch or merge. [Main CI at `5ffc62cc`](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45487967063) and [PR #14 CI at `fce056f0`](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45486274662) passed all seven executed jobs each. Runtime remains unresolved: main macOS build failed on sccache storage limits; PR #14 macOS runtime was cancelled. PR #13 remains pending local execution. [External project and evidence review](docs/external-project-status-2026-11-24.md).
 
 **Apple Silicon synthetic graphics: ten verified experiment groups, 41 validated frames, 629,760 sampled RGB pixels within expected values, 88 executed host draws and 78 successful DXGI Present calls.** Reported local M1 Max / CrossOver / D3DMetal results using the same diagnostics runtime. These are synthetic compatibility checks, not a percentage of GTA VI compatibility. GTA VI has not been booted or demonstrated playable on this Mac.
 
@@ -72,16 +72,16 @@ See the [test matrix](PROGRESS.md) and [request for Apple Silicon testers](https
 
 | Workstream | Status |
 | --- | --- |
-| Main CI: stdout and SPIRV dependency fixes | Published in [45c8c5b8](https://github.com/fabriziodee/Leonida-macOS/commit/45c8c5b8dc1b869efc6d07aeb370e78fdc86bfd9); fresh CI not yet confirmed |
-| Smoke-test hardening and M4 report | Published in [59140bfe](https://github.com/fabriziodee/Leonida-macOS/commit/59140bfe95d8a4019182c111ea33d549c88cf6f0); hardware rerun pending |
-| [PR #14](https://github.com/fabriziodee/Leonida-macOS/pull/14) | Open; mandatory Vulkan on retry and ordered NaN comparison fixes awaiting hosted validation |
+| Main CI: stdout and SPIRV dependency fixes | Published in [45c8c5b8](https://github.com/fabriziodee/Leonida-macOS/commit/45c8c5b8dc1b869efc6d07aeb370e78fdc86bfd9); seven CI jobs passed at `5ffc62cc` |
+| Smoke-test hardening and M4 report | Published in [59140bfe](https://github.com/fabriziodee/Leonida-macOS/commit/59140bfe95d8a4019182c111ea33d549c88cf6f0); instrumented M4 hardware tests passed; revised script rerun pending |
+| [PR #14](https://github.com/fabriziodee/Leonida-macOS/pull/14) | Open; Python CI passed, hosted macOS Runtime remains pending |
 | [PR #13](https://github.com/fabriziodee/Leonida-macOS/pull/13) | Open; integrated synthetic textured cube awaiting local execution and CI |
-| [Issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1) | Open; independent baseline reproduction reported, extended shader verification pending |
+| [Issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1) | Open; independent baseline and instrumented f32/f16 hardware execution reported |
 | Real GTA VI boot, menu and gameplay | Not verified |
 
 [Live GitHub Actions](https://github.com/fabriziodee/Leonida-macOS/actions) · [Open pull requests](https://github.com/fabriziodee/Leonida-macOS/pulls) · [Roadmap](ROADMAP.md)
 
-CI results are commit-specific. As of the 24 November review, No Game Data passed on `59140bfe`; main CI and runtime validation were pending or in progress. Do not interpret older green checks as certification of the latest revision.
+CI results are commit-specific. No Game Data and seven executed CI jobs passed on `5ffc62cc`; Runtime at `59140bfe` failed during macOS build due to sccache storage ServerBusy. The new smoke change requires fresh validation.
 
 ## Help wanted
 
@@ -95,7 +95,7 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
 
 ## Italiano
 
-**Stato aggiornato — 24 novembre 2026 (sera).** Riproduzione indipendente su Mac Studio M4 Max: host D3D12, 16 pixel, loader con uscita 42 e texture da 64 byte confermati nel report; shader f16/f32 ancora da verificare perché saltati. [Report M4](docs/victory-macos.md#independent-m4-max-reproduction--24-november-2026). Il test HTTP asincrono sintetico GDK/LibHttpClient su Apple Silicon/CrossOver risulta superato (HTTP 200, controlli richiesta/risposta e uscita 42); non dimostra compatibilità ABI console o integrazione runtime. [Audit SDK](docs/sdk-dependency-audit.md). La CI di main a `60a2344b` è fallita; PR #14 con nuova CI in attesa dopo le correzioni, PR #13 con scena sintetica da verificare. [Analisi progetti esterni e criteri di verifica](docs/external-project-status-2026-11-24.md).
+**Stato aggiornato — 24 novembre 2026 (sera).** Riproduzione indipendente su Mac Studio M4 Max: host D3D12, 16 pixel, loader con uscita 42 e texture da 64 byte confermati nel report; 25 casi f32 e 16 f16 superati su hardware nel nuovo report; soltanto WARP non disponibile. [Report M4](docs/victory-macos.md#independent-m4-max-reproduction--24-november-2026). Il test HTTP asincrono sintetico GDK/LibHttpClient su Apple Silicon/CrossOver risulta superato (HTTP 200, controlli richiesta/risposta e uscita 42); non dimostra compatibilità ABI console o integrazione runtime. [Audit SDK](docs/sdk-dependency-audit.md). CI di main a `5ffc62cc` e PR #14 a `fce056f0`: sette job superati ciascuna. Runtime macOS ancora da verificare; PR #13 con scena sintetica da verificare. [Analisi progetti esterni e criteri di verifica](docs/external-project-status-2026-11-24.md).
 
 Su M1 Max con CrossOver e D3DMetal abbiamo verificato dieci gruppi di esperimenti sintetici: **629.760 campioni RGB conformi, 41 frame validati, 88 draw host eseguite e 78 Present DXGI riuscite**. Sono integrati in `main` i sorgenti e i risultati di back buffer, clear, shader RDNA2, geometria indicizzata, profondità, blending, multipass, texture sampling, UV, prospettiva/filtro bilineare e selezione di quattro livelli mip fisici. [Matrice completa](#status) · [Stato di avanzamento](PROGRESS.md) · [Roadmap](ROADMAP.md).
 
@@ -120,9 +120,9 @@ Sul M1 Max, ciascuno dei due mesh shader di prova con wave64 emulata ha restitui
 
 ### Sviluppo e prossime verifiche
 
-- Correzioni CI Python/SPIR-V pubblicate su main; esito della nuova CI ancora da confermare.
-- Correzione Bash/Zsh e rilevamento dei test shader saltati pubblicati; nuova prova hardware M4 Max richiesta.
-- [PR #14](https://github.com/fabriziodee/Leonida-macOS/pull/14): ripristino CI e confronto NaN, validazione hosted in corso.
+- Correzioni CI Python/SPIR-V pubblicate su main; sette job superati su `5ffc62cc`.
+- Correzione Bash/Zsh pubblicata; report hardware M4 Max f32/f16 positivo. Nuovo script richiede marker hardware e consente skip WARP; riesecuzione da verificare.
+- [PR #14](https://github.com/fabriziodee/Leonida-macOS/pull/14): CI superata; Runtime macOS e confronto NaN da confermare sul runner.
 - [PR #13](https://github.com/fabriziodee/Leonida-macOS/pull/13): scena 3D sintetica integrata, esecuzione locale da verificare.
 - [Issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1): riproduzione indipendente M4 Max documentata; avvio reale non verificato.
 

@@ -4,12 +4,14 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 
 ## Immediate priorities · 24 November 2026
 
-- [ ] Restore CI on main and verify PR #14 on its exact head; preserve failing-test evidence and avoid duplicate work.
+- [x] Restore Python CI on main `5ffc62cc` and PR #14 `fce056f0` (seven jobs passed each).
+- [ ] Fix hosted macOS Runtime cache startup failure and verify full PR #14 Runtime before merge.
 - [ ] Execute and independently validate the original synthetic cube in PR #13; do not count pending captures.
 - [x] Record reported standalone desktop SDK asynchronous HTTP loopback validation with a synthetic localhost fixture. [SDK audit](docs/sdk-dependency-audit.md)
 - [ ] Review public, license-compatible generic interoperability fixes from community continuations; reproduce with original synthetic fixtures before adopting. [External project and evidence review](docs/external-project-status-2026-11-24.md).
 - [x] Obtain independent Apple Silicon reproduction of baseline synthetic host/loader and patched texture checks (reported M4 Max; see [issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7142660029)).
-- [ ] Repeat M4 Max f16/f32 shader fixtures with confirmed hardware execution; previous logs showed WARP skips.
+- [x] Repeat M4 Max f16/f32 fixtures with identified hardware adapter (25 + 16 cases reported PASS; [follow-up](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7144872577)).
+- [ ] Repeat revised combined smoke script with positive hardware markers; WARP optional.
 - [ ] Independently reproduce the integrated graphics checkpoint; no game boot claim until authorized, independently reproducible evidence exists.
 
 Priorità: CI verde, riproduzione indipendente della scena sintetica, revisione dei fix generici con fixture originali. Il test HTTP è documentato; non equivale a integrazione console. Nessun utilizzo di copie non autorizzate.
