@@ -8,6 +8,15 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 - [ ] Verify the Windows runtime test suite through Wine on Apple Silicon. Track boot separately.
 - [ ] Add macOS checks for the portable subset and send portable fixes upstream.
 
+## VIctory / D3DMetal
+
+- [x] Build the Windows x64 runtime and verify D3D12 capabilities in CrossOver.
+- [x] Pass the synthetic loader tests and launch the synthetic entry probe.
+- [ ] Confirm a compatible, authorized Xbox Series build is available as readable files.
+- [ ] Record the first visible output or exact startup failure from a real boot attempt.
+- [ ] Verify a recognizable menu responds to input and repeat the launch.
+- [ ] After the menu milestone, assess loading into gameplay, rendering and memory use.
+
 ## Roadmap in italiano
 
 Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclusi e le attività aperte.
@@ -17,3 +26,11 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 - [ ] Estendere i test sintetici di allocazione e query ad altri driver, incluso un backend con statistiche della pipeline funzionanti.
 - [ ] Verificare la suite del runtime Windows tramite Wine e monitorare l’avvio separatamente.
 - [ ] Aggiungere controlli macOS per i componenti portabili e proporre le correzioni al progetto originale.
+
+### VIctory / D3DMetal
+
+- [x] Compilare VIctory, verificare D3D12 e superare i test sintetici.
+- [ ] Confermare una build Xbox Series compatibile con file autorizzati e già leggibili.
+- [ ] Registrare la prima schermata o l’errore preciso nel primo avvio reale.
+- [ ] Verificare un menu riconoscibile, i comandi e un secondo avvio.
+- [ ] Dopo il menu, misurare caricamento della partita, rendering e memoria.
