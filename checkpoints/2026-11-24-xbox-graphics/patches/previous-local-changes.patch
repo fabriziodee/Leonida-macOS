@@ -1,0 +1,50 @@
+diff --git a/crates/victory-gpu/src/resource.rs b/crates/victory-gpu/src/resource.rs
+index ffa85b8..d1744e5 100644
+--- a/crates/victory-gpu/src/resource.rs
++++ b/crates/victory-gpu/src/resource.rs
+@@ -1792,6 +1792,7 @@ mod tests {
+             let at = row * 256;
+             assert_eq!(read[at..at + 16], bytes[at..at + 16], "row {row}");
+         }
++        eprintln!("VIctory texture upload/readback: 64 bytes matched");
+     }
+ 
+     #[test]
+diff --git a/crates/victory-shader/src/emit/lower.rs b/crates/victory-shader/src/emit/lower.rs
+index 5f1843b..addb181 100644
+--- a/crates/victory-shader/src/emit/lower.rs
++++ b/crates/victory-shader/src/emit/lower.rs
+@@ -1525,7 +1525,18 @@ impl<'a> Lower<'a> {
+         // part is NaN. Metal's sin and cos give 0 there, so that NaN is
+         // passed through here instead of relying on the host.
+         let nan = self.s.m.cmp(c, pred::UNO, part, part);
+-        self.s.m.select(c, nan, part, r)
++        let r = self.s.m.select(c, nan, part, r);
++        if cosine {
++            return r;
++        }
++        // D3DMetal on M1 Max can turn sin(-0) into +0. Preserve this
++        // one input by its IEEE bits, after the host transcendental.
++        let input = self.as_int(x);
++        let negative_zero = self.s.m.i32(0x8000_0000);
++        let is_negative_zero = self.s.m.cmp(c, pred::EQ, input, negative_zero);
++        let result = self.as_int(r);
++        let bits = self.s.m.select(c, is_negative_zero, negative_zero, result);
++        self.as_float(bits)
+     }
+ 
+     /// The high dword of a 32 × 32-bit product.
+diff --git a/crates/victory-shader/src/emit/valu_tests.rs b/crates/victory-shader/src/emit/valu_tests.rs
+index 3b7b2e5..fbbb67d 100644
+--- a/crates/victory-shader/src/emit/valu_tests.rs
++++ b/crates/victory-shader/src/emit/valu_tests.rs
+@@ -788,6 +788,9 @@ fn v_sin_and_v_cos_f16_reduce_large_turns() {
+         .iter()
+         .map(|&(x, _)| [u32::from(x), 0, 0, 0])
+         .collect();
++    run_cases(&sin_shader, &[[0x8000, 0, 0, 0]], |backend, _, _, got| {
++        assert_eq!(got as u16, 0x8000, "{backend}: v_sin_f16(-0)");
++    });
+     run_cases(&cos_shader, &cos_inputs, |backend, i, inp, got| {
+         let expect = cos_cases[i].1;
+         let got_h = got as u16;

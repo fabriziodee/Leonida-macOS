@@ -1,0 +1,42 @@
+--- a/crates/victory-gpu/src/resource.rs
++++ b/crates/victory-gpu/src/resource.rs
+@@ -1792,6 +1792,39 @@
+             let at = row * 256;
+             assert_eq!(read[at..at + 16], bytes[at..at + 16], "row {row}");
+         }
++
++        // Apple Silicon: present the verified Xbox-side texture.
++        
++        // LEONIDA_PRESENT_COMMON_STATE
++        let (_, prior) = host_transition(image, 0).unwrap();
++        assert_eq!(prior, 0x800);
++        let prep = host.new_list().unwrap();
++
++        unsafe {
++            prep.list.ResourceBarrier(&[
++                crate::host::transition(
++                    host_image,
++                    D3D12_RESOURCE_STATE_COPY_SOURCE,
++                    D3D12_RESOURCE_STATE_COMMON,
++                )
++            ]);
++        }
++
++        prep.close();
++        host.execute(&[&prep]);
++
++        for frame in 1..=3 {
++            assert!(
++                host.present(host_image, 0, frame).is_some(),
++                "VIctory internal presenter failed"
++            );
++            std::thread::sleep(
++                std::time::Duration::from_millis(700)
++            );
++        }
++
++        println!("VICTORY INTERNAL PRESENTER: PASS 3/3");
++
+         eprintln!("VIctory texture upload/readback: 64 bytes matched");
+     }
+ 

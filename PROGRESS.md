@@ -1,5 +1,18 @@
 # macOS progress
 
+## Xbox Graphics First Present
+
+24 November 2026: the synthetic Xbox graphics path
+completed through VIctory, D3D12.X Device11 and
+PresentX with three successful DXGI presentations.
+
+The source probes, patches, evidence and pending
+local work are preserved in the
+[complete checkpoint](checkpoints/2026-11-24-xbox-graphics/README.md).
+
+Game boot remains unverified.
+
+
 ## VIctory and D3DMetal · 24 November 2026
 
 **5 of 8 milestones verified toward a responsive GTA VI menu on macOS.**

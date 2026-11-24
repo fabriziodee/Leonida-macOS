@@ -1,0 +1,184 @@
+diff --git a/PROGRESS.md b/PROGRESS.md
+index 8bfce347d..645178ff4 100644
+--- a/PROGRESS.md
++++ b/PROGRESS.md
+@@ -2,7 +2,7 @@
+ 
+ ## VIctory and D3DMetal · 24 November 2026
+ 
+-**4 of 7 milestones verified (57%) toward a responsive GTA VI menu on macOS.**
++**5 of 8 milestones verified toward a responsive GTA VI menu on macOS.**
+ Each milestone counts once. This measures checklist completion. The chance
+ of reaching the menu and game compatibility remain unknown until a real test.
+ 
+@@ -10,6 +10,7 @@ of reaching the menu and game compatibility remain unknown until a real test.
+ | --- | --- |
+ | Build the Windows x64 runtime | Passed. VIctory `d2a4bae1f495` built in release with Rust 1.98.1 and the xwin SDK. |
+ | Check host requirements | Passed on M1 Max, 32 GB, macOS 27.3, CrossOver 26.3.0 with D3DMetal selected. AVX2 detected, D3D12 device created, Shader Model 6.6 and Mesh Shader Tier 1 reported. |
++| Execute D3D12 commands and read back pixels | Passed. In the D3DMetal-configured bottle, the host probe submitted an RGBA8 clear and copy, waited on a fence and verified all 16 pixels. Tested at `33829eca0`. |
+ | Verify the synthetic loader tests | Passed, 2/2. `loads_binds_and_calls_probe` and `maps_a_title_dll_the_title_loads_itself` covered import binding, loading a companion DLL and TLS thread notifications. The test harness used a prebuilt fixture under Wine. |
+ | Launch a synthetic program with the release runtime | Passed. `victory.exe run … --execute` resolved both imports and the program returned the expected code `42`. |
+ | Identify and verify a compatible local Xbox Series installation | Blocked. The local search found no authorized, compatible files already readable by VIctory. |
+@@ -21,18 +22,20 @@ has its own test results below. Gameplay, real shader rendering, memory use
+ during game startup and the wider Wine suite remain open.
+ 
+ [Run the synthetic smoke test](docs/victory-macos.md) ·
++[Backend evidence](docs/macos-backends.md) ·
+ [Report a real boot attempt](https://github.com/fabriziodee/Leonida-macOS/issues/1)
+ 
+ ## Italiano
+ 
+-**4 tappe verificate su 7 (57%) verso un menu funzionante di GTA VI su macOS.**
+-La percentuale conta le tappe completate. La probabilità di successo resta
+-sconosciuta finché non si prova il gioco.
++**5 tappe verificate su 8 verso un menu funzionante di GTA VI su macOS.**
++Il conteggio riguarda le tappe completate. La compatibilità del gioco
++resta da verificare con un avvio reale.
+ 
+ Sul Mac M1 Max da 32 GB, con macOS 27.3 e CrossOver 26.3.0, VIctory è stato
+ compilato, D3D12 si è inizializzato con Shader Model 6.6, entrambi i test
+ sintetici del loader sono passati e il programma di prova si è avviato
+-con il codice di uscita atteso `42`.
++con il codice di uscita atteso `42`. Il probe esteso ha verificato tutti
++i 16 pixel dopo una clear D3D12 e una copia in un buffer di readback.
+ 
+ Restano tre tappe. Identificare file autorizzati e leggibili di una build Xbox
+ Series compatibile, osservare la prima schermata del gioco e verificare che
+diff --git a/README.md b/README.md
+index 544b175fd..711ffba8c 100644
+--- a/README.md
++++ b/README.md
+@@ -6,9 +6,9 @@
+ 
+ ## Status
+ 
+-**Hybrid runtime: 4 of 7 milestones verified (57%) toward a responsive GTA VI menu.**
++**Hybrid runtime: 5 of 8 milestones verified toward a responsive GTA VI menu.**
+ The VIctory build, CrossOver/D3DMetal host checks, two synthetic loader tests,
+-and synthetic launch passed. GTA VI boot and menu remain unverified.
++and synthetic launch passed. D3D12 clear and readback matched all 16 RGBA8 pixels. GTA VI boot and menu remain unverified.
+ See the [test matrix](PROGRESS.md) and [request for Apple Silicon testers](https://github.com/fabriziodee/Leonida-macOS/issues/1).
+ 
+ - **GTA VI is not playable.** Boot and gameplay are unverified. The Windows runtime is tested through Wine on macOS. Portable tools and GPU tests can be built natively.
+@@ -31,7 +31,7 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
+ 
+ **Versione sperimentale 3r1 di Leonida per macOS su Apple Silicon.**
+ 
+-**Runtime ibrido: 4 tappe verificate su 7 (57%) verso un menu funzionante.** I test sintetici sono passati. L’avvio del gioco e il menu restano da verificare. Consulta la [matrice dei test](PROGRESS.md#italiano) e la [richiesta di prove su Apple Silicon](https://github.com/fabriziodee/Leonida-macOS/issues/1).
++**Runtime ibrido: 5 tappe verificate su 8 verso un menu funzionante.** I test sintetici sono passati, incluso il readback D3D12 di 16 pixel. L’avvio del gioco e il menu restano da verificare. Consulta la [matrice dei test](PROGRESS.md#italiano) e la [richiesta di prove su Apple Silicon](https://github.com/fabriziodee/Leonida-macOS/issues/1).
+ 
+ Il lavoro si concentra sui test GPU con Vulkan tramite MoltenVK e sui test del runtime Windows tramite Wine.
+ 
+diff --git a/ROADMAP.md b/ROADMAP.md
+index 4ca1b4604..2a24be9fb 100644
+--- a/ROADMAP.md
++++ b/ROADMAP.md
+@@ -11,6 +11,7 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
+ ## VIctory / D3DMetal
+ 
+ - [x] Build the Windows x64 runtime and verify D3D12 capabilities in CrossOver.
++- [x] Verify D3D12 command execution and all 16 RGBA8 pixels on readback.
+ - [x] Pass the synthetic loader tests and launch the synthetic entry probe.
+ - [ ] Confirm a compatible, authorized Xbox Series build is available as readable files.
+ - [ ] Record the first visible output or exact startup failure from a real boot attempt.
+@@ -30,6 +31,7 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
+ ### VIctory / D3DMetal
+ 
+ - [x] Compilare VIctory, verificare D3D12 e superare i test sintetici.
++- [x] Verificare i comandi D3D12 e leggere correttamente tutti i 16 pixel RGBA8.
+ - [ ] Confermare una build Xbox Series compatibile con file autorizzati e già leggibili.
+ - [ ] Registrare la prima schermata o l’errore preciso nel primo avvio reale.
+ - [ ] Verificare un menu riconoscibile, i comandi e un secondo avvio.
+diff --git a/docs/macos-backends.md b/docs/macos-backends.md
+new file mode 100644
+index 000000000..acae89fff
+--- /dev/null
++++ b/docs/macos-backends.md
+@@ -0,0 +1,47 @@
++# Paths to the first GTA VI boot on Apple Silicon
++
++Reviewed 24 November 2026. Local evidence is from an M1 Max with 32 GB,
++macOS 27.3 and CrossOver 26.3.0. The D3DMetal-configured bottle passed the
++synthetic D3D12 clear and readback, and VIctory reached the synthetic entry
++point and reported exit status 42. The test covered command submission, a
++fence and a copy to readback memory. Game shaders, video, presentation and
++game input still require a run with an authorized, readable Xbox Series build.
++
++## Project evidence
++
++| Project | Latest evidence examined and relevance to the M1 Max | License and use |
++| --- | --- | --- |
++| [VIctory](https://github.com/Marvisak/VIctory) | The 23 November status reports 30 fps menus, intro video with audio and first-mission loading on Windows 11 / RX 6700 XT. The first title card renders, then the world is dark. The local macOS smoke test uses `d2a4bae1f495`. It covers the loader and host D3D12 with a synthetic target. | GPL-3.0-or-later. Continue using the existing separately built runtime. |
++| [ProjectLeonida](https://github.com/ProjectLeonida/Leonida), [ItsNotRexed](https://github.com/ItsNotRexed/Leonida), [LeonidaReforge](https://github.com/LeonidaReforge/Leonida) | The indexed original docs and the independent continuation describe RDNA2 to SPIR-V, D3D12-to-Vulkan, wave64 emulation, and GPU BVH building. Native macOS tools and Vulkan tests are documented. The runtime is Windows x64. A previous local availability check could only resolve public forks. The reported [off-GitHub mirror](https://git.qilk.de/) did not yield a verifiable source revision in this review. | GPL-3.0 family. Recheck exact source revision and preserve attribution for any cherry-pick. Keep as a fallback for a D3DMetal-specific graphics blocker. |
++| [Lichii / zortos293](https://github.com/zortos293/Lichii) | Switch 2 emulator. [PR #2354](https://github.com/zortos293/Lichii/pull/2354), also in a [public Gitea mirror](https://git.nite07.com/nite/Lichii/src/commit/e97adbec0d486ac1064ab6f64dd4375ac03ba4a6), addresses a recursive SPIRV-Cross stack overflow during MoltenVK pipeline creation, including synchronous pipeline creation, with 32 MiB worker stacks. [Issue #237](https://github.com/zortos293/Lichii/issues/237) traces post-video device loss to an attachmentless pass sized 32768×32768 on a device limited to 16384. | Use the measurements to diagnose equivalent traces in Leonida. Check the specific file license before code reuse. Both fixes concern the Vulkan path and neither failure has been observed in our current run. |
++| [XCL](https://github.com/ivall/xcl) | RDNA2-to-DXIL and Xbox system-library replacement on Windows x64. The [GTA VI issue](https://github.com/ivall/xcl/issues/159) contains boot reports. The [Wine sparse-VRAM PR #877](https://github.com/ivall/xcl/pull/877) maps graphics allocations lazily and ensures GPU-written regions are backed. This offers a diagnostic lead for Wine address-space or graphics heap failures. No Apple Silicon menu was verified. | GPL-2.0-only. Keep source separate from GPL-3.0 code. |
++| [TuxBox](https://github.com/brcly/TuxBox) | The project shows a player-selection prompt at 3840×2160 via Proton Experimental on x86-64 Linux. The reviewed setup uses an RTX 4070 Ti SUPER. [PR #35](https://github.com/brcly/TuxBox/pull/35) concerns XWayland presentation. Its Linux result leaves the macOS graphics and CPU paths open. | Apache-2.0. Can evaluate individual changes with notices if a matching blocker appears. |
++| [americas-recomp](https://github.com/realdody/americas-recomp), [JamesCicada/GTAVI-Recomp](https://github.com/JamesCicada/GTAVI-Recomp) | The americas-recomp URL was indexed and returned 404 on direct inspection. Its current source and license could not be verified. JamesCicada documents an early PS5 path on AnyPS5 with no GTA VI test. It adds a different console runtime and graphics interface. | JamesCicada is GPL-2.0-only. No currently verified patch for the Xbox/D3DMetal path. |
++| [Xbox2Windows](https://github.com/R0Y00/Xbox2Windows), [ProjectReCity](https://github.com/pixl27/ProjectReCity) | Xbox2Windows reports source-built executables and translated pixel shader outputs validated against hardware and WARP, with full-game startup open. ProjectReCity offers GPL-3.0-or-later Leonida-derived work on wave64 and Vulkan, with first-frame milestones open. | Compare shader discrepancies against their tests if a real shader fails. Check file licenses before any import. |
++| [6stars](https://github.com/meetox80/6stars) | Native Swift/Metal engine using game data for independent map rendering. The project describes a separate implementation without the GTA VI executable or original pipelines. Its architecture does not supply the Xbox runtime or a route to the game's menu. | No reuse license verified. |
++| [Palmetto](https://github.com/luizwidmer/palmetto), [Vyzerythe/Leonida](https://github.com/Vyzerythe/Leonida) | Earlier local review found a compute-pipeline blocker in Palmetto and a pre-boot status in the Leonida fork. Neither supplied a verified Mac menu. | GPL-3.0 family. Revisit specific commits against a local failure. |
++
++The [PC Race tracker](https://vuyp.github.io/gta6-pc-race/) reports
++five-star-recomp continuously presenting black frames and tracks Palmwave,
++PercyScarlett and OpenScarlett. These reports are leads. A present count
++alone does not establish visible pixels, a responsive menu or
++Apple Silicon compatibility. The Cyberleeek/Cyberleek reports concern
++alleged leaked game files. The review identified no licensed compatibility
++change to integrate from that source. [Rockstar's release announcement](https://www.rockstargames.com/newswire/article/39akk424a9oo53/grand-theft-auto-vi-now-available)
++lists PS5 and Xbox Series X|S.
++
++## Architecture decision
++
++Use VIctory and D3DMetal for the first authorized local boot. This path has a
++working release binary, a verified synthetic entry point and a verified
++D3D12 submission and readback on the target host. The upstream Windows
++result makes menu and video behavior measurable targets. Keep Leonida and
++MoltenVK available if a failure points to a D3DMetal limitation with an
++existing Vulkan equivalent. A native Metal backend would also need an
++Xbox GPU command interface and shader translation. No reviewed project
++demonstrated that route executing the game on this hardware.
++
++First capture the failing import, allocation, shader, video boundary or
++present call from a real boot. The public fixes above have different
++preconditions. Apply the relevant one once a local trace establishes it.
++No upstream code was incorporated by this review.
+diff --git a/docs/victory-macos.md b/docs/victory-macos.md
+index af4a06c9e..9d39355ee 100644
+--- a/docs/victory-macos.md
++++ b/docs/victory-macos.md
+@@ -2,7 +2,7 @@
+ 
+ Use a dedicated 64-bit CrossOver bottle with D3DMetal selected. The smoke
+ test checks the x64 host capabilities and the VIctory executable entry path
+-using two synthetic programs. The experimental host probe also clears a 4x4
++using two synthetic programs. The host probe also clears a 4x4
+ RGBA8 render target, copies it to a CPU-readable buffer, waits for a fence
+ (up to ten seconds), and checks every pixel. This tests actual D3D12 command
+ execution rather than only reported feature levels; it does not test shaders,
+@@ -27,12 +27,20 @@ shader support. A successful launch prints
+ `VIctory synthetic title entry reached` and `title exited with 42`.
+ On an M1 Max, macOS 27.3 and CrossOver 26.3, the probes detected AVX2,
+ Shader Model 6.6 and Mesh Shader Tier 1, and the synthetic program
+-returned 42. The check was AI-assisted. Those results predate the new GPU
+-readback probe; its compilation and execution on Apple Silicon are pending.
+-A successful extended host probe must also print
+-`GPU clear/readback: PASS (16 RGBA pixels)`. A failure is reported with the
+-stage and HRESULT, pixel mismatch, or fence timeout. Do not count an
+-unverified probe as a passed milestone.
++returned 42. On 24 November 2026, the extended probe at `33829eca0`
++compiled with clang-cl and the xwin SDK, then ran in a copy of the
++D3DMetal-configured bottle. The smoke script exited successfully and printed:
++
++```text
++GPU clear/readback: PASS (16 RGBA pixels)
++VIctory synthetic title entry reached
++title exited with 42
++```
++
++The last line is the synthetic title's exit status as reported by VIctory.
++The runtime binary was the release build from the revision above. This
++validation was AI-assisted. See the [backend evaluation](macos-backends.md)
++for the evidence behind the current first-boot path.
+ 
+ Boot and visual verification of GTA VI require an authorized Xbox Series
+ game directory whose executable, companion DLLs and assets are already
