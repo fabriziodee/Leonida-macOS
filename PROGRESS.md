@@ -1,5 +1,26 @@
 # macOS progress
 
+## Xbox graphics presentation checkpoint · 24 November 2026
+
+Reported local validation on Apple M1 Max (32 GB), using the existing CrossOver/D3DMetal bottle and a separate experimental build of the VIctory macOS fork based on `f5660fd` with existing local shader/texture fixes and additional presenter instrumentation.
+
+| Probe | Result |
+| --- | --- |
+| Standalone D3D12/DXGI swap chain | 180/180 Present calls returned S_OK |
+| Internal VIctory presenter | 3/3 successful DXGI Present calls; 64/64 texture readback bytes matched |
+| Synthetic Xbox-style title through VIctory loader | 1 HLE + 3 host imports, zero missing |
+| D3D12.X Device11, interface version 2.4 | Created; texture-copy commands submitted |
+| Xbox PresentX to host DXGI | 3/3 Present calls returned 0x00000000, 320 × 192 RGBA8 |
+| Synthetic title and runtime exit | Expected title code 42; runtime process code 0 |
+
+An earlier PC-style integration probe failed at RegisterClassW because 11 Windows-specific imports were outside the console resolver's coverage. The successful replacement uses a synthetic Xbox-style executable and does not relax the import policy.
+
+The developer saved a local checkpoint containing the probe source, diffs, logs and binary SHA-256 manifest. Those files are not included in this documentation-only commit. These results are reported from the local session, not independently rerun by GitHub CI. The integrated probe copies a texture; its draw and dispatch counts are zero. Successful Present calls are not independent verification of visible pixel correctness, game shader execution, game boot or a responsive menu.
+
+**Next priority:** a real boot trace with an authorized, compatible, readable local Xbox Series installation. No change to the existing eight-milestone count (5/8); the new probe strengthens evidence for the already completed runtime/GPU milestones.
+
+**Italiano:** il programma sintetico attraversa il loader VIctory, D3D12.X Device11 e PresentX fino a DXGI con tre presentazioni riuscite e codice di uscita atteso 42. Non è un avvio del gioco. Il checkpoint locale è conservato; il prossimo passo resta un avvio reale con file autorizzati e compatibili.
+
 ## Repository status · 24 November 2026
 
 The results below are reported from the experimental [`macos/d3dmetal-execution-probe` snapshot](https://github.com/fabriziodee/Leonida-macOS/commit/912df59021f09c0dd6b22d48b07293bd6485efaa). The code and extended reproduction instructions are on that branch; this update to `main` publishes the evidence summary only and does not merge the experimental implementation. The eight milestones are a checklist, not an estimate of game compatibility or probability of success.
