@@ -1,8 +1,16 @@
 # macOS progress
 
+## Repository status · 24 November 2026
+
+The results below are reported from the experimental [`macos/d3dmetal-execution-probe` snapshot](https://github.com/fabriziodee/Leonida-macOS/commit/912df59021f09c0dd6b22d48b07293bd6485efaa). The code and extended reproduction instructions are on that branch; this update to `main` publishes the evidence summary only and does not merge the experimental implementation. The eight milestones are a checklist, not an estimate of game compatibility or probability of success.
+
+[PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) merged cross-platform CI fixes into `main` at `556d5b12101d`. All seven jobs returned for [the PR's Actions run](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) completed successfully (change-scope, translator-tests, macos-python, viewer-tests, check, stdlib-tests-linux and semantic-tests on Ubuntu). This is not a fresh full validation of the experimental branch or the game. The local GPU results below are documented test reports, not tests rerun during this documentation update.
+
+**Immediate next step:** independently reproduce the synthetic smoke test on another Apple Silicon host; no game files are needed. For real boot validation, an authorized, compatible, readable local game installation remains necessary. The first visible game frame and responsive menu are still unverified.
+
 ## VIctory and D3DMetal · 24 November 2026
 
-**4 of 7 milestones verified (57%) toward a responsive GTA VI menu on macOS.**
+**5 of 8 milestones verified toward a responsive GTA VI menu on macOS.**
 Each milestone counts once. This measures checklist completion. The chance
 of reaching the menu and game compatibility remain unknown until a real test.
 
@@ -10,6 +18,7 @@ of reaching the menu and game compatibility remain unknown until a real test.
 | --- | --- |
 | Build the Windows x64 runtime | Passed. VIctory `d2a4bae1f495` built in release with Rust 1.98.1 and the xwin SDK. |
 | Check host requirements | Passed on M1 Max, 32 GB, macOS 27.3, CrossOver 26.3.0 with D3DMetal selected. AVX2 detected, D3D12 device created, Shader Model 6.6 and Mesh Shader Tier 1 reported. |
+| Execute D3D12 commands and read back pixels | Passed. In the D3DMetal-configured bottle, the host probe submitted an RGBA8 clear and copy, waited on a fence and verified all 16 pixels. Tested at `33829eca0`. |
 | Verify the synthetic loader tests | Passed, 2/2. `loads_binds_and_calls_probe` and `maps_a_title_dll_the_title_loads_itself` covered import binding, loading a companion DLL and TLS thread notifications. The test harness used a prebuilt fixture under Wine. |
 | Launch a synthetic program with the release runtime | Passed. `victory.exe run … --execute` resolved both imports and the program returned the expected code `42`. |
 | Identify and verify a compatible local Xbox Series installation | Blocked. The local search found no authorized, compatible files already readable by VIctory. |
@@ -17,22 +26,39 @@ of reaching the menu and game compatibility remain unknown until a real test.
 | Reach a recognizable menu and verify input | Pending. Confirm the menu responds and reproduce the result on a second launch. |
 
 These results cover the VIctory path. The existing Leonida Vulkan backend
-has its own test results below. Gameplay, real shader rendering, memory use
+has its own test results below. Gameplay, game shader rendering, memory use
 during game startup and the wider Wine suite remain open.
 
-[Run the synthetic smoke test](docs/victory-macos.md) ·
+With the macOS fork at `f5660fd`, VIctory's texture copy returned all 64
+expected bytes on the M1 Max. An additional local correction preserved the
+sign of zero through the translated sine instruction. Both the 16-bit and
+32-bit compute shader fixtures passed on the hardware adapter. The updated
+runtime also returned 42 from the synthetic entry point. [Source and reproduction](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/docs/victory-macos.md#texture-uploads-and-compute-shaders-on-the-m1-max)
+
+The [upstream waterfall-loop shader](https://github.com/Marvisak/VIctory/commit/ffe310eb2098e52169f4c44db5ffdabf43a72622)
+also passed on the M1 Max. In its 32-lane synthetic dispatch, even lanes
+sampled the first texture and odd lanes the second. All 32 red-channel values matched.
+
+[Run the synthetic smoke test](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/docs/victory-macos.md) ·
+[Backend evidence](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/docs/macos-backends.md) ·
 [Report a real boot attempt](https://github.com/fabriziodee/Leonida-macOS/issues/1)
 
 ## Italiano
 
-**4 tappe verificate su 7 (57%) verso un menu funzionante di GTA VI su macOS.**
-La percentuale conta le tappe completate. La probabilità di successo resta
-sconosciuta finché non si prova il gioco.
+I risultati aggiornati provengono dal [branch sperimentale fissato al commit `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md). Il branch `main` contiene il riepilogo, non il merge del codice sperimentale. La [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) è stata integrata e tutti i sette job restituiti dal [workflow della PR](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) sono terminati con successo. I test GPU locali sono risultati documentati, non rieseguiti durante questo aggiornamento. La priorità è una riproduzione indipendente su Apple Silicon con dati sintetici, seguita da un avvio reale solo in presenza di file autorizzati e compatibili.
+
+
+**5 tappe verificate su 8 verso un menu funzionante di GTA VI su macOS.**
+Il conteggio riguarda le tappe completate. La compatibilità del gioco
+resta da verificare con un avvio reale.
 
 Sul Mac M1 Max da 32 GB, con macOS 27.3 e CrossOver 26.3.0, VIctory è stato
 compilato, D3D12 si è inizializzato con Shader Model 6.6, entrambi i test
 sintetici del loader sono passati e il programma di prova si è avviato
-con il codice di uscita atteso `42`.
+con il codice di uscita atteso `42`. Il probe esteso ha verificato tutti
+i 16 pixel dopo una clear D3D12 e una copia in un buffer di readback.
+Il fork macOS aggiornato ha verificato anche i 64 byte della texture
+caricata attraverso VIctory e i risultati dei due shader di calcolo.
 
 Restano tre tappe. Identificare file autorizzati e leggibili di una build Xbox
 Series compatibile, osservare la prima schermata del gioco e verificare che
@@ -40,7 +66,23 @@ il menu risponda ai comandi in due avvii. La ricerca locale dei file è
 terminata senza trovare un set compatibile. Gameplay e prestazioni restano
 da misurare.
 
-## Earlier Leonida Vulkan results · 23 November 2026
+## Leonida Vulkan
+
+### GPU regressions rechecked on 24 November
+
+On the M1 Max with native MoltenVK 1.4.2, `cs_w32_permlane_fi` returned
+all eight expected lane values. The integer format fixture returned all
+136 expected words. Its generated SPIR-V shrank from 301,652 to 239,632 bytes.
+The changes incorporate the [lane selection fix by Gabriel](https://github.com/LeonidaReforge/Leonida/commit/5a78b4b7d982642f57c9d6248374933c4a13aaf1)
+and the [format decoder by SashaTun](https://github.com/LeonidaReforge/Leonida/commit/9ad6cc8c833bf407629fec0fc7f55fb379bf38aa).
+
+With `LEONIDA_W64_EMULATE=1` and `LEONIDA_MESH_COMPUTE=1`, the
+`ms_wave_info_s3` and `ms_w64x_ballot` fixtures each returned all
+4,096 expected pixels on MoltenVK. On Mesa llvmpipe 26.3.1 (arm64),
+the native wave64 test reported its unsupported subgroup width.
+The emulated `ms_wave_info_s3` draw on that driver returned the clear color.
+
+### Results from 23 November
 
 - **CrossOver 26.3 / MoltenVK 1.2.10.** The D3D12/Vulkan device test exercised the version-specific fallback. The runtime refused a pipeline statistics query heap with `E_NOTIMPL` because this driver reports support but fails to return usable counters. Other driver versions still use their advertised capability.
 - **Native macOS / Mesa llvmpipe.** Five targeted tests passed for queue synchronization, occlusion, and replay queries. The Windows device test did not obtain a matching llvmpipe Vulkan device through Wine. Working pipeline statistics on a second backend remain to be verified.
