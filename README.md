@@ -6,9 +6,11 @@
 
 ## Status
 
+**Depth testing verified:** two graphics pipelines, 16/16 host draws, 8/8 successful DXGI presentations, 61,440/61,440 sampled RGB pixels matched across four depth-ordering cases. Cumulative synthetic readback: 261,120 samples across 17 validated frames. [Depth results](experiments/xbox-depth/README.md). No game boot verified.
+
 **Indexed geometry verified:** 8/8 executed indexed draws, 61,440/61,440 sampled RGB pixels matched across four alternating quad frames, including nonzero firstIndex and baseVertex. Cumulative synthetic graphics readback: 199,680 matching RGB samples across 13 validated frames. [Evidence](experiments/xbox-indexed/README.md). No game boot verified.
 
-**Synthetic RDNA2 graphics draw verified:** two original shaders translated, 8/8 host draws, 8/8 DXGI presentations and 46,080/46,080 sampled RGB pixels matched. Together with the previous back-buffer checks: 138,240 matching samples across nine validated frames. [Experiment and reported evidence](experiments/xbox-draw/README.md). No game boot, complex materials or depth validation.
+**Synthetic RDNA2 graphics draw verified:** two original shaders translated, 8/8 host draws, 8/8 DXGI presentations and 46,080/46,080 sampled RGB pixels matched. Together with the previous back-buffer checks: 138,240 matching samples across nine validated frames. [Experiment and reported evidence](experiments/xbox-draw/README.md). No game boot or complex material validation; depth testing is documented above.
 
 **New: verified Xbox back-buffer output.** Two synthetic Xbox titles produced six captured frames with 92,160/92,160 sampled RGB pixels matching, including full and rectangular render-target clears. [Reproduction and evidence](experiments/xbox-backbuffer/README.md). The subsequent synthetic draw experiment verifies basic shader-driven geometry, not game boot.
 
@@ -44,6 +46,8 @@ Share only original code, synthetic fixtures, and sanitized output. Keep game fi
 Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), originally hosted at `ItsNotRexed/Leonida`. See the [original credits](README.upstream.md#credits) and [GPL-3.0 license](LICENSE). Third-party components retain their own license notices.
 
 ## Italiano
+
+**Profondità verificata:** 16/16 draw host, 61.440/61.440 campioni RGB corretti; totale 261.120 in 17 frame. [Risultati](experiments/xbox-depth/README.md).
 
 **Geometria indicizzata verificata:** 8/8 draw indicizzate, 61.440/61.440 campioni RGB corretti; totale 199.680 in 13 frame. [Risultati](experiments/xbox-indexed/README.md).
 
