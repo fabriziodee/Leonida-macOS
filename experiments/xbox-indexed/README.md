@@ -1,0 +1,3 @@
+# Indexed Xbox geometry (experimental)
+
+Reuse the verified synthetic RDNA2 VS/PS and the exact diagnostics binary. New 16-bit index buffer, nonzero firstIndex and baseVertex select alternating left/right quads composed of two triangles. A sentinel vertex and degenerate prefix indices distinguish the intended path from incorrectly ignored offsets. Black clear, magenta geometry. Four final frames require all 61,440 sampled RGB pixels (inside and outside both quads) and exact 8/8 host draw counters. No game data, no SDK, no runtime rebuild. Run `bash experiments/xbox-indexed/run.sh` on the original Mac. This code has not yet been compiled or run on the Mac; the result is pending. Depth ordering and texture sampling are separate later gates.
