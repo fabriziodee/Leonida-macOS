@@ -4,7 +4,9 @@
 
 [Italiano](#italiano) · [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [Upstream README](README.upstream.md)
 
-## Status — 24 November 2026
+## Status
+
+*Updated 24 November 2026.*
 
 **Apple Silicon synthetic graphics: nine verified experiment groups, 37 validated frames, 568,320 sampled RGB pixels within expected values, 80 executed host draws and 70 successful DXGI Present calls.** Reported local M1 Max / CrossOver / D3DMetal results using the same diagnostics runtime. These are synthetic compatibility checks, not a percentage of GTA VI compatibility. GTA VI has not been booted or demonstrated playable on this Mac.
 
@@ -58,7 +60,7 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
 
 ## Italiano
 
-**Stato aggiornato — 24 novembre 2026.** Su M1 Max con CrossOver e D3DMetal abbiamo verificato nove gruppi di esperimenti sintetici: **568.320 campioni RGB conformi, 37 frame validati, 80 draw host eseguite e 70 Present DXGI riuscite**. Sono integrati in `main` i sorgenti e i risultati di back buffer, clear, shader RDNA2, geometria indicizzata, profondità, blending, multipass, texture sampling, UV e prospettiva/filtro bilineare. [Matrice completa](#status--24-november-2026) · [Stato di avanzamento](PROGRESS.md) · [Roadmap](ROADMAP.md).
+**Stato aggiornato — 24 novembre 2026.** Su M1 Max con CrossOver e D3DMetal abbiamo verificato nove gruppi di esperimenti sintetici: **568.320 campioni RGB conformi, 37 frame validati, 80 draw host eseguite e 70 Present DXGI riuscite**. Sono integrati in `main` i sorgenti e i risultati di back buffer, clear, shader RDNA2, geometria indicizzata, profondità, blending, multipass, texture sampling, UV e prospettiva/filtro bilineare. [Matrice completa](#status) · [Stato di avanzamento](PROGRESS.md) · [Roadmap](ROADMAP.md).
 
 I risultati provengono dai test locali riportati, non da un test GPU indipendente in CI. Il readback RGB è a metà risoluzione e precede Present; per blending e filtro bilineare è ammessa la quantizzazione documentata. I file del gioco non sono stati utilizzati e l'avvio reale resta da verificare. Le istruzioni degli esperimenti sono riferite alla configurazione locale originale; altri tester devono adattare i percorsi.
 
