@@ -163,7 +163,8 @@ jobs:
     needs: change-scope
     if: ${{ !cancelled() && needs.change-scope.outputs.docs-only != 'true' }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    # The full suite exceeded 10 minutes on both hosted runners.
+    timeout-minutes: 25
     strategy:
       matrix:
         # Pull requests run the Linux leg only: in 914 sampled pull request runs the Windows leg never failed while the
@@ -200,7 +201,8 @@ jobs:
     needs: change-scope
     if: ${{ !cancelled() && needs.change-scope.outputs.docs-only != 'true' }}
     runs-on: macos-26
-    timeout-minutes: 20
+    # The semantic suite alone took 19m34s on the hosted Mac. The job also installs LLVM and runs pytest.
+    timeout-minutes: 40
     env:
       HOMEBREW_NO_AUTO_UPDATE: "1"
       HOMEBREW_NO_INSTALL_CLEANUP: "1"
@@ -218,7 +220,7 @@ jobs:
       - name: make_game.py help
         run: python -I make_game.py --help
       # Before anything is installed, as in the check job, so these files stay standard library only. The semantic
-      # suite runs alongside the loop, on another of the runner's three cores; together they take about 6 minutes.
+      # suite runs alongside the loop, on another of the runner's three cores.
       - name: Translator semantic tests and tests (standard library only, no game data)
         shell: bash
         run: |
