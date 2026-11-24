@@ -6,6 +6,8 @@
 
 ## Status
 
+**Blending verified:** four host graphics pipelines, 8/8 draws, 8/8 successful DXGI presentations, 61,440/61,440 sampled RGB pixels within expected values across alpha, additive, write-mask and opaque modes. Cumulative synthetic graphics readback: 322,560 validated samples across 21 frames. [Blend results](experiments/xbox-blend/README.md). No game boot verified.
+
 **Depth testing verified:** two graphics pipelines, 16/16 host draws, 8/8 successful DXGI presentations, 61,440/61,440 sampled RGB pixels matched across four depth-ordering cases. Cumulative synthetic readback: 261,120 samples across 17 validated frames. [Depth results](experiments/xbox-depth/README.md). No game boot verified.
 
 **Indexed geometry verified:** 8/8 executed indexed draws, 61,440/61,440 sampled RGB pixels matched across four alternating quad frames, including nonzero firstIndex and baseVertex. Cumulative synthetic graphics readback: 199,680 matching RGB samples across 13 validated frames. [Evidence](experiments/xbox-indexed/README.md). No game boot verified.
@@ -46,6 +48,8 @@ Share only original code, synthetic fixtures, and sanitized output. Keep game fi
 Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), originally hosted at `ItsNotRexed/Leonida`. See the [original credits](README.upstream.md#credits) and [GPL-3.0 license](LICENSE). Third-party components retain their own license notices.
 
 ## Italiano
+
+**Blending verificato:** alpha 50%, additivo, maschera canali e opaco; 8/8 draw e 61.440/61.440 campioni RGB conformi. Totale cumulativo 322.560 in 21 frame. [Risultati](experiments/xbox-blend/README.md).
 
 **Profondità verificata:** 16/16 draw host, 61.440/61.440 campioni RGB corretti; totale 261.120 in 17 frame. [Risultati](experiments/xbox-depth/README.md).
 

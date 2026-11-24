@@ -1,5 +1,9 @@
 # macOS progress
 
+## Xbox blending and channel masks · 24 November 2026
+
+Reported local M1 Max / CrossOver / D3DMetal run at `c75ea247`: four host PSOs, 8/8 draws, 8/8 successful DXGI presentations, expected title exit 42, 61,440/61,440 sampled RGB pixels within expected values (alpha 50% permits 127 or 128, other modes exact). Cumulative 322,560 validated samples across 21 frames. [Probe and reported evidence](experiments/xbox-blend/README.md). Alpha itself and complex material texture sampling not validated. Original captures remain local; no independent CI GPU test or game boot.
+
 ## Xbox depth ordering · 24 November 2026
 
 Reported local M1 Max / CrossOver / D3DMetal run at `27824d08`: two host PSOs, 16/16 executed draws, eight successful presentations, expected title exit 42. D32_FLOAT, depth writes, clear to zero and strict LESS tested through color readback. Both near/far draw orders produced magenta, zero-depth clear produced black (intentional warning), equal depth retained green. 61,440/61,440 sampled RGB pixels matched; cumulative 261,120 samples across 17 frames. [Probe and results](experiments/xbox-depth/README.md). Original captures remain local. No independent CI GPU run or real game boot. Next: texture sampling and resource bindings.

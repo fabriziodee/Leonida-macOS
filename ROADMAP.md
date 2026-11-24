@@ -15,7 +15,8 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 - [x] Execute a synthetic translated vertex/pixel shader pipeline using the Xbox PSO stream ABI and DrawInstanced; require nonzero host draw count and expected readback.
 - [x] Verify indexed geometry with nonzero firstIndex and baseVertex, alternating quad placement and exact sampled RGB readback.
 - [x] Verify D32_FLOAT depth writes, occlusion, clear and strict LESS through synthetic color readback.
-- [ ] Extend to texture sampling, blending and resource transitions.
+- [x] Verify alpha and additive blending, channel write masks and opaque overwrite through sampled RGB readback.
+- [ ] Extend to texture sampling and resource transitions.
 
 - [x] Verify synthetic Xbox-style Device11 and PresentX-to-DXGI integration (3/3 successful presentations; expected exit 42). [Checkpoint](checkpoints/2026-11-24-xbox-graphics/README.md)
 - [ ] Review preserved local patches and independently reproduce the checkpoint; this is not game boot validation.
@@ -46,7 +47,8 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 - [x] Eseguire vertex/pixel shader sintetici tradotti con pipeline stream Xbox e DrawInstanced; verificare draw sul dispositivo host e pixel attesi.
 - [x] Verificare geometria indicizzata con firstIndex e baseVertex non nulli e readback esatto.
 - [x] Verificare profondità D32_FLOAT, occlusioni, clear e confronto LESS con readback colore.
-- [ ] Estendere a texture, blending e transizioni risorse.
+- [x] Verificare blending alpha/additivo, maschere di scrittura e modalità opaca.
+- [ ] Estendere a texture e transizioni risorse.
 
 - [x] Verificare Device11 e PresentX sintetici attraverso VIctory (3/3 presentazioni DXGI, uscita 42).
 - [ ] Revisionare le patch locali conservate e riprodurre il checkpoint su un secondo host.
