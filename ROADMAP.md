@@ -11,6 +11,9 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 
 ## VIctory / D3DMetal
 
+- [x] Verify synthetic Xbox-style Device11 and PresentX-to-DXGI integration (3/3 successful presentations; expected exit 42). [Checkpoint](checkpoints/2026-11-24-xbox-graphics/README.md)
+- [ ] Review preserved local patches and independently reproduce the checkpoint; this is not game boot validation.
+
 - [x] Build the Windows x64 runtime and verify D3D12 capabilities in CrossOver.
 - [x] Verify D3D12 command execution and all 16 RGBA8 pixels on readback.
 - [x] Pass the synthetic loader tests and launch the synthetic entry probe.
@@ -32,6 +35,9 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 - [ ] Aggiungere controlli macOS per i componenti portabili e proporre le correzioni al progetto originale.
 
 ### VIctory / D3DMetal
+
+- [x] Verificare Device11 e PresentX sintetici attraverso VIctory (3/3 presentazioni DXGI, uscita 42).
+- [ ] Revisionare le patch locali conservate e riprodurre il checkpoint su un secondo host.
 
 - [x] Compilare VIctory, verificare D3D12 e superare i test sintetici.
 - [x] Verificare i comandi D3D12 e leggere correttamente tutti i 16 pixel RGBA8.
