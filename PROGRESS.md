@@ -1,5 +1,13 @@
 # macOS progress
 
+## Evening evidence review · 24 November 2026
+
+- At `60a2344b`, the [SDK audit](docs/sdk-dependency-audit.md) records the independent synthetic GDK/LibHttpClient V5 loopback PASS (initialization, task queue, HTTP 200, response body/header, server request validation, exit 42). This is reported local evidence, not a new run, console ABI validation or runtime integration.
+- [Main CI run 45465558110](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45465558110) failed. [PR #14 CI run 45482330471](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45482330471) failed in check, macos-python and stdlib-tests-linux; semantic, translator, viewer and change-scope jobs passed. Do not mark CI restored or merge unverified changes.
+- [PR #13](https://github.com/fabriziodee/Leonida-macOS/pull/13) contains an integrated synthetic textured cube with an independent CPU reference; local execution is pending. Existing 41-frame / 629,760-sample totals and 5/8 checklist remain unchanged.
+- Public reports describe a Windows splash screen followed by a crash; this is not evidence of a responsive menu or gameplay, and not evidence for macOS. [External project and evidence review](docs/external-project-status-2026-11-24.md).
+- The next compatibility work uses original synthetic fixtures and public SDK documentation only. No unauthorized builds or untrusted executables are accepted as inputs or evidence.
+
 ## Consolidated graphics validation · 24 November 2026
 
 | Verified synthetic gate | Validated frames | RGB samples | Host draws |

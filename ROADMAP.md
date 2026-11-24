@@ -2,6 +2,16 @@
 
 See the [progress report](PROGRESS.md) for completed checks and open work.
 
+## Immediate priorities · 24 November 2026
+
+- [ ] Restore CI on main and verify PR #14 on its exact head; preserve failing-test evidence and avoid duplicate work.
+- [ ] Execute and independently validate the original synthetic cube in PR #13; do not count pending captures.
+- [x] Record reported standalone desktop SDK asynchronous HTTP loopback validation with a synthetic localhost fixture. [SDK audit](docs/sdk-dependency-audit.md)
+- [ ] Review public, license-compatible generic interoperability fixes from community continuations; reproduce with original synthetic fixtures before adopting. [External project and evidence review](docs/external-project-status-2026-11-24.md).
+- [ ] Confirm independent Apple Silicon reproduction. No game boot claim until authorized, independently reproducible evidence exists.
+
+Priorità: CI verde, riproduzione indipendente della scena sintetica, revisione dei fix generici con fixture originali. Il test HTTP è documentato; non equivale a integrazione console. Nessun utilizzo di copie non autorizzate.
+
 - [ ] Document a reproducible Apple Silicon setup for the portable tools and synthetic GPU suite.
 - [ ] Record MoltenVK results by chip, macOS version and driver. Distinguish missing features from regressions.
 - [x] Verify both emulated wave64 mesh readbacks on the M1 Max with MoltenVK 1.4.2.

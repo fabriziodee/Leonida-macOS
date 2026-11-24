@@ -6,7 +6,11 @@
 
 ## Status
 
-*Updated 24 November 2026.*
+*Updated 24 November 2026 (evening review).*
+
+**Independent GDK/LibHttpClient synthetic asynchronous HTTP loopback: reported PASS** on Apple Silicon/CrossOver (HTTP 200, request and response checks, exit 42). See [SDK audit](docs/sdk-dependency-audit.md). This does not establish console ABI compatibility or runtime integration.
+
+**Upstream and CI:** the original upstream leadership departure was reported on 24 November; community continuations exist, but no independently verified playable build is established here. Reforge is already referenced in local regression work; no automatic upstream switch or merge. Main CI at `60a2344b` failed; PR #14 remains open with failing checks, and the integrated synthetic cube in PR #13 is pending local execution. [External project and evidence review](docs/external-project-status-2026-11-24.md).
 
 **Apple Silicon synthetic graphics: ten verified experiment groups, 41 validated frames, 629,760 sampled RGB pixels within expected values, 88 executed host draws and 78 successful DXGI Present calls.** Reported local M1 Max / CrossOver / D3DMetal results using the same diagnostics runtime. These are synthetic compatibility checks, not a percentage of GTA VI compatibility. GTA VI has not been booted or demonstrated playable on this Mac.
 
@@ -61,7 +65,9 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
 
 ## Italiano
 
-**Stato aggiornato — 24 novembre 2026.** Su M1 Max con CrossOver e D3DMetal abbiamo verificato dieci gruppi di esperimenti sintetici: **629.760 campioni RGB conformi, 41 frame validati, 88 draw host eseguite e 78 Present DXGI riuscite**. Sono integrati in `main` i sorgenti e i risultati di back buffer, clear, shader RDNA2, geometria indicizzata, profondità, blending, multipass, texture sampling, UV, prospettiva/filtro bilineare e selezione di quattro livelli mip fisici. [Matrice completa](#status) · [Stato di avanzamento](PROGRESS.md) · [Roadmap](ROADMAP.md).
+**Stato aggiornato — 24 novembre 2026 (sera).** Il test HTTP asincrono sintetico GDK/LibHttpClient su Apple Silicon/CrossOver risulta superato (HTTP 200, controlli richiesta/risposta e uscita 42); non dimostra compatibilità ABI console o integrazione runtime. [Audit SDK](docs/sdk-dependency-audit.md). La CI di main a `60a2344b` è fallita; PR #14 con controlli ancora rossi, PR #13 con scena sintetica da verificare. [Analisi progetti esterni e criteri di verifica](docs/external-project-status-2026-11-24.md).
+
+ Su M1 Max con CrossOver e D3DMetal abbiamo verificato dieci gruppi di esperimenti sintetici: **629.760 campioni RGB conformi, 41 frame validati, 88 draw host eseguite e 78 Present DXGI riuscite**. Sono integrati in `main` i sorgenti e i risultati di back buffer, clear, shader RDNA2, geometria indicizzata, profondità, blending, multipass, texture sampling, UV, prospettiva/filtro bilineare e selezione di quattro livelli mip fisici. [Matrice completa](#status) · [Stato di avanzamento](PROGRESS.md) · [Roadmap](ROADMAP.md).
 
 I risultati provengono dai test locali riportati, non da un test GPU indipendente in CI. Il readback RGB è a metà risoluzione e precede Present; per blending e filtro bilineare è ammessa la quantizzazione documentata. I file del gioco non sono stati utilizzati e l'avvio reale resta da verificare. Le istruzioni degli esperimenti sono riferite alla configurazione locale originale; altri tester devono adattare i percorsi.
 

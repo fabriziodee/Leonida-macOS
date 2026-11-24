@@ -31,6 +31,10 @@ loader that maps the game's executable and resolves its imports to shims. Nothin
   contract table in `docs/design.md` with how it was confirmed (a GPU test, a Mesa/LLVM reference, or a count over
   the corpus).
 
+## Current macOS coordination (24 November 2026)
+
+The historical upstream links below may be unavailable. Coordinate in this repository first; do not automatically change remotes or import unreviewed community patches. Check PR #13 (synthetic scene) and #14 (CI and ordered comparisons) before duplicating work. Never use leaked packages or executables, or unverified downloads. Work with original synthetic inputs and public SDKs; distinguish local reported PASS, CI PASS, independent reproduction and real application execution. See [external evidence review](docs/external-project-status-2026-11-24.md).
+
 ## Claim before you start
 
 - Work is claimed in the coordination issue before a pull request is opened: the open issue titled "Coordinating
