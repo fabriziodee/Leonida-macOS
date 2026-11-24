@@ -2,6 +2,20 @@
 
 See the [progress report](PROGRESS.md) for completed checks and open work.
 
+## Immediate priorities · 24 November 2026
+
+- [x] Restore Python CI on main `5ffc62cc` and PR #14 `fce056f0` (seven jobs passed each).
+- [ ] Fix hosted macOS Runtime cache startup failure and verify full PR #14 Runtime before merge.
+- [ ] Execute and independently validate the original synthetic cube in PR #13; do not count pending captures.
+- [x] Record reported standalone desktop SDK asynchronous HTTP loopback validation with a synthetic localhost fixture. [SDK audit](docs/sdk-dependency-audit.md)
+- [ ] Review public, license-compatible generic interoperability fixes from community continuations; reproduce with original synthetic fixtures before adopting. [External project and evidence review](docs/external-project-status-2026-11-24.md).
+- [x] Obtain independent Apple Silicon reproduction of baseline synthetic host/loader and patched texture checks (reported M4 Max; see [issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7142660029)).
+- [x] Repeat M4 Max f16/f32 fixtures with identified hardware adapter (25 + 16 cases reported PASS; [follow-up](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7144872577)).
+- [ ] Repeat revised combined smoke script with positive hardware markers; WARP optional.
+- [ ] Independently reproduce the integrated graphics checkpoint; no game boot claim until authorized, independently reproducible evidence exists.
+
+Priorità: CI verde, riproduzione indipendente della scena sintetica, revisione dei fix generici con fixture originali. Il test HTTP è documentato; non equivale a integrazione console. Nessun utilizzo di copie non autorizzate.
+
 - [ ] Document a reproducible Apple Silicon setup for the portable tools and synthetic GPU suite.
 - [ ] Record MoltenVK results by chip, macOS version and driver. Distinguish missing features from regressions.
 - [x] Verify both emulated wave64 mesh readbacks on the M1 Max with MoltenVK 1.4.2.
@@ -10,6 +24,8 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 - [ ] Add macOS checks for the portable subset and send portable fixes upstream.
 
 ## VIctory / D3DMetal
+
+- [ ] Validate public SDK candidate exports, ABI and actual behavior through synthetic fixtures. [Local audit](docs/sdk-dependency-audit.md)
 
 - [x] Verify pre-Present swap-chain RGB samples in six synthetic frames (92,160/92,160), including full and rectangular render-target clears. [Evidence](experiments/xbox-backbuffer/README.md)
 - [x] Execute a synthetic translated vertex/pixel shader pipeline using the Xbox PSO stream ABI and DrawInstanced; require nonzero host draw count and expected readback.

@@ -4,6 +4,10 @@ Open a macOS issue to coordinate before starting a substantial change. Include t
 
 Per contribuire, apri una issue macOS e indica commit, chip, versione macOS, backend grafico e versione Wine se pertinente. Proponi modifiche circoscritte con un test sintetico o passaggi verificabili. Condividi solo output ripulito da dati personali, credenziali e contenuti del gioco.
 
+## Evidence and supply-chain policy (24 November 2026)
+
+Use original synthetic fixtures and publicly documented APIs for interoperability research. Do not use, distribute, link to, or request leaked game packages or executables, keys, or protection workarounds. Do not execute untrusted binaries advertised on social media. A video or FPS overlay is not a reproducible test: provide the exact commit, host configuration, sanitized results and independent reference. Verify licenses and provenance for any community patch, and retain attribution. See the [external evidence review](docs/external-project-status-2026-11-24.md).
+
 ## Upstream contribution guide
 
 The original guidance below applies when contributing to ProjectLeonida. Use this repository’s issue tracker for macOS-specific work.

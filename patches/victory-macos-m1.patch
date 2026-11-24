@@ -35,10 +35,25 @@ index 5f1843b92faa4cf871faa6a57bfb2477c24b0f44..addb181b1ec1853f843e4ba50a16902c
 
      /// The high dword of a 32 × 32-bit product.
 diff --git a/crates/victory-shader/src/emit/valu_tests.rs b/crates/victory-shader/src/emit/valu_tests.rs
-index 3b7b2e5d89360869f6aa986b4c277c32d1f88cb7..fbbb67d0f0e9797b1d68612703fe51201a019cf8 100644
 --- a/crates/victory-shader/src/emit/valu_tests.rs
 +++ b/crates/victory-shader/src/emit/valu_tests.rs
-@@ -788,6 +788,9 @@ fn v_sin_and_v_cos_f16_reduce_large_turns() {
+@@ -208,6 +208,15 @@ fn run_cases(
+             check(label, i, inputs, out[0][0]);
+         }
+         ran += 1;
++        // Diagnostic only: identify the adapter after all cases have passed.
++        // SAFETY: GetAdapterLuid only reads the device's adapter identifier.
++        let luid = unsafe { host.device.GetAdapterLuid() };
++        eprintln!(
++            "VIctory shader fixture: {} case(s) ran on the {label} adapter, LUID {:08x}:{:08x}",
++            cases.len(),
++            luid.HighPart,
++            luid.LowPart
++        );
+     }
+     assert!(ran > 0, "neither hardware nor WARP SM 6.6 device available");
+ }
+@@ -788,6 +797,9 @@ fn v_sin_and_v_cos_f16_reduce_large_turns() {
          .iter()
          .map(|&(x, _)| [u32::from(x), 0, 0, 0])
          .collect();
