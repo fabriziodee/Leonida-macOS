@@ -572,3 +572,13 @@ jobs:
           sed -n '/=== GPU TEST RESULTS ===/,$p' "$RUNNER_TEMP/gpu.log" | awk '$1 == "FAIL" { print $2 }' > "$RUNNER_TEMP/failed.txt"
           tail -n 1 "$RUNNER_TEMP/gpu.log" >> "$GITHUB_STEP_SUMMARY"
           python3 -I scripts/ci_expected_failures.py "$RUNNER_TEMP/failed.txt" "$status" "$EXPECTED_FAILURES"
+      - name: Verify emulated wave64 mesh readbacks on MoltenVK
+        if: ${{ !cancelled() && steps.macos-build.outcome == 'success' }}
+        env:
+          LEONIDA_W64_EMULATE: "1"
+          LEONIDA_MESH_COMPUTE: "1"
+        run: |
+          for shader in ms_wave_info_s3 ms_w64x_ballot; do
+            python3 -I scripts/run_gpu_tests.py --build runtime/build --llvm-mc "$LLVM_MC" \
+              --work "$RUNNER_TEMP/$shader-emulated" --filter "$shader" --require-pass || exit 1
+          done

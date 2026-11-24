@@ -281,7 +281,16 @@ class Rdna2DecodeUnitTests(unittest.TestCase):
                 return (k, tuple(a["r"]))
             if k == "attr":
                 return ("attr", a["a"], a["c"])
+            if op == "exp" and k == "special" and a.get("t") == "null":
+                k = "target"
             return (k, a.get("t", ""), bool(a.get("neg")), bool(a.get("abs")))
+
+        def norm_mods(ins):
+            mods = ins["mods"]
+            if norm_op(ins["op"]) in ("v_permlane16_b32", "v_permlanex16_b32"):
+                # LLVM prints FI and BOUND_CTRL without the two unused zero bits.
+                mods = [re.sub(r"^(op_sel:\[[01],[01]),0,0\]$", r"\1]", mod) for mod in mods]
+            return sorted(mods)
 
         checked = 0
         for path in asms:
@@ -328,7 +337,7 @@ class Rdna2DecodeUnitTests(unittest.TestCase):
                 self.assertEqual([norm_arg(x, di["op"]) for x in di["args"]],
                                  [norm_arg(x, li["op"]) for x in li["args"]],
                                  f"{path}: {li['op']}")
-                self.assertEqual(sorted(di["mods"]), sorted(li["mods"]), f"{path}: {li['op']}")
+                self.assertEqual(norm_mods(di), norm_mods(li), f"{path}: {li['op']}")
                 checked += 1
         self.assertGreater(checked, 5000)
 

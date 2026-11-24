@@ -4,6 +4,7 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 
 - [ ] Document a reproducible Apple Silicon setup for the portable tools and synthetic GPU suite.
 - [ ] Record MoltenVK results by chip, macOS version and driver. Distinguish missing features from regressions.
+- [x] Verify both emulated wave64 mesh readbacks on the M1 Max with MoltenVK 1.4.2.
 - [ ] Extend synthetic allocation and query coverage to other drivers, including a backend with working pipeline statistics.
 - [ ] Verify the Windows runtime test suite through Wine on Apple Silicon. Track boot separately.
 - [ ] Add macOS checks for the portable subset and send portable fixes upstream.
@@ -13,6 +14,7 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 - [x] Build the Windows x64 runtime and verify D3D12 capabilities in CrossOver.
 - [x] Verify D3D12 command execution and all 16 RGBA8 pixels on readback.
 - [x] Pass the synthetic loader tests and launch the synthetic entry probe.
+- [x] Verify VIctory texture uploads and translated f16/f32 shaders on the hardware adapter.
 - [ ] Confirm a compatible, authorized Xbox Series build is available as readable files.
 - [ ] Record the first visible output or exact startup failure from a real boot attempt.
 - [ ] Verify a recognizable menu responds to input and repeat the launch.
@@ -24,6 +26,7 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 
 - [ ] Documentare una configurazione riproducibile su Apple Silicon per gli strumenti portabili e i test GPU sintetici.
 - [ ] Raccogliere risultati MoltenVK per chip, versione macOS e driver, distinguendo funzionalità assenti e regressioni.
+- [x] Verificare i pixel dei due mesh shader con wave64 emulata sul M1 Max con MoltenVK 1.4.2.
 - [ ] Estendere i test sintetici di allocazione e query ad altri driver, incluso un backend con statistiche della pipeline funzionanti.
 - [ ] Verificare la suite del runtime Windows tramite Wine e monitorare l’avvio separatamente.
 - [ ] Aggiungere controlli macOS per i componenti portabili e proporre le correzioni al progetto originale.
@@ -32,6 +35,7 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 
 - [x] Compilare VIctory, verificare D3D12 e superare i test sintetici.
 - [x] Verificare i comandi D3D12 e leggere correttamente tutti i 16 pixel RGBA8.
+- [x] Verificare il caricamento di una texture attraverso VIctory e due shader tradotti sulla GPU.
 - [ ] Confermare una build Xbox Series compatibile con file autorizzati e già leggibili.
 - [ ] Registrare la prima schermata o l’errore preciso nel primo avvio reale.
 - [ ] Verificare un menu riconoscibile, i comandi e un secondo avvio.

@@ -22,7 +22,7 @@ PE_INSPECT_STUB = (
     "report = Path(sys.argv[-1]) / (Path(sys.argv[1]).name + '.json')\n"
     "report.write_text('{\"imports\":[],\"sections\":[]}', encoding='utf-8', newline='\\n')\n"
 )
-# The build script leaves a marker; the loader is replaced by an alias that echoes its arguments.
+# The build script leaves a marker; the loader is replaced by a native command that returns success.
 BUILD_STUB = r"""
 Set-Content -LiteralPath (Join-Path $PSScriptRoot 'built.txt') -Value 'built'
 if ($env:LEONIDA_TEST_INCOMPLETE_RUNTIME -ne '1') {
@@ -34,7 +34,7 @@ if ($env:LEONIDA_TEST_INCOMPLETE_RUNTIME -ne '1') {
 """
 RUN = r"""
 $ErrorActionPreference = 'Stop'
-Set-Alias -Name (Join-Path $PWD 'runtime\build\gta6rt.exe') -Value Write-Output
+Set-Alias -Name (Join-Path $PWD 'runtime\build\gta6rt.exe') -Value (Join-Path $PWD 'loader.cmd')
 & .\scripts\first_look.ps1 -Exe (Join-Path $PWD 'fixture.exe')
 """
 
@@ -49,6 +49,7 @@ class FirstLookRebuildTest(unittest.TestCase):
             shutil.copyfile(SCRIPT, root / "scripts" / SCRIPT.name)
             (root / "scripts" / "build_runtime.ps1").write_text(BUILD_STUB, encoding="utf-8")
             (root / "tools" / "pe_inspect.py").write_text(PE_INSPECT_STUB, encoding="utf-8", newline="\n")
+            (root / "loader.cmd").write_bytes(b"@echo synthetic dry run\r\n@exit /b 0\r\n")
             (root / "fixture.exe").write_bytes(b"MZ")
             loader = root / "runtime" / "build" / "gta6rt.exe"
             source = root / "runtime" / "src" / "pe_loader.cpp"

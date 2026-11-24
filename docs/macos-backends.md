@@ -32,6 +32,15 @@ lists PS5 and Xbox Series X|S.
 
 ## Architecture decision
 
+### Public updates on 24 November
+
+- PortWatch reports that a private CGBJ build entered the world on PC. Its article distinguishes the group's walking test from a 77-second clip with flat surfaces. The improvement in lighting appeared in a later clip shared by a third party. We found no public CGBJ source revision, frame-time capture or Apple Silicon run. [PortWatch report](https://portwatch-vi.xyz/news/2026-11-24-cgbj-in-game) · [Follow-up and embedded clips](https://www.tarreo.com/pc/gta-6-en-pc-cgbj-caminar-personajes/)
+- The GPL-3.0-or-later macOS fork merged Marvisak's updated shader translator at `ffe310e` and carries the D3DMetal staging upload change. We built the fork for the existing CrossOver bottle. The local sine patch, test revisions and hardware checks are documented in the [M1 Max validation](victory-macos.md#texture-uploads-and-compute-shaders-on-the-m1-max). [Mac fork](https://github.com/pragyaangaur/VIctory-macOS/tree/f5660fdcfdd6eb5cb6495be47a23af9aa30f5617) · [Upstream waterfall-loop translation](https://github.com/Marvisak/VIctory/commit/ffe310eb2098e52169f4c44db5ffdabf43a72622)
+- XCL corrected copy scratch ownership on new D3D12 command lists. Its Palmwave fork added capture of mesh draws starting at a selected frame. AnyXboxX merged work on RDNA2 image loads, stores and sampling. These are Windows-side leads for future traces. [XCL commit](https://github.com/ivall/xcl/commit/930e8b49c1c2ec683d22c724a398b39111cd0e56) · [Palmwave commit](https://github.com/fablinoo/palmwave/commit/5a54236f9674b01ef69f1a73ca83fe50c067d538) · [AnyXboxX PR](https://github.com/LooperSalty/AnyXboxX/pull/126)
+- GitHub returned 404 for the two original Leonida locations. The Reforge continuation supplies the lane-selection and format-decoding fixes tested in our Vulkan branch. Lichii's current commit fixes a C++ include in its shader dependency. Its documented MoltenVK issues above remain driver-specific leads. [Validated Vulkan changes](../PROGRESS.md#gpu-regressions-rechecked-on-24-november) · [Lichii commit](https://github.com/zortos293/Lichii/commit/e6a904dd4c4890cacea60789a1b04ed3e12e4cc6)
+
+### First boot on this Mac
+
 Use VIctory and D3DMetal for the first authorized local boot. This path has a
 working release binary, a verified synthetic entry point and a verified
 D3D12 submission and readback on the target host. The upstream Windows
@@ -44,4 +53,3 @@ demonstrated that route executing the game on this hardware.
 First capture the failing import, allocation, shader, video boundary or
 present call from a real boot. The public fixes above have different
 preconditions. Apply the relevant one once a local trace establishes it.
-No upstream code was incorporated by this review.

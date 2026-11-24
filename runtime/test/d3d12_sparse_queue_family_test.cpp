@@ -3,6 +3,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include "../shims/d3d12_com.h"
+#include "vk_test_device.h"
 #include <wrl/client.h>
 #include <algorithm>
 #include <cstdint>
@@ -146,8 +147,15 @@ static bool run_case(ID3D12Device* dev, D3D12_COMMAND_LIST_TYPE map_type,
 int main() {
     try {
         ComPtr<ID3D12Device> device;
-        ok(rt::d3d12::create_vulkan_device_standalone(IID_PPV_ARGS(&device)),
-           "Leonida create_vulkan_device_standalone");
+        const HRESULT created = rt::d3d12::create_vulkan_device_standalone(IID_PPV_ARGS(&device));
+        if (FAILED(created)) {
+            vktest::Device probe;
+            if (probe.initialize() == vktest::DeviceStatus::unavailable) {
+                std::puts("SKIP no compatible Vulkan device for sparse buffer tiles");
+                return 77;
+            }
+            ok(created, "Leonida create_vulkan_device_standalone");
+        }
         if (!rt::d3d12::device_sparse_buffer_tiles(device.Get())) {
             std::puts("SKIP Leonida sparse_buffer_tiles not supported");
             return 77;

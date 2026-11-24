@@ -18,8 +18,14 @@ of reaching the menu and game compatibility remain unknown until a real test.
 | Reach a recognizable menu and verify input | Pending. Confirm the menu responds and reproduce the result on a second launch. |
 
 These results cover the VIctory path. The existing Leonida Vulkan backend
-has its own test results below. Gameplay, real shader rendering, memory use
+has its own test results below. Gameplay, game shader rendering, memory use
 during game startup and the wider Wine suite remain open.
+
+With the macOS fork at `f5660fd`, VIctory's texture copy returned all 64
+expected bytes on the M1 Max. An additional local correction preserved the
+sign of zero through the translated sine instruction. Both the 16-bit and
+32-bit compute shader fixtures passed on the hardware adapter. The updated
+runtime also returned 42 from the synthetic entry point. [Source and reproduction](docs/victory-macos.md#texture-uploads-and-compute-shaders-on-the-m1-max)
 
 [Run the synthetic smoke test](docs/victory-macos.md) ·
 [Backend evidence](docs/macos-backends.md) ·
@@ -36,6 +42,8 @@ compilato, D3D12 si è inizializzato con Shader Model 6.6, entrambi i test
 sintetici del loader sono passati e il programma di prova si è avviato
 con il codice di uscita atteso `42`. Il probe esteso ha verificato tutti
 i 16 pixel dopo una clear D3D12 e una copia in un buffer di readback.
+Il fork macOS aggiornato ha verificato anche i 64 byte della texture
+caricata attraverso VIctory e i risultati dei due shader di calcolo.
 
 Restano tre tappe. Identificare file autorizzati e leggibili di una build Xbox
 Series compatibile, osservare la prima schermata del gioco e verificare che
@@ -43,7 +51,23 @@ il menu risponda ai comandi in due avvii. La ricerca locale dei file è
 terminata senza trovare un set compatibile. Gameplay e prestazioni restano
 da misurare.
 
-## Earlier Leonida Vulkan results · 23 November 2026
+## Leonida Vulkan
+
+### GPU regressions rechecked on 24 November
+
+On the M1 Max with native MoltenVK 1.4.2, `cs_w32_permlane_fi` returned
+all eight expected lane values. The integer format fixture returned all
+136 expected words. Its generated SPIR-V shrank from 301,652 to 239,632 bytes.
+The changes incorporate the [lane selection fix by Gabriel](https://github.com/LeonidaReforge/Leonida/commit/5a78b4b7d982642f57c9d6248374933c4a13aaf1)
+and the [format decoder by SashaTun](https://github.com/LeonidaReforge/Leonida/commit/9ad6cc8c833bf407629fec0fc7f55fb379bf38aa).
+
+With `LEONIDA_W64_EMULATE=1` and `LEONIDA_MESH_COMPUTE=1`, the
+`ms_wave_info_s3` and `ms_w64x_ballot` fixtures each returned all
+4,096 expected pixels on MoltenVK. On Mesa llvmpipe 26.3.1 (arm64),
+the native wave64 test reported its unsupported subgroup width.
+The emulated `ms_wave_info_s3` draw on that driver returned the clear color.
+
+### Results from 23 November
 
 - **CrossOver 26.3 / MoltenVK 1.2.10.** The D3D12/Vulkan device test exercised the version-specific fallback. The runtime refused a pipeline statistics query heap with `E_NOTIMPL` because this driver reports support but fails to return usable counters. Other driver versions still use their advertised capability.
 - **Native macOS / Mesa llvmpipe.** Five targeted tests passed for queue synchronization, occlusion, and replay queries. The Windows device test did not obtain a matching llvmpipe Vulkan device through Wine. Working pipeline statistics on a second backend remain to be verified.
