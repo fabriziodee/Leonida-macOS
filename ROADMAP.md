@@ -11,6 +11,8 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 
 ## VIctory / D3DMetal
 
+- [ ] Validate public SDK candidate exports, ABI and actual behavior through synthetic fixtures. [Local audit](docs/sdk-dependency-audit.md)
+
 - [x] Verify pre-Present swap-chain RGB samples in six synthetic frames (92,160/92,160), including full and rectangular render-target clears. [Evidence](experiments/xbox-backbuffer/README.md)
 - [x] Execute a synthetic translated vertex/pixel shader pipeline using the Xbox PSO stream ABI and DrawInstanced; require nonzero host draw count and expected readback.
 - [x] Verify indexed geometry with nonzero firstIndex and baseVertex, alternating quad placement and exact sampled RGB readback.
