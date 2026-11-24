@@ -7,6 +7,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -56,7 +57,7 @@ def _validate_spirv(spvasm):
     sa = shutil.which("spirv-as")
     sv = shutil.which("spirv-val")
     if not (sa and sv):
-        if os.environ.get("LEONIDA_REQUIRE_SPIRV_TOOLS"):
+        if os.environ.get("LEONIDA_REQUIRE_SPIRV_TOOLS") == "1":
             raise AssertionError("spirv-as / spirv-val required but not found on PATH")
         return
     with tempfile.TemporaryDirectory() as td:
@@ -98,6 +99,22 @@ def _split_main_blocks(spvasm):
 
 def _f32_bits(val):
     return struct.unpack("<I", struct.pack("<f", val))[0]
+
+
+class SpirvDependencyPolicyTests(unittest.TestCase):
+    def test_missing_tools_respects_explicit_policy(self):
+        with mock.patch.object(shutil, "which", return_value=None):
+            for value in (None, "0", "1"):
+                with self.subTest(value=value), mock.patch.dict(os.environ):
+                    if value is None:
+                        os.environ.pop("LEONIDA_REQUIRE_SPIRV_TOOLS", None)
+                    else:
+                        os.environ["LEONIDA_REQUIRE_SPIRV_TOOLS"] = value
+                    if value == "1":
+                        with self.assertRaisesRegex(AssertionError, "required but not found"):
+                            _validate_spirv("")
+                    else:
+                        _validate_spirv("")
 
 
 class RegPtrHoistTests(unittest.TestCase):
