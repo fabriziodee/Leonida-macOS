@@ -22,3 +22,7 @@ Use VIctory's `census --missing` output locally. Do not commit title-specific ce
 - [Bink SDK](https://www.radgametools.com/bnkdown.htm). Use authorized SDK components and test original synthetic media. Do not substitute arbitrary same-named binaries.
 
 Next: compile public components in supported toolchains, compare exports, validate ABI and functional fixtures, then integrate into the runtime. No changes to the loader's protections, import resolver or reported hardware compatibility are made by this audit.
+
+## Local validation and public Windows SDK candidate · 24 November 2026
+
+The original synthetic audit self-test was reported passing on Apple Silicon at `3d5e535`. The public Microsoft export definition was successfully parsed locally. This does not change runtime coverage. For general Windows GDK compatibility development, the official [Microsoft.GDK.Windows 2604.5.7903 package](https://www.nuget.org/packages/Microsoft.GDK.Windows/2604.5.7903) is a candidate source of desktop x64 SDK components, subject to its license. Inspect the package contents and PE exports locally before attempting any synthetic functional tests. The package's actual DLL contents, binary compatibility and behavior have not been verified on the Mac. Keep SDK binaries and title-specific data out of the repository. No actual game boot is claimed.
