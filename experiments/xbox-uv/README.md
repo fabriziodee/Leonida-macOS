@@ -1,0 +1,3 @@
+# Xbox interpolated UV texture sampling (experimental)
+
+Original synthetic VS exports position and TEXCOORD.xy; PS reads perspective-center barycentric interpolation and samples a bound texture at LOD0. Interleaved position/UV vertex buffer, two dynamically updated four-quadrant textures, point-clamp sampler and alternating descriptor tables. Final four frames must match the exact quadrant pattern (61,440 sampled RGB pixels), with eight successful presentations and 8/8 executed draws. The source is published but compiler, translation and hardware validation remain pending. No SDK, game files or runtime rebuild. Run `bash experiments/xbox-uv/run.sh`. This is not mipmap, anisotropic filtering or actual game compatibility validation.
