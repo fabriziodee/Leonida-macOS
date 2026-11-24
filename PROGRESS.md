@@ -1,8 +1,12 @@
 # macOS progress
 
+## Synthetic RDNA2 graphics draw · 24 November 2026
+
+Reported local M1 Max / CrossOver / D3DMetal validation: original synthetic VS and PS translated, host graphics pipeline created, 8/8 DrawInstanced calls executed, 8/8 successful DXGI Present calls, expected title exit 42. Corrected ANSI-aware verifier passed four parser fixtures and matched 46,080/46,080 sampled RGB pixels across captured frames 6–8. Combined with the earlier texture-copy and GPU-clear gate, 138,240 sampled pixels matched. [Sources and reported evidence](experiments/xbox-draw/README.md). This is a fullscreen synthetic triangle, not game rendering. Captures remain local. Next independent gate: indexed geometry and depth ordering.
+
 ## Verified Xbox back buffer · 24 November 2026
 
-Reported local run on M1 Max using the diagnostics build and CrossOver/D3DMetal: six successful Present calls, 92,160/92,160 matching sampled RGB pixels (46,080 texture-copy and 46,080 render-target clear), two expected title exit codes 42. See [source and evidence](experiments/xbox-backbuffer/README.md). Captures are of the DXGI back buffer before Present at half resolution; alpha, display scanout and shader-driven draw calls are not validated. Original captures are local. No game files used. Next independent gate: synthetic vertex/pixel shader translation, PSO stream creation and DrawInstanced with nonzero executed draw count and expected pixel readback.
+Reported local run on M1 Max using the diagnostics build and CrossOver/D3DMetal: six successful Present calls, 92,160/92,160 matching sampled RGB pixels (46,080 texture-copy and 46,080 render-target clear), two expected title exit codes 42. See [source and evidence](experiments/xbox-backbuffer/README.md). Captures are of the DXGI back buffer before Present at half resolution; alpha, display scanout and shader-driven draw calls are not validated. Original captures are local. No game files used. The subsequent synthetic draw gate above now verifies translated VS/PS, PSO creation and host draws.
 
 
 ## Xbox graphics presentation checkpoint · 24 November 2026

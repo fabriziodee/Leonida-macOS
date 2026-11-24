@@ -6,7 +6,9 @@
 
 ## Status
 
-**New: verified Xbox back-buffer output.** Two synthetic Xbox titles produced six captured frames with 92,160/92,160 sampled RGB pixels matching, including full and rectangular render-target clears. [Reproduction and evidence](experiments/xbox-backbuffer/README.md). No shader-driven geometry or game boot yet.
+**Synthetic RDNA2 graphics draw verified:** two original shaders translated, 8/8 host draws, 8/8 DXGI presentations and 46,080/46,080 sampled RGB pixels matched. Together with the previous back-buffer checks: 138,240 matching samples across nine validated frames. [Experiment and reported evidence](experiments/xbox-draw/README.md). No game boot, complex materials or depth validation.
+
+**New: verified Xbox back-buffer output.** Two synthetic Xbox titles produced six captured frames with 92,160/92,160 sampled RGB pixels matching, including full and rectangular render-target clears. [Reproduction and evidence](experiments/xbox-backbuffer/README.md). The subsequent synthetic draw experiment verifies basic shader-driven geometry, not game boot.
 
 ### Xbox Graphics First Present · 24 November 2026
 
@@ -41,7 +43,9 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
 
 ## Italiano
 
-**Back buffer Xbox verificato:** 92.160/92.160 pixel RGB campionati corretti in sei frame sintetici, inclusi clear integrali e rettangolari. [Test e risultati](experiments/xbox-backbuffer/README.md). Il rendering con geometria e l'avvio del gioco restano da verificare.
+**Rendering sintetico RDNA2 verificato:** due shader tradotti, 8/8 draw host e 46.080/46.080 pixel RGB campionati corretti; totale con il checkpoint precedente 138.240. [Esperimento e risultati](experiments/xbox-draw/README.md). Non è un avvio del gioco.
+
+**Back buffer Xbox verificato:** 92.160/92.160 pixel RGB campionati corretti in sei frame sintetici, inclusi clear integrali e rettangolari. [Test e risultati](experiments/xbox-backbuffer/README.md). La geometria sintetica di base è verificata nel nuovo esperimento; l'avvio del gioco resta da verificare.
 
 **Aggiornamento 24 novembre:** percorso grafico Xbox sintetico integrato verificato: 4/4 import, Device11, 3/3 PresentX, uscita titolo 42. [Sorgenti, patch e log](checkpoints/2026-11-24-xbox-graphics/README.md). Nessun rendering 3D del gioco ancora verificato.
 
