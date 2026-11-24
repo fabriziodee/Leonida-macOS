@@ -105,7 +105,10 @@ static bool gpu_readback(ID3D12Device* device) {
     if (!check(list->Close(), "close")) return false;
     ID3D12CommandList* lists[] = {list.Get()};
     queue->ExecuteCommandLists(1, lists);
-    if (!check(queue->Signal(fence.Get(), 1), "signal")) return false;
+    if (!check(queue->Signal(fence.Get(), 1), "signal")) {
+        fflush(stdout);
+        ExitProcess(3);  // Submitted work may still reference the resources.
+    }
 
     const ULONGLONG start = GetTickCount64();
     for (;;) {
