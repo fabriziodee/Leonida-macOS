@@ -533,7 +533,17 @@ jobs:
           -DLEONIDA_REQUIRE_VULKAN=ON
       - name: Build
         id: macos-build
-        run: cmake --build runtime/build --parallel
+        shell: bash
+        run: |
+          set -o pipefail
+          log="$RUNNER_TEMP/macos-build.log"
+          if cmake --build runtime/build --parallel 2>&1 | tee "$log"; then
+            exit 0
+          fi
+          grep -Fq 'sccache: error: Timed out waiting for server startup' "$log" || exit 1
+          echo "::notice::Compiler cache startup timed out. Resuming the build with the local compiler."
+          cmake -S runtime -B runtime/build -DCMAKE_CXX_COMPILER_LAUNCHER=
+          cmake --build runtime/build --parallel
       # Required: every test passes or skips, except the ones listed here, each with the pull request that fixes it
       # on MoltenVK. They still run and show in the log; one that passes gets a notice, so the list shrinks.
       - name: Runtime tests on MoltenVK
@@ -553,16 +563,11 @@ jobs:
         if: ${{ !cancelled() && steps.macos-build.outcome == 'success' }}  # also after a runtime test failure
         shell: bash
         env:
-          # ps_ssharp: #1845 (the S#'s LOD bias, which a Metal sampler can't take). The others are tests newer than the
-          # job, wrong on MoltenVK: https://github.com/ItsNotRexed/Leonida/issues/3796#issuecomment-7086691314
+          # ps_ssharp: #1845 (the S#'s LOD bias, which a Metal sampler can't take). cs_fma_fused is newer than the job
+          # and wrong on MoltenVK: https://github.com/ItsNotRexed/Leonida/issues/3796#issuecomment-7086691314
           EXPECTED_FAILURES: >-
             ps_ssharp
             cs_fma_fused
-            ps_vcmp_f32_nan
-            ps_vcmp_f16
-            ps_vcmp_f16_e64
-            ps_vcmpx_f16
-            ps_vcmpx_f16_e64
         run: |
           set +e
           python3 -I scripts/run_gpu_tests.py --build runtime/build --llvm-mc "$LLVM_MC" --work "$RUNNER_TEMP/gpu" 2>&1 |

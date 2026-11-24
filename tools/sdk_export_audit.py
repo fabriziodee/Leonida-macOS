@@ -4,6 +4,7 @@ import argparse
 import pathlib
 import re
 import subprocess
+import sys
 
 def read_census(text):
     clean = re.sub(r"\x1b\[[0-?]*[ -/]*[@-~]", "", text)
@@ -125,6 +126,7 @@ def main():
     print("Candidate counts do not change runtime coverage. ABI, dependencies and behavior need separate tests.")
 
 if __name__ == "__main__":
+    sys.stdout.reconfigure(errors="replace")
     try:
         main()
     except (OSError, ValueError, subprocess.CalledProcessError) as exc:
