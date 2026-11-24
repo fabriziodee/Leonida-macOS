@@ -2,7 +2,7 @@
 
 ## VIctory and D3DMetal · 24 November 2026
 
-**4 of 7 milestones verified (57%) toward a responsive GTA VI menu on macOS.**
+**5 of 8 milestones verified toward a responsive GTA VI menu on macOS.**
 Each milestone counts once. This measures checklist completion. The chance
 of reaching the menu and game compatibility remain unknown until a real test.
 
@@ -10,6 +10,7 @@ of reaching the menu and game compatibility remain unknown until a real test.
 | --- | --- |
 | Build the Windows x64 runtime | Passed. VIctory `d2a4bae1f495` built in release with Rust 1.98.1 and the xwin SDK. |
 | Check host requirements | Passed on M1 Max, 32 GB, macOS 27.3, CrossOver 26.3.0 with D3DMetal selected. AVX2 detected, D3D12 device created, Shader Model 6.6 and Mesh Shader Tier 1 reported. |
+| Execute D3D12 commands and read back pixels | Passed. In the D3DMetal-configured bottle, the host probe submitted an RGBA8 clear and copy, waited on a fence and verified all 16 pixels. Tested at `33829eca0`. |
 | Verify the synthetic loader tests | Passed, 2/2. `loads_binds_and_calls_probe` and `maps_a_title_dll_the_title_loads_itself` covered import binding, loading a companion DLL and TLS thread notifications. The test harness used a prebuilt fixture under Wine. |
 | Launch a synthetic program with the release runtime | Passed. `victory.exe run … --execute` resolved both imports and the program returned the expected code `42`. |
 | Identify and verify a compatible local Xbox Series installation | Blocked. The local search found no authorized, compatible files already readable by VIctory. |
@@ -21,18 +22,20 @@ has its own test results below. Gameplay, real shader rendering, memory use
 during game startup and the wider Wine suite remain open.
 
 [Run the synthetic smoke test](docs/victory-macos.md) ·
+[Backend evidence](docs/macos-backends.md) ·
 [Report a real boot attempt](https://github.com/fabriziodee/Leonida-macOS/issues/1)
 
 ## Italiano
 
-**4 tappe verificate su 7 (57%) verso un menu funzionante di GTA VI su macOS.**
-La percentuale conta le tappe completate. La probabilità di successo resta
-sconosciuta finché non si prova il gioco.
+**5 tappe verificate su 8 verso un menu funzionante di GTA VI su macOS.**
+Il conteggio riguarda le tappe completate. La compatibilità del gioco
+resta da verificare con un avvio reale.
 
 Sul Mac M1 Max da 32 GB, con macOS 27.3 e CrossOver 26.3.0, VIctory è stato
 compilato, D3D12 si è inizializzato con Shader Model 6.6, entrambi i test
 sintetici del loader sono passati e il programma di prova si è avviato
-con il codice di uscita atteso `42`.
+con il codice di uscita atteso `42`. Il probe esteso ha verificato tutti
+i 16 pixel dopo una clear D3D12 e una copia in un buffer di readback.
 
 Restano tre tappe. Identificare file autorizzati e leggibili di una build Xbox
 Series compatibile, osservare la prima schermata del gioco e verificare che

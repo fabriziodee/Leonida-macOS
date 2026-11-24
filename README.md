@@ -6,9 +6,9 @@
 
 ## Status
 
-**Hybrid runtime: 4 of 7 milestones verified (57%) toward a responsive GTA VI menu.**
+**Hybrid runtime: 5 of 8 milestones verified toward a responsive GTA VI menu.**
 The VIctory build, CrossOver/D3DMetal host checks, two synthetic loader tests,
-and synthetic launch passed. GTA VI boot and menu remain unverified.
+and synthetic launch passed. D3D12 clear and readback matched all 16 RGBA8 pixels. GTA VI boot and menu remain unverified.
 See the [test matrix](PROGRESS.md) and [request for Apple Silicon testers](https://github.com/fabriziodee/Leonida-macOS/issues/1).
 
 - **GTA VI is not playable.** Boot and gameplay are unverified. The Windows runtime is tested through Wine on macOS. Portable tools and GPU tests can be built natively.
@@ -31,7 +31,7 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
 
 **Versione sperimentale 3r1 di Leonida per macOS su Apple Silicon.**
 
-**Runtime ibrido: 4 tappe verificate su 7 (57%) verso un menu funzionante.** I test sintetici sono passati. L’avvio del gioco e il menu restano da verificare. Consulta la [matrice dei test](PROGRESS.md#italiano) e la [richiesta di prove su Apple Silicon](https://github.com/fabriziodee/Leonida-macOS/issues/1).
+**Runtime ibrido: 5 tappe verificate su 8 verso un menu funzionante.** I test sintetici sono passati, incluso il readback D3D12 di 16 pixel. L’avvio del gioco e il menu restano da verificare. Consulta la [matrice dei test](PROGRESS.md#italiano) e la [richiesta di prove su Apple Silicon](https://github.com/fabriziodee/Leonida-macOS/issues/1).
 
 Il lavoro si concentra sui test GPU con Vulkan tramite MoltenVK e sui test del runtime Windows tramite Wine.
 

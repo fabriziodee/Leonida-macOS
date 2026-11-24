@@ -11,6 +11,7 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 ## VIctory / D3DMetal
 
 - [x] Build the Windows x64 runtime and verify D3D12 capabilities in CrossOver.
+- [x] Verify D3D12 command execution and all 16 RGBA8 pixels on readback.
 - [x] Pass the synthetic loader tests and launch the synthetic entry probe.
 - [ ] Confirm a compatible, authorized Xbox Series build is available as readable files.
 - [ ] Record the first visible output or exact startup failure from a real boot attempt.
@@ -30,6 +31,7 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 ### VIctory / D3DMetal
 
 - [x] Compilare VIctory, verificare D3D12 e superare i test sintetici.
+- [x] Verificare i comandi D3D12 e leggere correttamente tutti i 16 pixel RGBA8.
 - [ ] Confermare una build Xbox Series compatibile con file autorizzati e già leggibili.
 - [ ] Registrare la prima schermata o l’errore preciso nel primo avvio reale.
 - [ ] Verificare un menu riconoscibile, i comandi e un secondo avvio.
