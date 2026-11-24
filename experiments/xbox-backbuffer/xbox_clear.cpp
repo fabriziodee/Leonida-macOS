@@ -1,5 +1,8 @@
 #include <windows.h>
 
+// This synthetic executable deliberately links without the MSVC CRT.
+extern "C" { int _fltused = 0x9875; }
+
 extern "C" __declspec(dllimport)
 HRESULT WINAPI D3D12XboxCreateDevice(
     const void*, const UINT*, const GUID*, void**);

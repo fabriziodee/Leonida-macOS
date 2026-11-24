@@ -49,7 +49,21 @@ else
 fi
 cd "$OUT"
 llvm-dlltool -m i386:x86-64 -d "$CP/probes/d3d12_xs.def" -l d3d12_xs.lib
-for mode in copy clear; do
+MODES=(copy clear)
+if [ -n "${LEONIDA_COPY_EVIDENCE_DIR:-}" ]; then
+    PREV="$(cd "$LEONIDA_COPY_EVIDENCE_DIR" && pwd -P)"
+    CURRENT_HASH="$(shasum -a 256 "$CARGO_TARGET_DIR/$TARGET/release/victory.exe" | awk '{print $1}')"
+    PREVIOUS_HASH="$(awk 'NR==1 {print $1}' "$PREV/runtime-sha256.txt")"
+    test "$CURRENT_HASH" = "$PREVIOUS_HASH"
+    grep -Fq 'title exited with 42' "$PREV/copy.log"
+    test "$(grep -Fc 'VICTORY DXGI PRESENT: 0x00000000' "$PREV/copy.log")" -eq 3
+    cp -R "$PREV/copy" "$OUT/copy"
+    cp "$PREV/copy.log" "$OUT/"
+    python3 "$HERE/verify.py" copy "$OUT/copy" | tee "$OUT/copy-validation.log"
+    echo "REUSED VERIFIED COPY FRAMES: no GPU rerun"
+    MODES=(clear)
+fi
+for mode in "${MODES[@]}"; do
     PROBE="$CP/probes/xbox_graphics.cpp"
     if [ "$mode" = clear ]; then PROBE="$HERE/xbox_clear.cpp"; fi
     # clang-cl treats absolute /Users paths as /U options.
