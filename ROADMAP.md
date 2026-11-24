@@ -11,6 +11,10 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 
 ## VIctory / D3DMetal
 
+- [x] Verify pre-Present swap-chain RGB samples in six synthetic frames (92,160/92,160), including full and rectangular render-target clears. [Evidence](experiments/xbox-backbuffer/README.md)
+- [ ] Execute a synthetic translated vertex/pixel shader pipeline using the Xbox PSO stream ABI and DrawInstanced; require nonzero host draw count and expected readback.
+- [ ] Extend to indexed geometry, depth testing, texture sampling, blending and resource transitions.
+
 - [x] Verify synthetic Xbox-style Device11 and PresentX-to-DXGI integration (3/3 successful presentations; expected exit 42). [Checkpoint](checkpoints/2026-11-24-xbox-graphics/README.md)
 - [ ] Review preserved local patches and independently reproduce the checkpoint; this is not game boot validation.
 
@@ -35,6 +39,10 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 - [ ] Aggiungere controlli macOS per i componenti portabili e proporre le correzioni al progetto originale.
 
 ### VIctory / D3DMetal
+
+- [x] Verificare 92.160 campioni RGB su sei frame nel back buffer DXGI, inclusi clear integrali e rettangolari.
+- [ ] Eseguire vertex/pixel shader sintetici tradotti con pipeline stream Xbox e DrawInstanced; verificare draw sul dispositivo host e pixel attesi.
+- [ ] Estendere a geometria indicizzata, profondità, texture, blending e transizioni risorse.
 
 - [x] Verificare Device11 e PresentX sintetici attraverso VIctory (3/3 presentazioni DXGI, uscita 42).
 - [ ] Revisionare le patch locali conservate e riprodurre il checkpoint su un secondo host.
