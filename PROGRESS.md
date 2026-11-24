@@ -1,5 +1,9 @@
 # macOS progress
 
+## Xbox interpolated UV texture sampling · 24 November 2026
+
+Reported local M1 Max / CrossOver / D3DMetal run at `568989914`: both synthetic shaders translated, 8/8 host draws, eight successful presentations, expected title exit 42, 61,440/61,440 RGB samples matched across four quadrant patterns. Cumulative 506,880 validated samples across 33 frames. [Probe and results](experiments/xbox-uv/README.md). Tested equal clip-space w, point-clamp at LOD0, alternating descriptor bindings and changing texture contents. General perspective correction, linear filtering, mipmaps and real game boot remain unverified. Original captures remain local; no independent GPU CI result.
+
 ## Xbox texture sampling · 24 November 2026
 
 Reported M1 Max / CrossOver / D3DMetal run at `355bba36`: two translated shaders, native PS descriptor tables, point-clamp sampler, dynamic render-target contents and bindings, 8/8 host draws and presentations, expected title exit 42. 61,440/61,440 matching sampled RGB pixels, cumulative 445,440 in 29 frames. [Probe and reported evidence](experiments/xbox-sampling/README.md). Constant UV at LOD0 only; variable UV, filtering and mipmaps remain open. Captures remain local; no real game boot or independent CI GPU test.

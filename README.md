@@ -6,6 +6,8 @@
 
 ## Status
 
+**Interpolated UV texture sampling verified:** 8/8 draws, 8/8 successful DXGI Present calls and 61,440/61,440 matching RGB samples across four spatial texture patterns. Cumulative 506,880 validated samples across 33 frames. [Results](experiments/xbox-uv/README.md). No actual game boot verified.
+
 **Texture sampling verified:** original RDNA2 pixel shader, two descriptor tables, dynamic render-target contents, 8/8 draws and 61,440/61,440 matching sampled RGB pixels. Cumulative 445,440 validated samples across 29 frames. [Results](experiments/xbox-sampling/README.md). Constant UV at LOD0; no actual game boot verified.
 
 **Multipass rendering verified:** 16/16 draws, eight successful presentations and 61,440/61,440 matching RGB samples across four frames. Two offscreen targets, explicit whole-resource transitions and GPU copies into the presentation target. Cumulative 384,000 validated samples across 25 frames. [Results](experiments/xbox-multipass/README.md). No actual game boot verified.
@@ -52,6 +54,8 @@ Share only original code, synthetic fixtures, and sanitized output. Keep game fi
 Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), originally hosted at `ItsNotRexed/Leonida`. See the [original credits](README.upstream.md#credits) and [GPL-3.0 license](LICENSE). Third-party components retain their own license notices.
 
 ## Italiano
+
+**Interpolazione UV verificata:** 8/8 draw e 61.440/61.440 campioni RGB corretti in quattro pattern spaziali. Totale cumulativo 506.880 in 33 frame. [Risultati](experiments/xbox-uv/README.md).
 
 **Texture sampling verificato:** 8/8 draw, descriptor table dinamiche e 61.440/61.440 campioni RGB corretti. Totale 445.440 in 29 frame. [Risultati](experiments/xbox-sampling/README.md).
 
