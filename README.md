@@ -6,6 +6,11 @@
 
 ## Status
 
+### Xbox Graphics First Present · 24 November 2026
+
+On M1 Max with CrossOver/D3DMetal, a synthetic Xbox-style title resolved 4/4 imports, created D3D12.X Device11, submitted a texture copy and completed 3/3 PresentX-to-DXGI presentations (S_OK). The title returned the expected 42 and the runtime returned 0. Separate probes verified 180/180 DXGI presentations and 64/64 texture readback bytes. [Published source, patches and evidence](https://github.com/fabriziodee/Leonida-macOS/tree/macos/3r1-xbox-graphics-checkpoint-20261124-165045/checkpoints/2026-11-24-xbox-graphics). No draw or dispatch in the integrated probe; GTA VI boot and visible game rendering are unverified. The milestone count remains 5/8.
+
+
 **Hybrid runtime: 5 of 8 milestones verified (62.5% of the checklist) toward a responsive GTA VI menu.**
 The VIctory build, CrossOver/D3DMetal host checks, two synthetic loader tests,
 and synthetic launch passed. D3D12 clear and readback matched all 16 RGBA8 pixels. GTA VI boot and menu remain unverified.
@@ -33,6 +38,8 @@ Share only original code, synthetic fixtures, and sanitized output. Keep game fi
 Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), originally hosted at `ItsNotRexed/Leonida`. See the [original credits](README.upstream.md#credits) and [GPL-3.0 license](LICENSE). Third-party components retain their own license notices.
 
 ## Italiano
+
+**Aggiornamento 24 novembre:** percorso grafico Xbox sintetico integrato verificato: 4/4 import, Device11, 3/3 PresentX, uscita titolo 42. [Sorgenti, patch e log](https://github.com/fabriziodee/Leonida-macOS/tree/macos/3r1-xbox-graphics-checkpoint-20261124-165045/checkpoints/2026-11-24-xbox-graphics). Nessun rendering 3D del gioco ancora verificato.
 
 **Versione sperimentale 3r1 di Leonida per macOS su Apple Silicon.**
 
