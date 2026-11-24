@@ -26,6 +26,10 @@ if [[ -n "$gpu_tests" ]]; then
     gpu_tests="$(cd "$(dirname "$gpu_tests")" && pwd -P)/$(basename "$gpu_tests")"
     [[ -f "$gpu_tests" ]]
 fi
+if [[ "${VICTORY_REQUIRE_EXTENDED:-0}" == 1 && ( -z "$gpu_tests" || -z "$shader_tests" ) ]]; then
+    echo "Extended smoke test requires both GPU and shader test executables" >&2
+    exit 2
+fi
 drive="$CX_BOTTLE_PATH/$bottle/drive_c"
 [[ -d "$drive" && -f "$victory" && -x "$wine" && -x "$clang_cl" ]]
 source_dir="$(cd "$(dirname "$0")/../runtime/test" && pwd -P)"
@@ -64,8 +68,8 @@ if [[ -n "$shader_tests" ]]; then
         VICTORY_WARP=0 "$wine" --bottle "$bottle" --no-update --cx-app "$guest\\shader-tests.exe" \
             --exact "$test_name" --nocapture --test-threads=1 2>&1 | tee "shader-$width.log"
         grep -Fq '1 passed; 0 failed; 0 ignored' "shader-$width.log"
-        if grep -Fq 'no SM 6.6 hardware device' "shader-$width.log"; then
-            echo "The shader test could not use the hardware adapter" >&2
+        if grep -Eiq 'no SM 6\.6 (hardware|warp) device|(^|[[:space:];])skipped([[:space:][:punct:]]|$)' "shader-$width.log"; then
+            echo "The shader fixture was skipped or could not use the hardware adapter; not a verified PASS" >&2
             exit 1
         fi
     done

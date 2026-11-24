@@ -8,7 +8,9 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 - [ ] Execute and independently validate the original synthetic cube in PR #13; do not count pending captures.
 - [x] Record reported standalone desktop SDK asynchronous HTTP loopback validation with a synthetic localhost fixture. [SDK audit](docs/sdk-dependency-audit.md)
 - [ ] Review public, license-compatible generic interoperability fixes from community continuations; reproduce with original synthetic fixtures before adopting. [External project and evidence review](docs/external-project-status-2026-11-24.md).
-- [ ] Confirm independent Apple Silicon reproduction. No game boot claim until authorized, independently reproducible evidence exists.
+- [x] Obtain independent Apple Silicon reproduction of baseline synthetic host/loader and patched texture checks (reported M4 Max; see [issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7142660029)).
+- [ ] Repeat M4 Max f16/f32 shader fixtures with confirmed hardware execution; previous logs showed WARP skips.
+- [ ] Independently reproduce the integrated graphics checkpoint; no game boot claim until authorized, independently reproducible evidence exists.
 
 Priorità: CI verde, riproduzione indipendente della scena sintetica, revisione dei fix generici con fixture originali. Il test HTTP è documentato; non equivale a integrazione console. Nessun utilizzo di copie non autorizzate.
 

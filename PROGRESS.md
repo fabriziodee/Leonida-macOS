@@ -1,5 +1,9 @@
 # macOS progress
 
+## Independent Apple Silicon reproduction · 24 November 2026
+
+The [independent M4 Max report in issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7142660029) documents two synthetic VIctory runs on a second Apple Silicon generation. Host D3D12/SM 6.6, 16 RGBA pixels, synthetic entry and exit 42 were reported in both runs; patched-fork texture readback matched 64 bytes. f16/f32 fixtures explicitly skipped on the WARP path; do not count those as executed. See [reproduction details](docs/victory-macos.md#independent-m4-max-reproduction--24-november-2026). The Bash/Zsh example and skipped-shader detection have been corrected; new hardware verification is pending. This is contributor-reported evidence, not a CI or real game boot result. Existing graphics totals and 5/8 checklist are unchanged.
+
 ## Evening evidence review · 24 November 2026
 
 - At `60a2344b`, the [SDK audit](docs/sdk-dependency-audit.md) records the independent synthetic GDK/LibHttpClient V5 loopback PASS (initialization, task queue, HTTP 200, response body/header, server request validation, exit 42). This is reported local evidence, not a new run, console ABI validation or runtime integration.

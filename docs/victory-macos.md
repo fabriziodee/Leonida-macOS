@@ -58,8 +58,13 @@ VIctory's code is GPL-3.0-or-later.
 From the Leonida-macOS root, set `VICTORY_SRC` to a separate checkout at the
 pinned revision and export `XWIN_DIR` for the prepared Windows SDK. These commands
 use Rust 1.98.1 with the Windows MSVC target and Homebrew LLVM and LLD.
+Export `VICTORY_SRC`, `XWIN_DIR`, `BOTTLES_DIR` and `BOTTLE_NAME` before running.
+The explicit Bash subprocess below also works when pasted into macOS's default Zsh.
 
 ```bash
+bash <<'BASH'
+set -euo pipefail
+: "${VICTORY_SRC:?}" "${XWIN_DIR:?}" "${BOTTLES_DIR:?}" "${BOTTLE_NAME:?}"
 leonida_root="$(pwd -P)"
 git -C "$VICTORY_SRC" apply --check "$leonida_root/patches/victory-macos-m1.patch"
 git -C "$VICTORY_SRC" apply "$leonida_root/patches/victory-macos-m1.patch"
@@ -77,11 +82,18 @@ cargo build --release --locked --target "$target" -p victory-shader -p victory-g
 release="$CARGO_TARGET_DIR/$target/release"
 gpu_tests=("$release"/deps/victory_gpu-*.exe)
 shader_tests=("$release"/deps/victory_shader-*.exe)
-VICTORY_GPU_TEST_EXE="${gpu_tests[0]}" VICTORY_SHADER_TEST_EXE="${shader_tests[0]}" \
+[[ ${#gpu_tests[@]} -eq 1 && -f "${gpu_tests[0]}" ]]
+[[ ${#shader_tests[@]} -eq 1 && -f "${shader_tests[0]}" ]]
+VICTORY_REQUIRE_EXTENDED=1 VICTORY_GPU_TEST_EXE="${gpu_tests[0]}" VICTORY_SHADER_TEST_EXE="${shader_tests[0]}" \
   "$leonida_root/scripts/run_victory_macos_smoke.sh" "$BOTTLES_DIR" "$BOTTLE_NAME" "$release/victory.exe"
+BASH
 ```
 
 Use an existing D3DMetal bottle for `BOTTLES_DIR` and `BOTTLE_NAME`.
 The texture fixture sends four distinct rows through VIctory's command list
 and checks 64 returned bytes. The two shader fixtures dispatch DXIL on the
 hardware adapter, including NaN, infinity, large turns and signed zero.
+
+## Independent M4 Max reproduction · 24 November 2026
+
+The [independent M4 Max report in issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7142660029) by `edmondja` covers Mac Studio M4 Max (40 GPU cores, 128 GB RAM), macOS 27.2.1, CrossOver 26.3 / D3DMetal 3.0, at Leonida-macOS `912df590`. Both the upstream VIctory build `d2a4bae1` and patched macOS fork `f5660fd` reported AVX2, D3D12 creation, SM 6.6, 16 matching RGBA pixels and synthetic exit 42. The patched fork also reported the 64-byte texture comparison. The f16/f32 logs explicitly say `no SM 6.6 warp device; skipped`, so those shader results are **not verified** despite the Rust harness reporting success. The reporter identified the Zsh array indexing issue; the explicit Bash block above addresses it. The smoke script now rejects both WARP and hardware-device skip messages rather than treating a skipped fixture as a pass. A new M4 hardware shader run is needed. No game files were used, and real game boot remains unverified.
