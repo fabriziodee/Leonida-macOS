@@ -542,7 +542,7 @@ jobs:
           fi
           grep -Fq 'sccache: error: Timed out waiting for server startup' "$log" || exit 1
           echo "::notice::Compiler cache startup timed out. Resuming the build with the local compiler."
-          cmake -S runtime -B runtime/build -DCMAKE_CXX_COMPILER_LAUNCHER=
+          cmake -S runtime -B runtime/build -DCMAKE_CXX_COMPILER_LAUNCHER= -DLEONIDA_REQUIRE_VULKAN=ON
           cmake --build runtime/build --parallel
       # Required: every test passes or skips, except the ones listed here, each with the pull request that fixes it
       # on MoltenVK. They still run and show in the log; one that passes gets a notice, so the list shrinks.
