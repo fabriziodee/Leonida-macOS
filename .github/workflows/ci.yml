@@ -163,7 +163,8 @@ jobs:
     needs: change-scope
     if: ${{ !cancelled() && needs.change-scope.outputs.docs-only != 'true' }}
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    # The full suite exceeded 10 minutes on both hosted runners.
+    timeout-minutes: 25
     strategy:
       matrix:
         # Pull requests run the Linux leg only: in 914 sampled pull request runs the Windows leg never failed while the

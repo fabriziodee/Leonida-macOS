@@ -3,7 +3,7 @@
 # دليل البدء السريع لمشروع Leonida
 
 الوثائق الإنجليزية هي المرجع المعتمد. يستند هذا الدليل إلى المراجعة `ec8ec4c9` ويغطي خطوات البدء الأساسية.
-راجع [ملف README بالإنجليزية](../../../README.md#project-status) لمعرفة حالة المشروع الحالية، و[فهرس الوثائق](../../README.md) للمزيد من التفاصيل.
+راجع [ملف README بالإنجليزية](../../../README.md#status) لمعرفة حالة المشروع الحالية، و[فهرس الوثائق](../../README.md) للمزيد من التفاصيل.
 
 ## ما هو Leonida؟
 
@@ -67,7 +67,7 @@ python -I make_game.py --game "D:\path\to\package" --out "D:\Games\Leonida" --wo
 
 يعمل `make_game.py` على Linux، ويجد `llvm-mc` تلقائيًا إذا كان ضمن `PATH`. تأكد من أن نسخته تدعم AMDGPU.
 يعمل محمّل اللعبة، وهو برنامج Windows، عبر Wine أو Proton. إذا كان لديك بناء Windows جاهز للمحمّل،
-فمرّر مجلده باستخدام `--runtime-build`. راجع [تعليمات البناء والتشغيل على Linux](../../../README.md#running-the-loader-on-linux).
+فمرّر مجلده باستخدام `--runtime-build`. راجع [تعليمات البناء والتشغيل على Linux](../../testing.md#the-windows-runtime-on-linux-under-wine-or-proton).
 
 ## حل المشاكل الشائعة
 
