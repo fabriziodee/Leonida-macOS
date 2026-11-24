@@ -23,6 +23,8 @@
 //   VKH_SUBGROUP_SIZE=32|64      requires that subgroup size of the fragment shader (or of the compute or geometry
 //                                stage under test); stderr says "fragment subgroup size: N" when it took effect and
 //                                "... not available" when the device cannot require it (exit code stays 0).
+//   VKH_MESH_WAVE64=1            require 64 lanes in the mesh producer (native mesh or compute); exit 77
+//                                if the device cannot guarantee that width for the producer stage.
 //   VKH_TEX_RGBA=<file>          binds a 2D RGBA8 texture (u32 width, u32 height, width*height*4 bytes) at bindless
 //                                set 0 image index 1 (with 1x1 magenta at index 0), writes a T# at VKH_TSHARP_VA
 //                                (default 0x100) in the 64 KiB heap, and registers VKH_SSHARP (4 comma-separated
@@ -268,9 +270,11 @@ int main(int argc, char** argv) {
     VkPhysicalDeviceProperties props; vkGetPhysicalDeviceProperties(pd, &props);
     VkPhysicalDeviceSubgroupSizeControlProperties sgProps{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_SIZE_CONTROL_PROPERTIES};
     VkPhysicalDeviceDriverProperties driver{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DRIVER_PROPERTIES};
+    VkPhysicalDeviceSubgroupProperties subgroup{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES};
+    subgroup.pNext = &sgProps;
     if (props.apiVersion >= VK_API_VERSION_1_2) sgProps.pNext = &driver;
     VkPhysicalDeviceProperties2 props2{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2};
-    props2.pNext = &sgProps;
+    props2.pNext = &subgroup;
     vkGetPhysicalDeviceProperties2(pd, &props2);
     std::fprintf(stderr, "device: %s (subgroup %u..%u)\n", props.deviceName, sgProps.minSubgroupSize, sgProps.maxSubgroupSize);
     if (driver.driverName[0]) std::fprintf(stderr, "driver: %s\n", driver.driverName);
@@ -411,6 +415,21 @@ int main(int argc, char** argv) {
     VkPhysicalDeviceFeatures2 f2q{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
     f2q.pNext = &f13q;
     vkGetPhysicalDeviceFeatures2(pd, &f2q);
+    const bool require_mesh_wave64 = (mesh || mesh_compute) && std::getenv("VKH_MESH_WAVE64");
+    const char* sg_env = std::getenv("VKH_SUBGROUP_SIZE");
+    const uint32_t req_sg = require_mesh_wave64 ? 64u : (sg_env ? uint32_t(atoi(sg_env)) : 0u);
+    const bool can_set_size = req_sg && f13q.subgroupSizeControl &&
+                              req_sg >= sgProps.minSubgroupSize && req_sg <= sgProps.maxSubgroupSize;
+    if (require_mesh_wave64) {
+        const auto stage = mesh_compute ? VK_SHADER_STAGE_COMPUTE_BIT : VK_SHADER_STAGE_MESH_BIT_EXT;
+        const bool can_pin = can_set_size && (sgProps.requiredSubgroupSizeStages & stage);
+        const bool fixed = subgroup.subgroupSize == 64 &&
+                           (!f13q.subgroupSizeControl || sgProps.minSubgroupSize == sgProps.maxSubgroupSize);
+        if (!can_pin && !fixed) {
+            std::fprintf(stderr, "unsupported: mesh producer cannot guarantee a 64-wide subgroup\n");
+            return 77;
+        }
+    }
     // Translated vertex shaders read BaseVertex / BaseInstance (DrawParameters) to give v0 / v3 the hardware's
     // zero-based ids.
     VkPhysicalDeviceVulkan11Features f11{VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES};
@@ -630,13 +649,10 @@ int main(int argc, char** argv) {
         stages[2].stage = VK_SHADER_STAGE_GEOMETRY_BIT; stages[2].module = gsm; stages[2].pName = "main";
         nstages = 3;
     }
-    const char* sg_env = std::getenv("VKH_SUBGROUP_SIZE");
-    const uint32_t req_sg = sg_env ? uint32_t(atoi(sg_env)) : 0;
     VkPipelineShaderStageRequiredSubgroupSizeCreateInfo reqSg{
         VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_REQUIRED_SUBGROUP_SIZE_CREATE_INFO};
     reqSg.requiredSubgroupSize = req_sg;
-    if (req_sg > 0 && f13q.subgroupSizeControl &&
-        req_sg >= sgProps.minSubgroupSize && req_sg <= sgProps.maxSubgroupSize) {
+    if (can_set_size) {
         // VKH_GS_HELPER=1: the geometry shader only feeds the pixel shader under test (the --bary-fallback
         // pass-through), so the size still goes to the fragment stage.
         const bool gs_tested = gs_path && !std::getenv("VKH_GS_HELPER");
@@ -808,8 +824,7 @@ int main(int argc, char** argv) {
         cpi.stage = {VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO};
         cpi.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT; cpi.stage.module = csm; cpi.stage.pName = "main";
         // VKH_SUBGROUP_SIZE goes to the mesh shader under test, now a compute stage.
-        if (req_sg > 0 && f13q.subgroupSizeControl && req_sg >= sgProps.minSubgroupSize &&
-            req_sg <= sgProps.maxSubgroupSize && (sgProps.requiredSubgroupSizeStages & VK_SHADER_STAGE_COMPUTE_BIT))
+        if (can_set_size && (sgProps.requiredSubgroupSizeStages & VK_SHADER_STAGE_COMPUTE_BIT))
             cpi.stage.pNext = &reqSg;
         cpi.layout = pl;
         LOADD(vkCreateComputePipelines);

@@ -1,0 +1,10 @@
+[2m2026-11-24T15:40:41.941130Z[0m [32m INFO[0m [2mvictory_loader::windows[0m[2m:[0m imports bound [3mhle[0m[2m=[0m1 [3mhost[0m[2m=[0m3 [3mmissing[0m[2m=[0m0
+XBOX DEVICE11: PASS
+[2m2026-11-24T15:40:42.314174Z[0m [32m INFO[0m [2mvictory_gpu::host[0m[2m:[0m host D3D12 device ready
+XBOX GRAPHICS COMMANDS: SUBMITTED
+[2m2026-11-24T15:40:42.487607Z[0m [32m INFO[0m [2mvictory_gpu::host[0m[2m:[0m presenting to a window [3mwidth[0m[2m=[0m320 [3mheight[0m[2m=[0m192 [3mformat[0m[2m=[0m28
+VICTORY DXGI PRESENT: 0x00000000
+VICTORY DXGI PRESENT: 0x00000000
+VICTORY DXGI PRESENT: 0x00000000
+XBOX TITLE PRESENTX: 3 CALLS
+title exited with 42

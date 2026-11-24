@@ -230,14 +230,17 @@ class TestFormatDecoderBoundary(unittest.TestCase):
         self.gen.decode_format(words, 7, fixed=False)
         self.assertEqual(len(self.gen.tbuffer_norm_fns), fns_count)
 
-    def test_decode_any_format_selection(self):
+    def test_dynamic_format_and_element_reach_each_component(self):
         words = ["%w0", "%w1", "%w2", "%w3"]
         initial_lines = len(self.gen.body)
-        comps = self.gen.decode_any_format("%run_fmt", words)
+        comps = self.gen.format_decode_call("%run_fmt", words)
         self.assertEqual(len(comps), 4)
-        emitted = "\n".join(self.gen.body[initial_lines:])
-        self.assertIn("OpIEqual %bool %run_fmt", emitted)
-        self.assertIn("OpSelect %uint", emitted)
+        packed, *calls = [line.split() for line in self.gen.body[initial_lines:]]
+        self.assertEqual(packed[1:], ["=", "OpCompositeConstruct", "%v4uint_fmt", *words])
+        self.assertEqual(calls, [
+            [result, "=", "OpFunctionCall", "%uint", f"%fmt_dec_c{i}", "%run_fmt", packed[0]]
+            for i, result in enumerate(comps)
+        ])
 
     def test_format_decode_call_builds_and_caches_function(self):
         words = ["%w0", "%w1", "%w2", "%w3"]

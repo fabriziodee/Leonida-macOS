@@ -15,7 +15,7 @@ Reported local validation on Apple M1 Max (32 GB), using the existing CrossOver/
 
 An earlier PC-style integration probe failed at RegisterClassW because 11 Windows-specific imports were outside the console resolver's coverage. The successful replacement uses a synthetic Xbox-style executable and does not relax the import policy.
 
-The developer saved a local checkpoint containing the probe source, diffs, logs and binary SHA-256 manifest. The source probes, patches, selected logs and SHA-256 manifest are now published in the [complete checkpoint](https://github.com/fabriziodee/Leonida-macOS/tree/macos/3r1-xbox-graphics-checkpoint-20261124-165045/checkpoints/2026-11-24-xbox-graphics) on the experimental checkpoint branch. Pending Codex changes are preserved as patches, not integrated or CI-validated. These results are reported from the local session, not independently rerun by GitHub CI. The integrated probe copies a texture; its draw and dispatch counts are zero. Successful Present calls are not independent verification of visible pixel correctness, game shader execution, game boot or a responsive menu.
+The developer saved a local checkpoint containing the probe source, diffs, logs and binary SHA-256 manifest. The source probes, patches, selected logs and SHA-256 manifest are now published in the [complete checkpoint](checkpoints/2026-11-24-xbox-graphics/README.md) in this integration revision. Pending Codex changes are preserved as patches, not integrated or CI-validated. These results are reported from the local session, not independently rerun by GitHub CI. The integrated probe copies a texture; its draw and dispatch counts are zero. Successful Present calls are not independent verification of visible pixel correctness, game shader execution, game boot or a responsive menu.
 
 **Next priority:** a real boot trace with an authorized, compatible, readable local Xbox Series installation. No change to the existing eight-milestone count (5/8); the new probe strengthens evidence for the already completed runtime/GPU milestones.
 
@@ -23,7 +23,7 @@ The developer saved a local checkpoint containing the probe source, diffs, logs 
 
 ## Repository status · 24 November 2026
 
-The results below are reported from the experimental [`macos/d3dmetal-execution-probe` snapshot](https://github.com/fabriziodee/Leonida-macOS/commit/912df59021f09c0dd6b22d48b07293bd6485efaa). The code and extended reproduction instructions are on that branch; this update to `main` publishes the evidence summary only and does not merge the experimental implementation. The eight milestones are a checklist, not an estimate of game compatibility or probability of success.
+The results below are reported from the experimental [`macos/d3dmetal-execution-probe` snapshot](https://github.com/fabriziodee/Leonida-macOS/commit/912df59021f09c0dd6b22d48b07293bd6485efaa). That snapshot and the later checkpoint are preserved in the integration branch for PR #4. The integration revision still requires CI; local hardware evidence is not a CI result. The eight milestones are a checklist, not an estimate of game compatibility or probability of success.
 
 [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) merged cross-platform CI fixes into `main` at `556d5b12101d`. All seven jobs returned for [the PR's Actions run](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) completed successfully (change-scope, translator-tests, macos-python, viewer-tests, check, stdlib-tests-linux and semantic-tests on Ubuntu). This is not a fresh full validation of the experimental branch or the game. The local GPU results below are documented test reports, not tests rerun during this documentation update.
 
@@ -54,19 +54,19 @@ With the macOS fork at `f5660fd`, VIctory's texture copy returned all 64
 expected bytes on the M1 Max. An additional local correction preserved the
 sign of zero through the translated sine instruction. Both the 16-bit and
 32-bit compute shader fixtures passed on the hardware adapter. The updated
-runtime also returned 42 from the synthetic entry point. [Source and reproduction](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/docs/victory-macos.md#texture-uploads-and-compute-shaders-on-the-m1-max)
+runtime also returned 42 from the synthetic entry point. [Source and reproduction](docs/victory-macos.md#texture-uploads-and-compute-shaders-on-the-m1-max)
 
 The [upstream waterfall-loop shader](https://github.com/Marvisak/VIctory/commit/ffe310eb2098e52169f4c44db5ffdabf43a72622)
 also passed on the M1 Max. In its 32-lane synthetic dispatch, even lanes
 sampled the first texture and odd lanes the second. All 32 red-channel values matched.
 
-[Run the synthetic smoke test](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/docs/victory-macos.md) ·
-[Backend evidence](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/docs/macos-backends.md) ·
+[Run the synthetic smoke test](docs/victory-macos.md) ·
+[Backend evidence](docs/macos-backends.md) ·
 [Report a real boot attempt](https://github.com/fabriziodee/Leonida-macOS/issues/1)
 
 ## Italiano
 
-I risultati aggiornati provengono dal [branch sperimentale fissato al commit `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md). Il branch `main` contiene il riepilogo, non il merge del codice sperimentale. La [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) è stata integrata e tutti i sette job restituiti dal [workflow della PR](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) sono terminati con successo. I test GPU locali sono risultati documentati, non rieseguiti durante questo aggiornamento. La priorità è una riproduzione indipendente su Apple Silicon con dati sintetici, seguita da un avvio reale solo in presenza di file autorizzati e compatibili.
+I risultati aggiornati provengono dal [branch sperimentale fissato al commit `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md). La revisione di integrazione della PR #4 conserva il codice sperimentale e il checkpoint; la CI della nuova revisione resta da verificare. La [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) è stata integrata e tutti i sette job restituiti dal [workflow della PR](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) sono terminati con successo. I test GPU locali sono risultati documentati, non rieseguiti durante questo aggiornamento. La priorità è una riproduzione indipendente su Apple Silicon con dati sintetici, seguita da un avvio reale solo in presenza di file autorizzati e compatibili.
 
 
 **5 tappe verificate su 8 verso un menu funzionante di GTA VI su macOS.**
