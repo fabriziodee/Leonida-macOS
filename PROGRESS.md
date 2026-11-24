@@ -1,8 +1,12 @@
 # macOS progress
 
+## Indexed Xbox geometry · 24 November 2026
+
+Reported local M1 Max validation at `c36dae6b`: 16-bit index buffer, nonzero firstIndex and baseVertex, alternating left/right quads. Both shaders translated, 8/8 indexed draws and DXGI Present calls succeeded, title exit 42, 61,440/61,440 sampled RGB pixels matched in four frames. Cumulative 199,680 samples across 13 frames. [Probe and evidence](experiments/xbox-indexed/README.md). Next: depth testing, texture sampling and more complex render state. Original captures remain local; no real game boot or independent CI GPU result.
+
 ## Synthetic RDNA2 graphics draw · 24 November 2026
 
-Reported local M1 Max / CrossOver / D3DMetal validation: original synthetic VS and PS translated, host graphics pipeline created, 8/8 DrawInstanced calls executed, 8/8 successful DXGI Present calls, expected title exit 42. Corrected ANSI-aware verifier passed four parser fixtures and matched 46,080/46,080 sampled RGB pixels across captured frames 6–8. Combined with the earlier texture-copy and GPU-clear gate, 138,240 sampled pixels matched. [Sources and reported evidence](experiments/xbox-draw/README.md). This is a fullscreen synthetic triangle, not game rendering. Captures remain local. Next independent gate: indexed geometry and depth ordering.
+Reported local M1 Max / CrossOver / D3DMetal validation: original synthetic VS and PS translated, host graphics pipeline created, 8/8 DrawInstanced calls executed, 8/8 successful DXGI Present calls, expected title exit 42. Corrected ANSI-aware verifier passed four parser fixtures and matched 46,080/46,080 sampled RGB pixels across captured frames 6–8. Combined with the earlier texture-copy and GPU-clear gate, 138,240 sampled pixels matched. [Sources and reported evidence](experiments/xbox-draw/README.md). This is a fullscreen synthetic triangle, not game rendering. Captures remain local. Indexed geometry passed in the subsequent gate above; depth ordering remains pending.
 
 ## Verified Xbox back buffer · 24 November 2026
 
