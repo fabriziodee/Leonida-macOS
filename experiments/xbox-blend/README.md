@@ -1,0 +1,3 @@
+# Xbox blending and write masks (experimental)
+
+Reuse the validated runtime and original fullscreen triangle vertex shader. Generate a red pixel shader with alpha 0.5. Clear to blue and cycle four constant graphics pipeline streams: source-alpha/inverse-source-alpha, additive ONE/ONE, disabled blending with only green write enabled, and opaque overwrite. Final frames 5–8 must be half red/blue (127 or 128 allowed on the two nonzero channels due to UNORM quantization), magenta, blue, red. Eight host draws, eight successful Present calls and 61,440 RGB samples checked. Alpha channel itself is not captured. No game files, SDK or runtime rebuild. Pending compilation and hardware validation. Run `bash experiments/xbox-blend/run.sh`.
