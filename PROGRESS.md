@@ -1,5 +1,9 @@
 # macOS progress
 
+## Xbox multipass and whole-resource transitions · 24 November 2026
+
+Reported local M1 Max / CrossOver / D3DMetal run at `9b109704`: 16/16 executed host draws, eight successful Present calls, expected title exit 42, 61,440/61,440 RGB samples matched. Two offscreen targets plus presentation texture; explicit whole-resource barriers and two GPU texture copies per frame. Cumulative 384,000 validated samples across 25 frames. [Probe and reported results](experiments/xbox-multipass/README.md). Captures remain local; no independent CI GPU run. Shader sampling of textures and actual game boot remain unverified.
+
 ## Xbox blending and channel masks · 24 November 2026
 
 Reported local M1 Max / CrossOver / D3DMetal run at `c75ea247`: four host PSOs, 8/8 draws, 8/8 successful DXGI presentations, expected title exit 42, 61,440/61,440 sampled RGB pixels within expected values (alpha 50% permits 127 or 128, other modes exact). Cumulative 322,560 validated samples across 21 frames. [Probe and reported evidence](experiments/xbox-blend/README.md). Alpha itself and complex material texture sampling not validated. Original captures remain local; no independent CI GPU test or game boot.
