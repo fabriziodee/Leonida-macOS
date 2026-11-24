@@ -1,8 +1,12 @@
 # macOS progress
 
+## Xbox texture sampling · 24 November 2026
+
+Reported M1 Max / CrossOver / D3DMetal run at `355bba36`: two translated shaders, native PS descriptor tables, point-clamp sampler, dynamic render-target contents and bindings, 8/8 host draws and presentations, expected title exit 42. 61,440/61,440 matching sampled RGB pixels, cumulative 445,440 in 29 frames. [Probe and reported evidence](experiments/xbox-sampling/README.md). Constant UV at LOD0 only; variable UV, filtering and mipmaps remain open. Captures remain local; no real game boot or independent CI GPU test.
+
 ## Xbox multipass and whole-resource transitions · 24 November 2026
 
-Reported local M1 Max / CrossOver / D3DMetal run at `9b109704`: 16/16 executed host draws, eight successful Present calls, expected title exit 42, 61,440/61,440 RGB samples matched. Two offscreen targets plus presentation texture; explicit whole-resource barriers and two GPU texture copies per frame. Cumulative 384,000 validated samples across 25 frames. [Probe and reported results](experiments/xbox-multipass/README.md). Captures remain local; no independent CI GPU run. Shader sampling of textures and actual game boot remain unverified.
+Reported local M1 Max / CrossOver / D3DMetal run at `9b109704`: 16/16 executed host draws, eight successful Present calls, expected title exit 42, 61,440/61,440 RGB samples matched. Two offscreen targets plus presentation texture; explicit whole-resource barriers and two GPU texture copies per frame. Cumulative 384,000 validated samples across 25 frames. [Probe and reported results](experiments/xbox-multipass/README.md). Captures remain local; no independent CI GPU run. Texture sampling passed in the subsequent gate; actual game boot remains unverified.
 
 ## Xbox blending and channel masks · 24 November 2026
 
@@ -10,11 +14,11 @@ Reported local M1 Max / CrossOver / D3DMetal run at `c75ea247`: four host PSOs, 
 
 ## Xbox depth ordering · 24 November 2026
 
-Reported local M1 Max / CrossOver / D3DMetal run at `27824d08`: two host PSOs, 16/16 executed draws, eight successful presentations, expected title exit 42. D32_FLOAT, depth writes, clear to zero and strict LESS tested through color readback. Both near/far draw orders produced magenta, zero-depth clear produced black (intentional warning), equal depth retained green. 61,440/61,440 sampled RGB pixels matched; cumulative 261,120 samples across 17 frames. [Probe and results](experiments/xbox-depth/README.md). Original captures remain local. No independent CI GPU run or real game boot. Next: texture sampling and resource bindings.
+Reported local M1 Max / CrossOver / D3DMetal run at `27824d08`: two host PSOs, 16/16 executed draws, eight successful presentations, expected title exit 42. D32_FLOAT, depth writes, clear to zero and strict LESS tested through color readback. Both near/far draw orders produced magenta, zero-depth clear produced black (intentional warning), equal depth retained green. 61,440/61,440 sampled RGB pixels matched; cumulative 261,120 samples across 17 frames. [Probe and results](experiments/xbox-depth/README.md). Original captures remain local. No independent CI GPU run or real game boot. Basic texture sampling and resource bindings passed in the later gate.
 
 ## Indexed Xbox geometry · 24 November 2026
 
-Reported local M1 Max validation at `c36dae6b`: 16-bit index buffer, nonzero firstIndex and baseVertex, alternating left/right quads. Both shaders translated, 8/8 indexed draws and DXGI Present calls succeeded, title exit 42, 61,440/61,440 sampled RGB pixels matched in four frames. Cumulative 199,680 samples across 13 frames. [Probe and evidence](experiments/xbox-indexed/README.md). Depth testing passed in the subsequent gate; texture sampling and complex render state remain pending. Original captures remain local; no real game boot or independent CI GPU result.
+Reported local M1 Max validation at `c36dae6b`: 16-bit index buffer, nonzero firstIndex and baseVertex, alternating left/right quads. Both shaders translated, 8/8 indexed draws and DXGI Present calls succeeded, title exit 42, 61,440/61,440 sampled RGB pixels matched in four frames. Cumulative 199,680 samples across 13 frames. [Probe and evidence](experiments/xbox-indexed/README.md). Depth testing passed in the subsequent gate; basic texture sampling passed later; complex render state remains pending. Original captures remain local; no real game boot or independent CI GPU result.
 
 ## Synthetic RDNA2 graphics draw · 24 November 2026
 

@@ -17,7 +17,8 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 - [x] Verify D32_FLOAT depth writes, occlusion, clear and strict LESS through synthetic color readback.
 - [x] Verify alpha and additive blending, channel write masks and opaque overwrite through sampled RGB readback.
 - [x] Verify multipass render targets, GPU texture copies and whole-resource transitions.
-- [ ] Verify shader texture sampling and subresource synchronization.
+- [x] Verify native pixel shader texture sampling at constant UV/LOD0 and dynamic descriptor bindings.
+- [ ] Verify spatial UV interpolation, filtering, mipmaps and subresource synchronization.
 
 - [x] Verify synthetic Xbox-style Device11 and PresentX-to-DXGI integration (3/3 successful presentations; expected exit 42). [Checkpoint](checkpoints/2026-11-24-xbox-graphics/README.md)
 - [ ] Review preserved local patches and independently reproduce the checkpoint; this is not game boot validation.
@@ -50,7 +51,8 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 - [x] Verificare profondità D32_FLOAT, occlusioni, clear e confronto LESS con readback colore.
 - [x] Verificare blending alpha/additivo, maschere di scrittura e modalità opaca.
 - [x] Verificare multipass, copie GPU e transizioni di risorse intere.
-- [ ] Verificare texture sampling negli shader e sincronizzazione delle sottorisorse.
+- [x] Verificare texture sampling nel pixel shader a UV/LOD0 fissi e binding dinamici.
+- [ ] Verificare interpolazione UV, filtri, mipmap e sincronizzazione delle sottorisorse.
 
 - [x] Verificare Device11 e PresentX sintetici attraverso VIctory (3/3 presentazioni DXGI, uscita 42).
 - [ ] Revisionare le patch locali conservate e riprodurre il checkpoint su un secondo host.

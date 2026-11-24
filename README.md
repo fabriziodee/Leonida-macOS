@@ -6,6 +6,8 @@
 
 ## Status
 
+**Texture sampling verified:** original RDNA2 pixel shader, two descriptor tables, dynamic render-target contents, 8/8 draws and 61,440/61,440 matching sampled RGB pixels. Cumulative 445,440 validated samples across 29 frames. [Results](experiments/xbox-sampling/README.md). Constant UV at LOD0; no actual game boot verified.
+
 **Multipass rendering verified:** 16/16 draws, eight successful presentations and 61,440/61,440 matching RGB samples across four frames. Two offscreen targets, explicit whole-resource transitions and GPU copies into the presentation target. Cumulative 384,000 validated samples across 25 frames. [Results](experiments/xbox-multipass/README.md). No actual game boot verified.
 
 **Blending verified:** four host graphics pipelines, 8/8 draws, 8/8 successful DXGI presentations, 61,440/61,440 sampled RGB pixels within expected values across alpha, additive, write-mask and opaque modes. Cumulative synthetic graphics readback: 322,560 validated samples across 21 frames. [Blend results](experiments/xbox-blend/README.md). No game boot verified.
@@ -50,6 +52,8 @@ Share only original code, synthetic fixtures, and sanitized output. Keep game fi
 Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), originally hosted at `ItsNotRexed/Leonida`. See the [original credits](README.upstream.md#credits) and [GPL-3.0 license](LICENSE). Third-party components retain their own license notices.
 
 ## Italiano
+
+**Texture sampling verificato:** 8/8 draw, descriptor table dinamiche e 61.440/61.440 campioni RGB corretti. Totale 445.440 in 29 frame. [Risultati](experiments/xbox-sampling/README.md).
 
 **Multipass verificato:** 16/16 draw, 61.440/61.440 campioni RGB corretti, transizioni e copie tra render target. Totale 384.000 campioni in 25 frame. [Risultati](experiments/xbox-multipass/README.md).
 
