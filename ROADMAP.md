@@ -12,8 +12,18 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 ## VIctory / D3DMetal
 
 - [x] Verify pre-Present swap-chain RGB samples in six synthetic frames (92,160/92,160), including full and rectangular render-target clears. [Evidence](experiments/xbox-backbuffer/README.md)
-- [ ] Execute a synthetic translated vertex/pixel shader pipeline using the Xbox PSO stream ABI and DrawInstanced; require nonzero host draw count and expected readback.
-- [ ] Extend to indexed geometry, depth testing, texture sampling, blending and resource transitions.
+- [x] Execute a synthetic translated vertex/pixel shader pipeline using the Xbox PSO stream ABI and DrawInstanced; require nonzero host draw count and expected readback.
+- [x] Verify indexed geometry with nonzero firstIndex and baseVertex, alternating quad placement and exact sampled RGB readback.
+- [x] Verify D32_FLOAT depth writes, occlusion, clear and strict LESS through synthetic color readback.
+- [x] Verify alpha and additive blending, channel write masks and opaque overwrite through sampled RGB readback.
+- [x] Verify multipass render targets, GPU texture copies and whole-resource transitions.
+- [x] Verify native pixel shader texture sampling at constant UV/LOD0 and dynamic descriptor bindings.
+- [x] Verify spatial UV interpolation and texture orientation with equal clip-space w and point-clamp LOD0.
+- [x] Verify varying-w perspective correction and bilinear filtering at a texel junction.
+- [ ] Verify mip levels, anisotropic filtering and subresource synchronization.
+- [ ] Verify integrated compute dispatch with GPU output consumed by graphics.
+- [ ] Render a combined textured 3D scene with depth, blending and shader-driven lighting.
+- [ ] Measure sustained frame pacing, memory use, resource lifetime and repeatability.
 
 - [x] Verify synthetic Xbox-style Device11 and PresentX-to-DXGI integration (3/3 successful presentations; expected exit 42). [Checkpoint](checkpoints/2026-11-24-xbox-graphics/README.md)
 - [ ] Review preserved local patches and independently reproduce the checkpoint; this is not game boot validation.
@@ -41,8 +51,18 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 ### VIctory / D3DMetal
 
 - [x] Verificare 92.160 campioni RGB su sei frame nel back buffer DXGI, inclusi clear integrali e rettangolari.
-- [ ] Eseguire vertex/pixel shader sintetici tradotti con pipeline stream Xbox e DrawInstanced; verificare draw sul dispositivo host e pixel attesi.
-- [ ] Estendere a geometria indicizzata, profondità, texture, blending e transizioni risorse.
+- [x] Eseguire vertex/pixel shader sintetici tradotti con pipeline stream Xbox e DrawInstanced; verificare draw sul dispositivo host e pixel attesi.
+- [x] Verificare geometria indicizzata con firstIndex e baseVertex non nulli e readback esatto.
+- [x] Verificare profondità D32_FLOAT, occlusioni, clear e confronto LESS con readback colore.
+- [x] Verificare blending alpha/additivo, maschere di scrittura e modalità opaca.
+- [x] Verificare multipass, copie GPU e transizioni di risorse intere.
+- [x] Verificare texture sampling nel pixel shader a UV/LOD0 fissi e binding dinamici.
+- [x] Verificare interpolazione UV e orientamento texture con w costante e point-clamp LOD0.
+- [x] Verificare correzione prospettica con w variabile e filtro bilineare.
+- [ ] Verificare mipmap, filtro anisotropico e sincronizzazione delle sottorisorse.
+- [ ] Verificare dispatch compute integrato con output GPU consumato dalla grafica.
+- [ ] Renderizzare una scena 3D con texture, profondità, blending e illuminazione tramite shader.
+- [ ] Misurare frame pacing, memoria, durata delle risorse e ripetibilità.
 
 - [x] Verificare Device11 e PresentX sintetici attraverso VIctory (3/3 presentazioni DXGI, uscita 42).
 - [ ] Revisionare le patch locali conservate e riprodurre il checkpoint su un secondo host.

@@ -4,9 +4,26 @@
 
 [Italiano](#italiano) · [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [Upstream README](README.upstream.md)
 
-## Status
+## Status — 24 November 2026
 
-**New: verified Xbox back-buffer output.** Two synthetic Xbox titles produced six captured frames with 92,160/92,160 sampled RGB pixels matching, including full and rectangular render-target clears. [Reproduction and evidence](experiments/xbox-backbuffer/README.md). No shader-driven geometry or game boot yet.
+**Apple Silicon synthetic graphics: nine verified experiment groups, 37 validated frames, 568,320 sampled RGB pixels within expected values, 80 executed host draws and 70 successful DXGI Present calls.** Reported local M1 Max / CrossOver / D3DMetal results using the same diagnostics runtime. These are synthetic compatibility checks, not a percentage of GTA VI compatibility. GTA VI has not been booted or demonstrated playable on this Mac.
+
+| Verified synthetic gate | Validated frames | RGB samples | Host draws |
+| --- | ---: | ---: | ---: |
+| [Back buffer / GPU clear](experiments/xbox-backbuffer/README.md) | 6 | 92,160 | 0 |
+| [Synthetic RDNA2 draw](experiments/xbox-draw/README.md) | 3 | 46,080 | 8 |
+| [Indexed geometry](experiments/xbox-indexed/README.md) | 4 | 61,440 | 8 |
+| [Depth / occlusion](experiments/xbox-depth/README.md) | 4 | 61,440 | 16 |
+| [Alpha / additive blending](experiments/xbox-blend/README.md) | 4 | 61,440 | 8 |
+| [Multipass / resource transitions](experiments/xbox-multipass/README.md) | 4 | 61,440 | 16 |
+| [Dynamic texture sampling](experiments/xbox-sampling/README.md) | 4 | 61,440 | 8 |
+| [UV interpolation](experiments/xbox-uv/README.md) | 4 | 61,440 | 8 |
+| [Perspective / bilinear filter](experiments/xbox-perspective-filter/README.md) | 4 | 61,440 | 8 |
+| **Total** | **37** | **568,320** | **80** |
+
+Captures are half-resolution RGB readbacks of the actual DXGI back buffer before Present. Exact comparison except the documented one-unit UNORM rounding allowance for alpha blending and bilinear filtering. Original capture files remain local; no independent GPU reproduction in CI is claimed. See [PROGRESS](PROGRESS.md) for individual checkpoints and [ROADMAP](ROADMAP.md) for remaining work.
+
+All nine verified experiment groups and their sources are consolidated in `main`. No game assets or binaries are included. The run scripts reproduce the original local environment; external testers must adapt paths and supply their own compatible diagnostics runtime. New CI for the consolidated revision is separate from the local hardware results.
 
 ### Xbox Graphics First Present · 24 November 2026
 
@@ -41,7 +58,9 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
 
 ## Italiano
 
-**Back buffer Xbox verificato:** 92.160/92.160 pixel RGB campionati corretti in sei frame sintetici, inclusi clear integrali e rettangolari. [Test e risultati](experiments/xbox-backbuffer/README.md). Il rendering con geometria e l'avvio del gioco restano da verificare.
+**Stato aggiornato — 24 novembre 2026.** Su M1 Max con CrossOver e D3DMetal abbiamo verificato nove gruppi di esperimenti sintetici: **568.320 campioni RGB conformi, 37 frame validati, 80 draw host eseguite e 70 Present DXGI riuscite**. Sono integrati in `main` i sorgenti e i risultati di back buffer, clear, shader RDNA2, geometria indicizzata, profondità, blending, multipass, texture sampling, UV e prospettiva/filtro bilineare. [Matrice completa](#status--24-november-2026) · [Stato di avanzamento](PROGRESS.md) · [Roadmap](ROADMAP.md).
+
+I risultati provengono dai test locali riportati, non da un test GPU indipendente in CI. Il readback RGB è a metà risoluzione e precede Present; per blending e filtro bilineare è ammessa la quantizzazione documentata. I file del gioco non sono stati utilizzati e l'avvio reale resta da verificare. Le istruzioni degli esperimenti sono riferite alla configurazione locale originale; altri tester devono adattare i percorsi.
 
 **Aggiornamento 24 novembre:** percorso grafico Xbox sintetico integrato verificato: 4/4 import, Device11, 3/3 PresentX, uscita titolo 42. [Sorgenti, patch e log](checkpoints/2026-11-24-xbox-graphics/README.md). Nessun rendering 3D del gioco ancora verificato.
 
