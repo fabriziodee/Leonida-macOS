@@ -540,8 +540,11 @@ jobs:
           if cmake --build runtime/build --parallel 2>&1 | tee "$log"; then
             exit 0
           fi
-          grep -Fq 'sccache: error: Timed out waiting for server startup' "$log" || exit 1
-          echo "::notice::Compiler cache startup timed out. Resuming the build with the local compiler."
+          if ! grep -Fq 'sccache: error: Timed out waiting for server startup' "$log" &&
+             ! grep -Eiq 'sccache: error: Server startup failed: cache storage failed to read:.*ServerBusy' "$log"; then
+            exit 1
+          fi
+          echo "::notice::Compiler cache startup or storage unavailable. Resuming the build with the local compiler."
           cmake -S runtime -B runtime/build -DCMAKE_CXX_COMPILER_LAUNCHER= -DLEONIDA_REQUIRE_VULKAN=ON
           cmake --build runtime/build --parallel
       # Required: every test passes or skips, except the ones listed here, each with the pull request that fixes it
