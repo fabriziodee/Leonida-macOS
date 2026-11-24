@@ -27,6 +27,10 @@ sign of zero through the translated sine instruction. Both the 16-bit and
 32-bit compute shader fixtures passed on the hardware adapter. The updated
 runtime also returned 42 from the synthetic entry point. [Source and reproduction](docs/victory-macos.md#texture-uploads-and-compute-shaders-on-the-m1-max)
 
+The [upstream waterfall-loop shader](https://github.com/Marvisak/VIctory/commit/ffe310eb2098e52169f4c44db5ffdabf43a72622)
+also passed on the M1 Max. In its 32-lane synthetic dispatch, even lanes
+sampled the first texture and odd lanes the second. All 32 red-channel values matched.
+
 [Run the synthetic smoke test](docs/victory-macos.md) ·
 [Backend evidence](docs/macos-backends.md) ·
 [Report a real boot attempt](https://github.com/fabriziodee/Leonida-macOS/issues/1)
