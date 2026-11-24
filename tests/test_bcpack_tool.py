@@ -88,7 +88,7 @@ class TestBcpackTool(unittest.TestCase):
                 bcpack_tool.decode_file(
                     in_file, in_file, codec=1, out_size=len(self.original_blocks)
                 )
-            self.assertIn(in_file, str(ctx.exception))
+            self.assertIn(repr(in_file), str(ctx.exception))
             with open(in_file, "rb") as f:
                 self.assertEqual(f.read(), self.compressed_stream)
 
@@ -106,7 +106,7 @@ class TestBcpackTool(unittest.TestCase):
                 bcpack_tool.decode_file(
                     in_file, link_file, codec=1, out_size=len(self.original_blocks)
                 )
-            self.assertIn(link_file, str(ctx.exception))
+            self.assertIn(repr(link_file), str(ctx.exception))
             with open(in_file, "rb") as f:
                 self.assertEqual(f.read(), self.compressed_stream)
 
@@ -124,7 +124,7 @@ class TestBcpackTool(unittest.TestCase):
                 bcpack_tool.decode_file(
                     in_file, link_file, codec=1, out_size=len(self.original_blocks)
                 )
-            self.assertIn(link_file, str(ctx.exception))
+            self.assertIn(repr(link_file), str(ctx.exception))
             with open(in_file, "rb") as f:
                 self.assertEqual(f.read(), self.compressed_stream)
 
