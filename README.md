@@ -8,7 +8,7 @@
 
 *Updated 24 November 2026.*
 
-**Apple Silicon synthetic graphics: nine verified experiment groups, 37 validated frames, 568,320 sampled RGB pixels within expected values, 80 executed host draws and 70 successful DXGI Present calls.** Reported local M1 Max / CrossOver / D3DMetal results using the same diagnostics runtime. These are synthetic compatibility checks, not a percentage of GTA VI compatibility. GTA VI has not been booted or demonstrated playable on this Mac.
+**Apple Silicon synthetic graphics: ten verified experiment groups, 41 validated frames, 629,760 sampled RGB pixels within expected values, 88 executed host draws and 78 successful DXGI Present calls.** Reported local M1 Max / CrossOver / D3DMetal results using the same diagnostics runtime. These are synthetic compatibility checks, not a percentage of GTA VI compatibility. GTA VI has not been booted or demonstrated playable on this Mac.
 
 | Verified synthetic gate | Validated frames | RGB samples | Host draws |
 | --- | ---: | ---: | ---: |
@@ -21,11 +21,12 @@
 | [Dynamic texture sampling](experiments/xbox-sampling/README.md) | 4 | 61,440 | 8 |
 | [UV interpolation](experiments/xbox-uv/README.md) | 4 | 61,440 | 8 |
 | [Perspective / bilinear filter](experiments/xbox-perspective-filter/README.md) | 4 | 61,440 | 8 |
-| **Total** | **37** | **568,320** | **80** |
+| [Physical mip levels / SRV selection](experiments/xbox-mipmaps/README.md) | 4 | 61,440 | 8 |
+| **Total** | **41** | **629,760** | **88** |
 
 Captures are half-resolution RGB readbacks of the actual DXGI back buffer before Present. Exact comparison except the documented one-unit UNORM rounding allowance for alpha blending and bilinear filtering. Original capture files remain local; no independent GPU reproduction in CI is claimed. See [PROGRESS](PROGRESS.md) for individual checkpoints and [ROADMAP](ROADMAP.md) for remaining work.
 
-All nine verified experiment groups and their sources are consolidated in `main`. No game assets or binaries are included. The run scripts reproduce the original local environment; external testers must adapt paths and supply their own compatible diagnostics runtime. New CI for the consolidated revision is separate from the local hardware results.
+All ten verified experiment groups and their sources are consolidated in `main`. No game assets or binaries are included. The run scripts reproduce the original local environment; external testers must adapt paths and supply their own compatible diagnostics runtime. CI for the consolidated revision is separate from the local hardware results. The stable Status anchor was restored after the previous documentation link check failed.
 
 ### Xbox Graphics First Present · 24 November 2026
 
@@ -60,7 +61,7 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
 
 ## Italiano
 
-**Stato aggiornato — 24 novembre 2026.** Su M1 Max con CrossOver e D3DMetal abbiamo verificato nove gruppi di esperimenti sintetici: **568.320 campioni RGB conformi, 37 frame validati, 80 draw host eseguite e 70 Present DXGI riuscite**. Sono integrati in `main` i sorgenti e i risultati di back buffer, clear, shader RDNA2, geometria indicizzata, profondità, blending, multipass, texture sampling, UV e prospettiva/filtro bilineare. [Matrice completa](#status) · [Stato di avanzamento](PROGRESS.md) · [Roadmap](ROADMAP.md).
+**Stato aggiornato — 24 novembre 2026.** Su M1 Max con CrossOver e D3DMetal abbiamo verificato dieci gruppi di esperimenti sintetici: **629.760 campioni RGB conformi, 41 frame validati, 88 draw host eseguite e 78 Present DXGI riuscite**. Sono integrati in `main` i sorgenti e i risultati di back buffer, clear, shader RDNA2, geometria indicizzata, profondità, blending, multipass, texture sampling, UV, prospettiva/filtro bilineare e selezione di quattro livelli mip fisici. [Matrice completa](#status) · [Stato di avanzamento](PROGRESS.md) · [Roadmap](ROADMAP.md).
 
 I risultati provengono dai test locali riportati, non da un test GPU indipendente in CI. Il readback RGB è a metà risoluzione e precede Present; per blending e filtro bilineare è ammessa la quantizzazione documentata. I file del gioco non sono stati utilizzati e l'avvio reale resta da verificare. Le istruzioni degli esperimenti sono riferite alla configurazione locale originale; altri tester devono adattare i percorsi.
 

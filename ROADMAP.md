@@ -20,7 +20,8 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 - [x] Verify native pixel shader texture sampling at constant UV/LOD0 and dynamic descriptor bindings.
 - [x] Verify spatial UV interpolation and texture orientation with equal clip-space w and point-clamp LOD0.
 - [x] Verify varying-w perspective correction and bilinear filtering at a texel junction.
-- [ ] Verify mip levels, anisotropic filtering and subresource synchronization.
+- [x] Verify four physical mip levels using separate RTV clears and explicit SRV views.
+- [ ] Verify automatic LOD, mip generation, trilinear/anisotropic filtering and general subresource synchronization.
 - [ ] Verify integrated compute dispatch with GPU output consumed by graphics.
 - [ ] Render a combined textured 3D scene with depth, blending and shader-driven lighting.
 - [ ] Measure sustained frame pacing, memory use, resource lifetime and repeatability.
@@ -59,7 +60,8 @@ Consulta lo [stato di avanzamento](PROGRESS.md#italiano) per i controlli conclus
 - [x] Verificare texture sampling nel pixel shader a UV/LOD0 fissi e binding dinamici.
 - [x] Verificare interpolazione UV e orientamento texture con w costante e point-clamp LOD0.
 - [x] Verificare correzione prospettica con w variabile e filtro bilineare.
-- [ ] Verificare mipmap, filtro anisotropico e sincronizzazione delle sottorisorse.
+- [x] Verificare quattro livelli mip fisici con RTV e SRV esplicite.
+- [ ] Verificare LOD automatico, generazione mipmap, filtro trilineare/anisotropico e sincronizzazione generale delle sottorisorse.
 - [ ] Verificare dispatch compute integrato con output GPU consumato dalla grafica.
 - [ ] Renderizzare una scena 3D con texture, profondità, blending e illuminazione tramite shader.
 - [ ] Misurare frame pacing, memoria, durata delle risorse e ripetibilità.

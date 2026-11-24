@@ -13,13 +13,18 @@
 | [Dynamic texture sampling](experiments/xbox-sampling/README.md) | 4 | 61,440 | 8 |
 | [UV interpolation](experiments/xbox-uv/README.md) | 4 | 61,440 | 8 |
 | [Perspective / bilinear filter](experiments/xbox-perspective-filter/README.md) | 4 | 61,440 | 8 |
-| **Total** | **37** | **568,320** | **80** |
+| [Physical mip levels / SRV selection](experiments/xbox-mipmaps/README.md) | 4 | 61,440 | 8 |
+| **Total** | **41** | **629,760** | **88** |
 
-70 successful DXGI presentations across these nine groups; earlier standalone presenter probes excluded. Results reported from local hardware. Same diagnostic runtime SHA-256 `bbccb2cf79bbbbcc41845c88f44564adf1266c10527a2138401601f4e2291639`. Captures at 160×96 from 320×192 back buffers, before Present. No game files used; no verified game boot. All validated experiment sources integrated directly into main; consolidated CI is not yet certified.
+78 successful DXGI presentations across these ten groups; earlier standalone presenter probes excluded. Results reported from local hardware. Same diagnostic runtime SHA-256 `bbccb2cf79bbbbcc41845c88f44564adf1266c10527a2138401601f4e2291639`. Captures at 160×96 from 320×192 back buffers, before Present. No game files used; no verified game boot. All validated experiment sources integrated directly into main; consolidated CI is not yet certified.
+
+## Xbox physical mip levels and SRV selection · 24 November 2026
+
+Reported local M1 Max / CrossOver / D3DMetal run at `cd0c00fc`: four actual mip levels of one 64×64 RGBA8 texture, separate RTV clears and explicit SRV selection, 8/8 executed draws and Present calls, expected exit 42, 61,440/61,440 RGB samples matched. [Probe and results](experiments/xbox-mipmaps/README.md). Automatic LOD selection, generated mipmaps, trilinear/anisotropic filtering and general subresource synchronization remain unverified. Captures remain local; no independent GPU CI or actual game boot.
 
 ## Xbox perspective correction and bilinear filtering · 24 November 2026
 
-Reported local M1 Max run at `19801e7e`: 8/8 executed host draws and successful DXGI presentations, expected title exit 42, 61,440/61,440 RGB samples within expected values. Frames 5–6 matched varying-w perspective correction, frames 7–8 matched the bilinear average at the four-texel junction (127/128 allowed). [Probe and evidence](experiments/xbox-perspective-filter/README.md). Mipmaps, anisotropic filtering, broader resource synchronization, complex scenes and real game execution remain unverified.
+Reported local M1 Max run at `19801e7e`: 8/8 executed host draws and successful DXGI presentations, expected title exit 42, 61,440/61,440 RGB samples within expected values. Frames 5–6 matched varying-w perspective correction, frames 7–8 matched the bilinear average at the four-texel junction (127/128 allowed). [Probe and evidence](experiments/xbox-perspective-filter/README.md). Physical mip views passed in the subsequent gate; automatic LOD, anisotropic filtering, broader resource synchronization, complex scenes and real game execution remain unverified.
 
 ## Xbox interpolated UV texture sampling · 24 November 2026
 
@@ -120,7 +125,7 @@ sampled the first texture and odd lanes the second. All 32 red-channel values ma
 
 ## Italiano
 
-**Aggiornamento grafico:** nove gruppi di esperimenti, 568.320 campioni RGB conformi in 37 frame, 80 draw eseguite e 70 presentazioni DXGI riuscite. Prospettiva con w variabile e filtro bilineare verificati. Tutti i sorgenti sono in main. Restano mipmap, compute integrato, scene complesse e stabilità; l'avvio reale del gioco non è verificato.
+**Aggiornamento grafico:** dieci gruppi di esperimenti, 629.760 campioni RGB conformi in 41 frame, 88 draw eseguite e 78 presentazioni DXGI riuscite. Prospettiva con w variabile e filtro bilineare verificati. Tutti i sorgenti sono in main. Quattro livelli mip fisici verificati; restano LOD automatico, compute integrato, scene complesse e stabilità; l'avvio reale del gioco non è verificato.
 
 I risultati aggiornati provengono dal [branch sperimentale fissato al commit `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md). La PR #4 è stata integrata dopo 12 controlli superati e un job Wine saltato; il back buffer è stato integrato nella PR #5 dopo 8/8 controlli riusciti; i successivi esperimenti verificati sono stati consolidati direttamente in main. La [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) è stata integrata e tutti i sette job restituiti dal [workflow della PR](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) sono terminati con successo. I test GPU locali sono risultati documentati, non rieseguiti durante questo aggiornamento. La priorità è una riproduzione indipendente su Apple Silicon con dati sintetici, seguita da un avvio reale solo in presenza di file autorizzati e compatibili.
 
