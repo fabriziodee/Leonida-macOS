@@ -1,0 +1,60 @@
+--- a/crates/victory-gpu/src/host.rs
++++ b/crates/victory-gpu/src/host.rs
+@@ -1681,25 +1681,32 @@
+-            list.ResourceBarrier(&[
+-                transition(texture, state, D3D12_RESOURCE_STATE_COPY_SOURCE),
+-                transition(
+-                    &back,
+-                    D3D12_RESOURCE_STATE_PRESENT,
+-                    D3D12_RESOURCE_STATE_COPY_DEST,
+-                ),
+-            ]);
+-            list.CopyResource(&back, texture);
+-            #[cfg(feature = "diagnostics")]
+-            let capture = crate::capture::wanted(frame)
+-                .then(|| crate::capture::read_back(&self.device, list, texture))
+-                .flatten();
+-            #[cfg(feature = "diagnostics")]
+-            let probe = crate::capture::probe(&self.device, list, texture);
+-            #[cfg(not(feature = "diagnostics"))]
+-            let _ = frame;
+-            list.ResourceBarrier(&[
+-                transition(texture, D3D12_RESOURCE_STATE_COPY_SOURCE, state),
+-                transition(
+-                    &back,
+-                    D3D12_RESOURCE_STATE_COPY_DEST,
+-                    D3D12_RESOURCE_STATE_PRESENT,
+-                ),
+-            ]);
++            let source = D3D12_RESOURCE_STATE_COPY_SOURCE;
++            if state != source {
++                list.ResourceBarrier(&[transition(texture, state, source)]);
++            }
++            list.ResourceBarrier(&[transition(
++                &back, D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_COPY_DEST,
++            )]);
++            list.CopyResource(&back, texture);
++            #[cfg(feature = "diagnostics")]
++            let capture = if crate::capture::wanted(frame) {
++                // Read the actual swap-chain buffer, not the title texture.
++                list.ResourceBarrier(&[transition(
++                    &back, D3D12_RESOURCE_STATE_COPY_DEST, source,
++                )]);
++                let result = crate::capture::read_back(&self.device, list, &back);
++                list.ResourceBarrier(&[transition(
++                    &back, source, D3D12_RESOURCE_STATE_COPY_DEST,
++                )]);
++                result
++            } else {
++                None
++            };
++            #[cfg(feature = "diagnostics")]
++            let probe = crate::capture::probe(&self.device, list, texture);
++            #[cfg(not(feature = "diagnostics"))]
++            let _ = frame;
++            if state != source {
++                list.ResourceBarrier(&[transition(texture, source, state)]);
++            }
++            list.ResourceBarrier(&[transition(
++                &back, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_PRESENT,
++            )]);

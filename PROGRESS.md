@@ -1,5 +1,10 @@
 # macOS progress
 
+## Verified Xbox back buffer · 24 November 2026
+
+Reported local run on M1 Max using the diagnostics build and CrossOver/D3DMetal: six successful Present calls, 92,160/92,160 matching sampled RGB pixels (46,080 texture-copy and 46,080 render-target clear), two expected title exit codes 42. See [source and evidence](experiments/xbox-backbuffer/README.md). Captures are of the DXGI back buffer before Present at half resolution; alpha, display scanout and shader-driven draw calls are not validated. Original captures are local. No game files used. Next independent gate: synthetic vertex/pixel shader translation, PSO stream creation and DrawInstanced with nonzero executed draw count and expected pixel readback.
+
+
 ## Xbox graphics presentation checkpoint · 24 November 2026
 
 Reported local validation on Apple M1 Max (32 GB), using the existing CrossOver/D3DMetal bottle and a separate experimental build of the VIctory macOS fork based on `f5660fd` with existing local shader/texture fixes and additional presenter instrumentation.
@@ -23,7 +28,7 @@ The developer saved a local checkpoint containing the probe source, diffs, logs 
 
 ## Repository status · 24 November 2026
 
-The results below are reported from the experimental [`macos/d3dmetal-execution-probe` snapshot](https://github.com/fabriziodee/Leonida-macOS/commit/912df59021f09c0dd6b22d48b07293bd6485efaa). That snapshot and the later checkpoint are preserved in the integration branch for PR #4. The integration revision still requires CI; local hardware evidence is not a CI result. The eight milestones are a checklist, not an estimate of game compatibility or probability of success.
+The results below are reported from the experimental [`macos/d3dmetal-execution-probe` snapshot](https://github.com/fabriziodee/Leonida-macOS/commit/912df59021f09c0dd6b22d48b07293bd6485efaa). That snapshot and the first checkpoint were merged into main via [PR #4](https://github.com/fabriziodee/Leonida-macOS/pull/4) at `3e0df6a8`: 12 checks passed and the Wine matrix was skipped on `63336c80`. Local hardware evidence is not a CI result. The newer back-buffer experiment is tracked in PR #5. The eight milestones are a checklist, not an estimate of game compatibility or probability of success.
 
 [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) merged cross-platform CI fixes into `main` at `556d5b12101d`. All seven jobs returned for [the PR's Actions run](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) completed successfully (change-scope, translator-tests, macos-python, viewer-tests, check, stdlib-tests-linux and semantic-tests on Ubuntu). This is not a fresh full validation of the experimental branch or the game. The local GPU results below are documented test reports, not tests rerun during this documentation update.
 
@@ -66,7 +71,7 @@ sampled the first texture and odd lanes the second. All 32 red-channel values ma
 
 ## Italiano
 
-I risultati aggiornati provengono dal [branch sperimentale fissato al commit `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md). La revisione di integrazione della PR #4 conserva il codice sperimentale e il checkpoint; la CI della nuova revisione resta da verificare. La [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) è stata integrata e tutti i sette job restituiti dal [workflow della PR](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) sono terminati con successo. I test GPU locali sono risultati documentati, non rieseguiti durante questo aggiornamento. La priorità è una riproduzione indipendente su Apple Silicon con dati sintetici, seguita da un avvio reale solo in presenza di file autorizzati e compatibili.
+I risultati aggiornati provengono dal [branch sperimentale fissato al commit `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md). La PR #4 è stata integrata dopo 12 controlli superati e un job Wine saltato; il nuovo esperimento del back buffer è nella PR #5. La [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) è stata integrata e tutti i sette job restituiti dal [workflow della PR](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) sono terminati con successo. I test GPU locali sono risultati documentati, non rieseguiti durante questo aggiornamento. La priorità è una riproduzione indipendente su Apple Silicon con dati sintetici, seguita da un avvio reale solo in presenza di file autorizzati e compatibili.
 
 
 **5 tappe verificate su 8 verso un menu funzionante di GTA VI su macOS.**

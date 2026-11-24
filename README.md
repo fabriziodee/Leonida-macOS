@@ -6,6 +6,8 @@
 
 ## Status
 
+**New: verified Xbox back-buffer output.** Two synthetic Xbox titles produced six captured frames with 92,160/92,160 sampled RGB pixels matching, including full and rectangular render-target clears. [Reproduction and evidence](experiments/xbox-backbuffer/README.md). No shader-driven geometry or game boot yet.
+
 ### Xbox Graphics First Present · 24 November 2026
 
 On M1 Max with CrossOver/D3DMetal, a synthetic Xbox-style title resolved 4/4 imports, created D3D12.X Device11, submitted a texture copy and completed 3/3 PresentX-to-DXGI presentations (S_OK). The title returned the expected 42 and the runtime returned 0. Separate probes verified 180/180 DXGI presentations and 64/64 texture readback bytes. [Published source, patches and evidence](checkpoints/2026-11-24-xbox-graphics/README.md). No draw or dispatch in the integrated probe; GTA VI boot and visible game rendering are unverified. The milestone count remains 5/8.
@@ -14,7 +16,7 @@ On M1 Max with CrossOver/D3DMetal, a synthetic Xbox-style title resolved 4/4 imp
 **Hybrid runtime: 5 of 8 milestones verified (62.5% of the checklist) toward a responsive GTA VI menu.**
 The VIctory build, CrossOver/D3DMetal host checks, two synthetic loader tests,
 and synthetic launch passed. D3D12 clear and readback matched all 16 RGBA8 pixels. GTA VI boot and menu remain unverified.
-Additional hardware checks passed: 64 texture bytes, two compute shader fixtures and a 32-lane texture lookup. Results are documented on the [experimental branch at `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md); the experimental code and checkpoint are collected in PR #4 for integration review. The checklist is not a measure of playability or a prediction of success.
+Additional hardware checks passed: 64 texture bytes, two compute shader fixtures and a 32-lane texture lookup. Results are documented on the [experimental branch at `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md); the experimental code and first checkpoint were merged in [PR #4](https://github.com/fabriziodee/Leonida-macOS/pull/4) after 12 successful checks and one skipped Wine job. The checklist is not a measure of playability or a prediction of success.
 
 [Cross-platform CI fixes (PR #3)](https://github.com/fabriziodee/Leonida-macOS/pull/3) have been merged into `main`; all seven jobs returned for [the PR workflow](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) passed. This does not certify the experimental branch or a real game boot.
 
@@ -39,13 +41,15 @@ Based on [ProjectLeonida/Leonida](https://github.com/ProjectLeonida/Leonida), or
 
 ## Italiano
 
+**Back buffer Xbox verificato:** 92.160/92.160 pixel RGB campionati corretti in sei frame sintetici, inclusi clear integrali e rettangolari. [Test e risultati](experiments/xbox-backbuffer/README.md). Il rendering con geometria e l'avvio del gioco restano da verificare.
+
 **Aggiornamento 24 novembre:** percorso grafico Xbox sintetico integrato verificato: 4/4 import, Device11, 3/3 PresentX, uscita titolo 42. [Sorgenti, patch e log](checkpoints/2026-11-24-xbox-graphics/README.md). Nessun rendering 3D del gioco ancora verificato.
 
 **Versione sperimentale 3r1 di Leonida per macOS su Apple Silicon.**
 
 **Runtime ibrido: 5 tappe verificate su 8 (62,5% della checklist) verso un menu funzionante.** I test sintetici sono passati, incluso il readback D3D12 di 16 pixel. L’avvio del gioco e il menu restano da verificare. Consulta la [matrice dei test](PROGRESS.md#italiano) e la [richiesta di prove su Apple Silicon](https://github.com/fabriziodee/Leonida-macOS/issues/1).
 
-I test hardware aggiuntivi hanno verificato 64 byte di texture, due shader di calcolo e una ricerca texture su 32 lane. I risultati sono documentati nel [branch sperimentale al commit `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md); il codice sperimentale e il checkpoint sono raccolti nella PR #4 per la revisione. La percentuale non indica giocabilità né probabilità di successo. La [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) è stata integrata e i sette job restituiti dal [workflow della PR](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) sono passati.
+I test hardware aggiuntivi hanno verificato 64 byte di texture, due shader di calcolo e una ricerca texture su 32 lane. I risultati sono documentati nel [branch sperimentale al commit `912df590`](https://github.com/fabriziodee/Leonida-macOS/blob/912df59021f09c0dd6b22d48b07293bd6485efaa/PROGRESS.md); il codice sperimentale e il primo checkpoint sono stati integrati nella PR #4 dopo 12 controlli riusciti e un job Wine saltato. La percentuale non indica giocabilità né probabilità di successo. La [PR #3](https://github.com/fabriziodee/Leonida-macOS/pull/3) è stata integrata e i sette job restituiti dal [workflow della PR](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45419718184) sono passati.
 
 Il lavoro si concentra sui test GPU con Vulkan tramite MoltenVK e sui test del runtime Windows tramite Wine.
 Sul M1 Max, ciascuno dei due mesh shader di prova con wave64 emulata ha restituito tutti i 4.096 pixel attesi. [Risultati GPU](PROGRESS.md#gpu-regressions-rechecked-on-24-november)
