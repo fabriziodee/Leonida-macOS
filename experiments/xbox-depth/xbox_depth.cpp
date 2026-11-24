@@ -160,8 +160,15 @@ extern "C" DWORD WINAPI probe_entry() {
                   sizeof(Depth)==56 && sizeof(Formats)==40 && sizeof(Stream)==232);
     static const D3D12_INPUT_ELEMENT_DESC element={"POSITION",0,DXGI_FORMAT_R32G32B32A32_FLOAT,0,0,D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,0};
     static const D3D12_DEPTH_STENCILOP_DESC keep={D3D12_STENCIL_OP_KEEP,D3D12_STENCIL_OP_KEEP,D3D12_STENCIL_OP_KEEP,D3D12_COMPARISON_FUNC_ALWAYS};
-    Stream stream={
+    static const Stream stream={
         {1,0,vs_bytes,sizeof(vs_bytes)}, {2,0,ps_bytes,sizeof(ps_bytes)},
+        {12,0,{&element,1}},
+        {10,{D3D12_FILL_MODE_SOLID,D3D12_CULL_MODE_NONE,FALSE,0,0,0,TRUE,FALSE,FALSE,0,D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF}},
+        {11,{TRUE,D3D12_DEPTH_WRITE_MASK_ALL,D3D12_COMPARISON_FUNC_LESS,FALSE,255,255,keep,keep}},
+        {14,3}, {15,{DXGI_FORMAT_R8G8B8A8_UNORM},1}, {16,40}
+    };
+    static const Stream green_stream={
+        {1,0,vs_bytes,sizeof(vs_bytes)}, {2,0,ps_green_bytes,sizeof(ps_green_bytes)},
         {12,0,{&element,1}},
         {10,{D3D12_FILL_MODE_SOLID,D3D12_CULL_MODE_NONE,FALSE,0,0,0,TRUE,FALSE,FALSE,0,D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF}},
         {11,{TRUE,D3D12_DEPTH_WRITE_MASK_ALL,D3D12_COMPARISON_FUNC_LESS,FALSE,255,255,keep,keep}},
@@ -174,9 +181,8 @@ extern "C" DWORD WINAPI probe_entry() {
     using CreateStream=HRESULT(WINAPI*)(Obj,const StreamDesc*,const GUID*,Obj*);
     if(method<CreateStream>(device,0x2b0)(device,&sd,&pipeline_iid,&pso)!=0 || !pso) return 20;
     Obj green=nullptr;
-    stream.ps.bytes=ps_green_bytes;
-    stream.ps.size=sizeof(ps_green_bytes);
-    if(method<CreateStream>(device,0x2b0)(device,&sd,&pipeline_iid,&green)!=0 || !green) return 33;
+    const StreamDesc green_sd={sizeof(green_stream),&green_stream};
+    if(method<CreateStream>(device,0x2b0)(device,&green_sd,&pipeline_iid,&green)!=0 || !green) return 33;
     const Resource vertices_desc={1,0,96,1,1,1,0,1,0,1,0};
     Obj vertices=nullptr;
     if(method<CreateResource>(device,0xd8)(device,&heap,0,&vertices_desc,0,nullptr,&RESOURCE,&vertices)!=0 || !vertices) return 21;
