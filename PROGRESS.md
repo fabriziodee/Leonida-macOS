@@ -1,5 +1,13 @@
 # macOS progress
 
+## Integrated synthetic scene on D3DMetal · 25 November 2026
+
+**Local PASS with a warmed cache.** Ran `bash experiments/xbox-scene/run.sh` on Apple Silicon in the existing CrossOver D3DMetal bottle at Leonida commit `cca2ca61d46dd2290c30127b8a6ecb0fbf23429a`. Reused the source-built VIctory diagnostics binary pinned by the runner (SHA-256 `bbccb2cf79bbbbcc41845c88f44564adf1266c10527a2138401601f4e2291639`). The original synthetic scene submitted 8/8 frames, returned `S_OK` on 8/8 DXGI presentations, executed 48/48 host draws and returned title exit 42. The unmodified verifier matched all 58,560 reference RGB samples across captures 5–8 (14,633 each on frames 5–6 and 14,647 each on frames 7–8).
+
+The first launch was blocked at Wine's server socket. Once Wine could start, the first two GPU attempts executed 18/48 and 42/48 host draws. The runtime's asynchronous pipeline preparation missed its first-frame wait budget. The final pass used the cache populated by the preceding runs, with the same runtime, scene and acceptance criteria. Cold-start reliability remains open. This run used only synthetic inputs and establishes a local graphics result for this scene.
+
+**Italiano.** Il cubo sintetico originale ha superato il test locale con VIctory e D3DMetal a cache già popolata. Verificati 8 frame, 8 presentazioni DXGI riuscite, 48 draw sul dispositivo host, 58.560 campioni RGB su quattro catture e uscita 42. Nei due tentativi GPU precedenti la pipeline non era pronta per i primi frame. La riproducibilità a freddo resta da verificare.
+
 ## Morning source and CI review · 25 November 2026
 
 PR #13 and PR #14 merged at `ea1ce88`; [CI](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45516558755) and [No Game Data](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45516558768) passed. The preceding Runtime was cancelled; full Runtime and physical integrated-scene execution are still pending. External VIctory maintainers report incomplete 3D world rendering on Windows, not a result on this Mac. [Evidence review and generic synthetic test priorities](docs/runtime-evidence-2026-11-25.md). No new GPU execution, no proprietary content, no change to 5/8 or prior graphics totals. Historical entries below describe their respective revisions.
