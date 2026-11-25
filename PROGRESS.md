@@ -1,5 +1,15 @@
 # macOS progress
 
+## Integrated scene with an empty VIctory cache · 25 November 2026
+
+Two first launches passed on the same Apple Silicon CrossOver/D3DMetal setup at Leonida commit `55dfac7212afd273ec611e5b41467355865183b7`. Each run used the original synthetic scene, the pinned VIctory diagnostics binary and a different, initially empty VIctory cache and data directory. The loader logs confirmed that each process used its new directory.
+
+Both runs submitted 8 frames, returned `S_OK` on 8 DXGI presentations, executed all 48 host draws, matched 58,560 reference RGB samples in captures 5–8, and returned title exit 42. The interval from first shader bind to host pipeline creation was about 61 ms and 57 ms respectively. The first frame recorded all six host draws in both runs.
+
+The original VIctory cache and the host CrossOver/D3DMetal state were retained. This verifies the first launch with a fresh VIctory cache. The earlier first-frame draw loss did not recur under these conditions, and first launch with fresh host graphics caches remains unverified. [Reproduction procedure](experiments/xbox-scene/README.md#start-with-an-empty-victory-cache).
+
+**Italiano.** Due primi avvii con cache VIctory separate e inizialmente vuote hanno verificato, ciascuno, 8 frame, 8 presentazioni DXGI riuscite, 48 draw, 58.560 campioni RGB e uscita 42. Lo stato e le cache grafiche di CrossOver/D3DMetal sono stati conservati. Resta da verificare il primo avvio con cache grafiche host nuove.
+
 ## Integrated synthetic scene on D3DMetal · 25 November 2026
 
 **Local PASS with a warmed cache.** Ran `bash experiments/xbox-scene/run.sh` on Apple Silicon in the existing CrossOver D3DMetal bottle at Leonida commit `cca2ca61d46dd2290c30127b8a6ecb0fbf23429a`. Reused the source-built VIctory diagnostics binary pinned by the runner (SHA-256 `bbccb2cf79bbbbcc41845c88f44564adf1266c10527a2138401601f4e2291639`). The original synthetic scene submitted 8/8 frames, returned `S_OK` on 8/8 DXGI presentations, executed 48/48 host draws and returned title exit 42. The unmodified verifier matched all 58,560 reference RGB samples across captures 5–8 (14,633 each on frames 5–6 and 14,647 each on frames 7–8).
