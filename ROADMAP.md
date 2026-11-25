@@ -4,6 +4,8 @@ See the [progress report](PROGRESS.md) for completed checks and open work.
 
 ## Immediate priorities · 25 November 2026
 
+- [ ] Measure the opt-in [Low Storage Mode](docs/low-storage.md) for original synthetic tests on physical Apple Silicon; compare repeated-build disk usage without game data.
+
 See the [current runtime evidence review](docs/runtime-evidence-2026-11-25.md). PRs #13 and #14 are merged; CI and No Game Data passed at `ea1ce88`. Full Runtime remains unresolved. No new hardware results.
 
 - [ ] Validate hardware versus software adapter reporting and failed test-process exit handling with synthetic fixtures.
