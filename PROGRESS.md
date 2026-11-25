@@ -1,5 +1,9 @@
 # macOS progress
 
+## Morning source and CI review · 25 November 2026
+
+PR #13 and PR #14 merged at `ea1ce88`; [CI](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45516558755) and [No Game Data](https://github.com/fabriziodee/Leonida-macOS/actions/runs/45516558768) passed. The preceding Runtime was cancelled; full Runtime and physical integrated-scene execution are still pending. External VIctory maintainers report incomplete 3D world rendering on Windows, not a result on this Mac. [Evidence review and generic synthetic test priorities](docs/runtime-evidence-2026-11-25.md). No new GPU execution, no proprietary content, no change to 5/8 or prior graphics totals. Historical entries below describe their respective revisions.
+
 ## Independent Apple Silicon reproduction · 24 November 2026
 
 The [independent M4 Max report in issue #1](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7142660029) documents two synthetic VIctory runs on a second Apple Silicon generation. Host D3D12/SM 6.6, 16 RGBA pixels, synthetic entry and exit 42 were reported in both runs; patched-fork texture readback matched 64 bytes. The [instrumented follow-up](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7144872577) reports all 25 f32 and 16 f16 cases passing on the default hardware adapter with identical LUID; only WARP skipped. See [reproduction details](docs/victory-macos.md#independent-m4-max-reproduction--24-november-2026). Bash/Zsh is corrected. The smoke filter now requires every positive hardware marker and permits optional WARP skips; a fresh combined-script run is pending. This is contributor-reported evidence, not a CI or real game boot result. Existing graphics totals and 5/8 checklist are unchanged.
