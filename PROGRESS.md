@@ -164,6 +164,12 @@ da misurare.
 
 ### GPU regressions rechecked on 24 November
 
+The five pixel shaders covering ordered comparisons with NaN in f16 and f32
+each returned all 4,096 expected pixels on the M1 Max with MoltenVK 1.4.2.
+CI now requires these results on its MoltenVK runner. The change emits an
+ordered less-than or greater-than for the RDNA2 `lg` predicate.
+[Upstream implementation and tests](https://github.com/LeonidaReforge/Leonida/commit/5bc7e8b0a1e9c6d8875d8ad94f2cb3fbf26839f5)
+
 On the M1 Max with native MoltenVK 1.4.2, `cs_w32_permlane_fi` returned
 all eight expected lane values. The integer format fixture returned all
 136 expected words. Its generated SPIR-V shrank from 301,652 to 239,632 bytes.
