@@ -40,7 +40,8 @@ jobs:
           if ($LASTEXITCODE -eq 1) {
             git diff --quiet --no-renames "$env:GITHUB_SHA^1" "$env:GITHUB_SHA" -- . `
               ':(exclude,top)README.md' ':(exclude,top)CONTRIBUTING.md' `
-              ':(exclude,top)AGENTS.md' ':(exclude,top,glob)docs/**/*.md'
+              ':(exclude,top)AGENTS.md' ':(exclude,top)ROADMAP.md' `
+              ':(exclude,top)PROGRESS.md' ':(exclude,top,glob)docs/**/*.md'
             $docsOnly = $LASTEXITCODE -eq 0
           }
           "docs-only=$($docsOnly.ToString().ToLowerInvariant())" >> $env:GITHUB_OUTPUT
