@@ -92,4 +92,7 @@ if [[ -n "$shader_tests" ]]; then
             exit 1
         }
     done
+    # Keep shell pipefail and the existing per-fixture gates. Also require one
+    # consistent hardware adapter across both sets of positive markers.
+    python3 -I "$source_dir/../../scripts/verify_hardware_evidence.py" shader-f32.log shader-f16.log
 fi
