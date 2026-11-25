@@ -2,6 +2,7 @@
 import argparse
 from pathlib import Path
 import re
+import sys
 
 MARKER = re.compile(
     r"VIctory shader fixture: ([1-9][0-9]*) case\(s\) ran on the hardware adapter, "
@@ -42,4 +43,8 @@ def main():
 
 
 if __name__ == "__main__":
+    try:
+        sys.stdout.reconfigure(errors="replace")
+    except (AttributeError, ValueError, OSError):
+        pass
     main()
