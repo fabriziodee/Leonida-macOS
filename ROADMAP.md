@@ -2,6 +2,20 @@
 
 See the [progress report](PROGRESS.md) for completed checks and open work.
 
+## Primary path · 27 November 2026
+
+**VIctory-macOS / D3DMetal first.** The V6 menu milestone is locally reported; the runtime is not integrated here. See [PROGRESS](PROGRESS.md), [tester thread #22](https://github.com/fabriziodee/Leonida-macOS/issues/22), and [pinned upstream and alternate backend candidates](docs/apple-silicon-backend-candidates-2026-11-27.md).
+
+- [x] Document local reported 30 FPS menu at 720p; not a gameplay benchmark.
+- [x] Record independent M4 Max integrated synthetic scene 9/9 and combined smoke script pass.
+- [ ] Preserve and reproduce the local V6 baseline independently.
+- [ ] Establish repeatable story-mode entry, visible world rendering and input using authorized local installations only.
+- [ ] Establish audio, save/load, transitions and stable repeated sessions.
+- [ ] Compare descriptor memoization, copy-back and memory pressure using independent original fixtures; promote only verified, license-compatible changes.
+- [ ] Profile CPU/GPU and measure sustained frame pacing; 60 FPS is an aspirational target, not a verified result.
+
+The older checklist below is retained as historical context. Alternate backends remain isolated; do not replace the known-good configuration.
+
 ## Immediate priorities · 25 November 2026
 
 - [ ] Measure the opt-in [Low Storage Mode](docs/low-storage.md) for original synthetic tests on physical Apple Silicon; compare repeated-build disk usage without game data.
