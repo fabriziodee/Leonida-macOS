@@ -4,6 +4,16 @@
 
 [Italiano](#italiano) · [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [Upstream README](README.upstream.md)
 
+## Latest milestone — 27 November 2026: Apple Silicon menu reached
+
+**Local operator reports a responsive GTA VI menu on M1 Max (32 GB), macOS 27.3 / CrossOver 26.3 using the experimental VIctory-macOS V6 integration.** Runtime logs record repeated 30.0 FPS (33.3 ms/frame) at 1280×720 in the menu phase and a checkpoint at 2,048 presented frames with 79 shader-cache misses. The local fork baseline is [VIctory-macOS `3f4b775`](https://github.com/pragyaangaur/VIctory-macOS/commit/3f4b775); credit to its authors and [VIctory](https://github.com/Marvisak/VIctory) contributors. This is not a native macOS port or a gameplay benchmark. Full story-mode entry, world rendering, stability and independent reproduction remain unverified. The runtime reported exit 0 after a suspension timeout; this is not evidence of clean shutdown.
+
+**[Apple Silicon FPS and stability testers wanted — issue #22](https://github.com/fabriziodee/Leonida-macOS/issues/22).** Please report hardware, backend, resolution, stage, FPS/frame time and sanitized errors. Synthetic tests remain welcome without any game data. No game files, proprietary assets, keys or dumps are distributed or requested.
+
+**Italiano:** menu funzionante riportato dall'operatore locale, 30 FPS registrati nella fase menu a 720p; gameplay e riproduzione indipendente ancora da verificare. [Cerchiamo tester per FPS e stabilità](https://github.com/fabriziodee/Leonida-macOS/issues/22).
+
+The older status, synthetic evidence and checklist below are retained as historical records as of 25 November, not the current boot status. The V6 runtime is a separate local integration; its code has not been merged into this repository.
+
 ## Status
 
 *Updated 25 November 2026 (morning source and CI review).*
