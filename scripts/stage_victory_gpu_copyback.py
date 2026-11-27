@@ -89,7 +89,7 @@ def stage(source, output, commits=COMMITS, fetch=False, min_free_mib=1024):
         "source_untouched": True,
     }
     (output / "3r1-upstream-staging.json").write_text(
-        json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        json.dumps(report, indent=2) + "\n", encoding="utf-8", newline="\n")
     return report
 
 
