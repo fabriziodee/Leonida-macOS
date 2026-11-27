@@ -70,3 +70,56 @@ python3 -I tests/test_low_storage.py
 Physical Apple Silicon execution, repeated-build measurements, and peak disk
 usage remain separate validation tasks. No claim is made about the reported
 350 GB requirement or any reduction in game installation size.
+
+## Hybrid host storage (experimental, opt-in)
+
+The host session helper keeps an existing external input directory in place and
+routes host temporary files and XDG-compatible caches to a dedicated local
+directory. It checks that the two paths resolve to different mounted
+filesystems and that the local volume has sufficient free space. Different
+filesystem device IDs do not prove different physical disks.
+
+On macOS, create a dedicated directory on the internal SSD, outside iCloud.
+Replace the external directory with your existing developer input directory:
+
+```sh
+mkdir -p "$HOME/Library/Caches/Leonida-macOS/hybrid"
+python3 -I scripts/hybrid_storage.py \
+  --data-root "/Volumes/External/DeveloperInput" \
+  --local-root "$HOME/Library/Caches/Leonida-macOS/hybrid" \
+  --reserve-gib 16
+```
+
+Without a command this is a read-only preflight. To launch a trusted,
+foreground developer command, append `--` followed by the original command
+and arguments. Optionally supply an existing local working directory with
+`--workdir`. A plain Wine session can explicitly select an existing local
+prefix with `--wine-prefix`; do not use this option to select CrossOver
+bottles. Configure the actual CrossOver bottle and runtime using their existing
+supported settings. No existing bottle or runtime is migrated.
+
+The child receives `TMPDIR`, `TMP`, `TEMP`, `XDG_CACHE_HOME` and
+`LEONIDA_DATA_ROOT`; the last is only a handoff for an aware launcher, not an
+automatic asset-path redirect. Host cache persists; a private session
+temporary directory is removed after the foreground child exits. Do not use
+the wrapper for detached launchers whose descendants continue using temporary
+files. The helper does not copy, scan or delete input files.
+
+The 16 GiB default is a minimum free-space snapshot, not a cache allocation,
+quota or guarantee. The tool reports elapsed wall time, child exit status and
+net local free-space change, not peak use or physical disk throughput. Repeat
+the same command and compare the same boot milestone with and without the
+wrapper. Keep backend, resolution and runtime version fixed. Distinguish
+cold and warm caches.
+
+This is the host-layout foundation, **not a DirectStorage read-through cache
+or a shader-cache implementation**. Programs that ignore the inherited
+environment will not have their caches redirected. The separate local
+VIctory V6 integration is not included here; its actual storage and pipeline
+hooks require review and local integration before any speedup is claimed.
+
+Run the original synthetic tests:
+
+```sh
+python3 -I tests/test_hybrid_storage.py
+```
