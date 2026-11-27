@@ -1,5 +1,15 @@
 # macOS progress
 
+## Apple Silicon V6 menu milestone · 27 November 2026
+
+Local operator reports a responsive menu on Apple M1 Max (32 GB), macOS 27.3 / CrossOver 26.3, using experimental VIctory-macOS V6 (fork baseline `3f4b775`). Menu-phase log samples repeatedly report 30.0 FPS / 33.3 ms at 1280×720; the recorded checkpoint contains 2,048 presentations and 79 shader-cache misses. These are locally reported measurements, not independently reproduced gameplay or a native macOS port. Runtime exit 0 followed a suspension timeout and does not demonstrate clean shutdown. The V6 runtime code is not merged into this repository. See [merged documentation PR #23](https://github.com/fabriziodee/Leonida-macOS/pull/23) and [tester thread #22](https://github.com/fabriziodee/Leonida-macOS/issues/22). Credit to VIctory and VIctory-macOS contributors.
+
+**Next acceptance gate:** independent reproduction and repeatable story-mode entry with visible world rendering and responsive controls; record frame pacing, stability and backend/version details separately. No claim of playable gameplay or verified sustained FPS. Use only authorized local installations and share sanitized metrics or original synthetic fixtures, never proprietary content. Earlier 5/8 checklist entries below are historical, not a current game compatibility percentage.
+
+## Independent M4 Max synthetic scene reproduction · 25 November 2026
+
+[edmondja's report](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7158333161) documents **9/9 successful runs** of the integrated original synthetic scene on M4 Max, 40 GPU cores, 128 GB RAM, macOS 27.2.1, CrossOver 26.3 / D3DMetal 3.0. Each run recorded 8/8 successful presentations, 48/48 host draws (6/6 on frame 1), 58,560/58,560 matched RGB samples and title exit 42. Six runs began without the D3DMetal shader cache for victory.exe, including one in a new bottle. Revisions `25dec60491` and `6c818e2cdf`; separately built runtime with the documented patches. The [combined extended smoke-script rerun](https://github.com/fabriziodee/Leonida-macOS/issues/1#issuecomment-7155735991) also passed (exit 0, 25 FP32 and 16 FP16 hardware cases, optional WARP skips). These are independent contributor-reported synthetic results, not an independent V6 menu or gameplay reproduction, and do not establish M1 cold-host-cache behavior.
+
 ## Integrated scene with an empty VIctory cache · 25 November 2026
 
 Two first launches passed on the same Apple Silicon CrossOver/D3DMetal setup at Leonida commit `55dfac7212afd273ec611e5b41467355865183b7`. Each run used the original synthetic scene, the pinned VIctory diagnostics binary and a different, initially empty VIctory cache and data directory. The loader logs confirmed that each process used its new directory.
