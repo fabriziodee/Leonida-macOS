@@ -1,5 +1,20 @@
 # macOS progress
 
+## M1 Max Wave64 and story-mode checkpoint · 27 November 2026
+
+Local tests used macOS 27.3, CrossOver/GPTK4 and D3DMetal on the 32 GB M1 Max. The integrated candidate uses the VIctory-macOS source at `c8e4f32661cba58c00f9b00a5eb38ce6ad468e44` with local changes. Every reported integrated replay and title trial below used `VICTORY_CAP_BARRIERS=1`.
+
+| Measurement | Previous combined candidate | Integrated candidate |
+| --- | ---: | ---: |
+| Reference corpus translated | 369/440 | 423/440 |
+| Expanded corpus translated | 1049/1120 | 1103/1120 |
+| Native shader unit tests passed | 249 | 260 |
+| Wave64 test suite passed under CrossOver | 21 | 38 |
+
+All 369 previous reference successes still translated. The remaining 17 refusals comprised nine divergent-loop barrier checks, five first-lane reads, one numeric lane mask, one per-lane descriptor and one two-back-edge branch. Microsoft DXIL validation (DXC v1.8.2505.1) accepted 417 of the 423 translated reference shaders. Six failed validation. GPU readback on synthetic inputs included divergent non-returning LDS add, unsigned minimum and bitwise OR, with results checked across both halves.
+
+The previous combined candidate presented black frames through frame 8100. A window capture confirmed the black image during that interval. DirectStorage reported 5028 completions and zero failures, with empty queues at the observed plateau. The integrated candidate created 49 host pipelines and loaded one, then the title raised an unhandled access violation writing to address zero before the first presentation. The cause is unresolved. Process audio capture failed on the previous combined run. World rendering, audible story audio, character control and gameplay stability remain unverified. [Upstream revision](https://github.com/pragyaangaur/VIctory-macOS/commit/c8e4f32661cba58c00f9b00a5eb38ce6ad468e44).
+
 ## Apple Silicon V6 menu milestone · 27 November 2026
 
 Local operator reports a responsive menu on Apple M1 Max (32 GB), macOS 27.3 / CrossOver 26.3, using experimental VIctory-macOS V6 (fork baseline `3f4b775`). Menu-phase log samples repeatedly report 30.0 FPS / 33.3 ms at 1280×720; the recorded checkpoint contains 2,048 presentations and 79 shader-cache misses. These are locally reported measurements, not independently reproduced gameplay or a native macOS port. Runtime exit 0 followed a suspension timeout and does not demonstrate clean shutdown. The V6 runtime code is not merged into this repository. See [merged documentation PR #23](https://github.com/fabriziodee/Leonida-macOS/pull/23) and [tester thread #22](https://github.com/fabriziodee/Leonida-macOS/issues/22). Credit to VIctory and VIctory-macOS contributors.

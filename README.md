@@ -4,6 +4,10 @@
 
 [Italiano](#italiano) · [Contributing](CONTRIBUTING.md) · [Roadmap](ROADMAP.md) · [Upstream README](README.upstream.md)
 
+## M1 Max shader and story-mode checkpoint
+
+With the divergent-loop barrier check enabled, the experimental VIctory candidate translated 423 of 440 reference shaders. Microsoft's validator accepted 417 of those 423. The candidate passed 38 Wave64/Wave32 tests on D3DMetal. Its first title run ended before the first presentation. Story-mode acceptance remains open. [Measurements](PROGRESS.md#m1-max-wave64-and-story-mode-checkpoint--27-november-2026) · [Gameplay milestone](https://github.com/fabriziodee/Leonida-macOS/milestone/1).
+
 ## Latest milestone — 27 November 2026: Apple Silicon menu reached
 
 **Local operator reports a responsive GTA VI menu on M1 Max (32 GB), macOS 27.3 / CrossOver 26.3 using the experimental VIctory-macOS V6 integration.** Runtime logs record repeated 30.0 FPS (33.3 ms/frame) at 1280×720 in the menu phase and a checkpoint at 2,048 presented frames with 79 shader-cache misses. The local fork baseline is [VIctory-macOS `3f4b775`](https://github.com/pragyaangaur/VIctory-macOS/commit/3f4b775); credit to its authors and [VIctory](https://github.com/Marvisak/VIctory) contributors. This is not a native macOS port or a gameplay benchmark. Full story-mode entry, world rendering, stability and independent reproduction remain unverified. The runtime reported exit 0 after a suspension timeout; this is not evidence of clean shutdown.
